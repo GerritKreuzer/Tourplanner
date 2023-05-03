@@ -36,14 +36,16 @@ public class dbHandler {
         try {
             PreparedStatement pstmt = null;
             if (data instanceof tour tour) {
+
                 pstmt = connection.prepareStatement(INSERT_TOUR);
                 pstmt.setString(1, tour.name());
                 pstmt.setInt(2, tour.transportationType());
                 pstmt.setInt(3, tour.tourDistance());
-                pstmt.setTime(4, Time.valueOf(tour.estimatedTime() + ":00"));
+                pstmt.setInt(4, tour.estimatedTime());
                 pstmt.setString(5, tour.pathToMap());
                 pstmt.setString(6, tour.user());
             } else if (data instanceof route route) {
+
                 pstmt = connection.prepareStatement(INSERT_ROUTE);
                 for (int i = 0; i < route.coordinates().size(); i++) {
                     pstmt.setInt(1, route.tourId());
@@ -52,6 +54,7 @@ public class dbHandler {
                     pstmt.executeUpdate();
                 }
             } else if (data instanceof tourLog tourLog) {
+
                 pstmt = connection.prepareStatement(INSERT_TOURLOG);
                 pstmt.setInt(1, tourLog.tourId());
                 pstmt.setDate(2, (Date) tourLog.date());
