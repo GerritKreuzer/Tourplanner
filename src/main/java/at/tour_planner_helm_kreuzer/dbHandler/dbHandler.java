@@ -31,68 +31,53 @@ public class dbHandler {
         }
     }
 
-    public void insertTour(tour tour) {
-        try (PreparedStatement pstmt = connection.prepareStatement(INSERT_TOUR)) {
-            pstmt.setString(1, tour.name());
-            pstmt.setInt(2, tour.transportationType());
-            pstmt.setInt(3, tour.tourDistance());
-            pstmt.setTime(4, Time.valueOf(tour.estimatedTime() + ":00"));
-            pstmt.setString(5, tour.pathToMap());
-            pstmt.setString(6, tour.user());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    public void insertData(Object data) {
 
-    public void insertRoute(route route) {
-        try (PreparedStatement pstmt = connection.prepareStatement(INSERT_ROUTE)) {
-            for (int i = 0; i < route.coordinates().size(); i++) {
-                pstmt.setInt(1, route.tourId());
-                pstmt.setInt(2, i + 1);
-                pstmt.setString(3, route.coordinates().get(i));
-                pstmt.executeUpdate();
+        try {
+            PreparedStatement pstmt = null;
+            if (data instanceof tour tour) {
+                pstmt = connection.prepareStatement(INSERT_TOUR);
+                pstmt.setString(1, tour.name());
+                pstmt.setInt(2, tour.transportationType());
+                pstmt.setInt(3, tour.tourDistance());
+                pstmt.setTime(4, Time.valueOf(tour.estimatedTime() + ":00"));
+                pstmt.setString(5, tour.pathToMap());
+                pstmt.setString(6, tour.user());
+            } else if (data instanceof route route) {
+                pstmt = connection.prepareStatement(INSERT_ROUTE);
+                for (int i = 0; i < route.coordinates().size(); i++) {
+                    pstmt.setInt(1, route.tourId());
+                    pstmt.setInt(2, i + 1);
+                    pstmt.setString(3, route.coordinates().get(i));
+                    pstmt.executeUpdate();
+                }
+            } else if (data instanceof tourLog tourLog) {
+                pstmt = connection.prepareStatement(INSERT_TOURLOG);
+                pstmt.setInt(1, tourLog.tourId());
+                pstmt.setDate(2, (Date) tourLog.date());
+                pstmt.setString(3, tourLog.comment());
+                pstmt.setInt(4, tourLog.difficulty());
+                pstmt.setInt(5, tourLog.totalTime());
+                pstmt.setInt(6, tourLog.rating());
+            }else{
+                throw new IllegalStateException("Invalid data type: " + data.getClass().toString());
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void insertTourLog(tourLog tourLog) {
-        try (PreparedStatement pstmt = connection.prepareStatement(INSERT_TOURLOG)) {
-            pstmt.setInt(1, tourLog.tourId());
-            pstmt.setDate(2, (Date) tourLog.date());
-            pstmt.setString(3, tourLog.comment());
-            pstmt.setInt(4, tourLog.difficulty());
-            pstmt.setInt(5, tourLog.totalTime());
-            pstmt.setInt(6, tourLog.rating());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteTour(int tourId) {
-        try (PreparedStatement pstmt = connection.prepareStatement(DELETE_TOUR)) {
-            pstmt.setInt(1, tourId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    public void deleteData(int id, String tableName) {
+        String deleteQuery = switch (tableName) {
+            case "tour" -> DELETE_TOUR;
+            case "route" -> DELETE_ROUTE;
+            case "tourlog" -> DELETE_TOURLOG;
+            default -> throw new IllegalArgumentException("Invalid table name: " + tableName);
+        };
 
-    public void deleteRoute(int tourId) {
-        try (PreparedStatement pstmt = connection.prepareStatement(DELETE_ROUTE)) {
-            pstmt.setInt(1, tourId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteTourLog(int tourLogId) {
-        try (PreparedStatement pstmt = connection.prepareStatement(DELETE_TOURLOG)) {
-            pstmt.setInt(1, tourLogId);
+        try (PreparedStatement pstmt = connection.prepareStatement(deleteQuery)) {
+            pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
