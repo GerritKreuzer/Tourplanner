@@ -1,12 +1,12 @@
 package at.tour_planner_helm_kreuzer.dbHandler;
 
-import at.tour_planner_helm_kreuzer.dataClasses.route;
-import at.tour_planner_helm_kreuzer.dataClasses.tour;
-import at.tour_planner_helm_kreuzer.dataClasses.tourLog;
+import at.tour_planner_helm_kreuzer.dataClasses.Route;
+import at.tour_planner_helm_kreuzer.dataClasses.Tour;
+import at.tour_planner_helm_kreuzer.dataClasses.TourLog;
 
 import java.sql.*;
 
-public class dbHandler {
+public class DbHandler {
 
     Connection connection;
     private static final String url = "jdbc:postgresql://localhost:5432/swen2db";
@@ -20,7 +20,7 @@ public class dbHandler {
     static final String DELETE_ROUTE = "DELETE FROM coordinates WHERE tourId = ?";
     static final String DELETE_TOURLOG = "DELETE FROM tourlogs WHERE id = ?";
 
-    public dbHandler() {
+    public DbHandler() {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if(connection.isClosed()){
@@ -35,7 +35,7 @@ public class dbHandler {
 
         try {
             PreparedStatement pstmt = null;
-            if (data instanceof tour tour) {
+            if (data instanceof Tour tour) {
 
                 pstmt = connection.prepareStatement(INSERT_TOUR);
                 pstmt.setString(1, tour.name());
@@ -44,7 +44,7 @@ public class dbHandler {
                 pstmt.setInt(4, tour.estimatedTime());
                 pstmt.setString(5, tour.pathToMap());
                 pstmt.setString(6, tour.user());
-            } else if (data instanceof route route) {
+            } else if (data instanceof Route route) {
 
                 pstmt = connection.prepareStatement(INSERT_ROUTE);
                 for (int i = 0; i < route.coordinates().size(); i++) {
@@ -53,7 +53,7 @@ public class dbHandler {
                     pstmt.setString(3, route.coordinates().get(i));
                     pstmt.executeUpdate();
                 }
-            } else if (data instanceof tourLog tourLog) {
+            } else if (data instanceof TourLog tourLog) {
 
                 pstmt = connection.prepareStatement(INSERT_TOURLOG);
                 pstmt.setInt(1, tourLog.tourId());
