@@ -1,4 +1,4 @@
-package at.tour_planner_helm_kreuzer;
+package at.tour_planner_helm_kreuzer.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
