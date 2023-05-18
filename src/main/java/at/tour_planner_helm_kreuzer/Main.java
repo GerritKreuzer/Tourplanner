@@ -1,5 +1,6 @@
 package at.tour_planner_helm_kreuzer;
 
+import at.tour_planner_helm_kreuzer.view.ControllerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -14,7 +15,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainWindow.fxml"),
-                ResourceBundle.getBundle("at.tour_planner_helm_kreuzer.gui_strings", Locale.GERMAN));
+                ResourceBundle.getBundle("at.tour_planner_helm_kreuzer.gui_strings", Locale.GERMAN),
+                new JavaFXBuilderFactory(),
+                controllerCLass -> ControllerFactory.getInstance().create(controllerCLass));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Tour Planner!");
         stage.setMaximized(true);

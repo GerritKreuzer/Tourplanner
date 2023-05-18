@@ -11,8 +11,8 @@
     <ToolBar>
         <Label text="Tours" />
         <Pane HBox.hgrow="ALWAYS"/>
-        <Button text="+"/>
+        <Button fx:id="addButton" text="+" />
         <Button fx:id="removeButton" text="-"/>
     </ToolBar>
-    <ListView fx:id="tourList" VBox.vgrow="ALWAYS"/>
+    <ListView fx:id="tourItemList" VBox.vgrow="ALWAYS"/>
 </VBox>
