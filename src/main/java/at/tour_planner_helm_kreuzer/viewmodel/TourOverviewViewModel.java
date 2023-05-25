@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TourOverviewViewModel {
 
@@ -21,6 +22,7 @@ public class TourOverviewViewModel {
     public ObservableList<TourItem> getObservableTours() {
         return observableTourItems;
     }
+    private Consumer<TourItem> tourItemToSelect;
 
     public ChangeListener<TourItem> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
@@ -48,10 +50,15 @@ public class TourOverviewViewModel {
     public void onAddButtonClicked() {
         var tour = new TourItem(1, "1" , 1, "1");
         observableTourItems.add(tour);
+        tourItemToSelect.accept(tour);
     }
 
-    public void deleteTour(TourItem tourItems) {
+    public void onRemoveButtonClicked(TourItem tourItems) {
         observableTourItems.remove(tourItems);
+    }
+
+    public void setTourSelection(Consumer<TourItem> tourItemToSelect) {
+        this.tourItemToSelect = tourItemToSelect;
     }
 
 

@@ -11,9 +11,10 @@ public class TourOverviewController {
 
     @FXML
     private ListView<TourItem> tourItemList;
-
     @FXML
     private Button addButton;
+    @FXML
+    private Button removeButton;
 
     private final TourOverviewViewModel tourOverviewViewModel;
 
@@ -30,5 +31,11 @@ public class TourOverviewController {
         tourItemList.setItems(tourOverviewViewModel.getObservableTours());
         tourItemList.getSelectionModel().selectedItemProperty().addListener(tourOverviewViewModel.getChangeListener());
         addButton.setOnAction(event -> tourOverviewViewModel.onAddButtonClicked());
+        removeButton.setOnAction(event -> tourOverviewViewModel.onRemoveButtonClicked(tourItemList.getSelectionModel().getSelectedItem()));
+
+        tourOverviewViewModel.setTourSelection(tourItem -> {
+            tourItemList.getSelectionModel().select(tourItem);
+        });
     }
+
 }
