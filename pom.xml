@@ -12,6 +12,7 @@
         <module>DAL</module>
         <module>BL</module>
         <module>TourPlannerApp</module>
+        <module>BL</module>
     </modules>
     <name>Tour_planner_Helm_Kreuzer</name>
 

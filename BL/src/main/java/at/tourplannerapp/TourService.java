@@ -1,5 +1,6 @@
 package at.tourplannerapp;
 
+
 import at.tourplannerapp.model.TourItem;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class TourService {
 
     private TourItem updateTourItem(TourItem tourItem, List<?> params) {
         System.out.println(params);
-        tourItem.setName(Objects.requireNonNull(params.get(1), "Name cannot be null").toString());
-        tourItem.setDescription((params.get(2)==null)?"":params.get(3).toString());
+        tourItem.setName(Objects.requireNonNull(params.get(0), "Name cannot be null").toString());
+        tourItem.setDescription((params.get(1)==null)?"":params.get(1).toString());
         return tourItem;
     }
 }

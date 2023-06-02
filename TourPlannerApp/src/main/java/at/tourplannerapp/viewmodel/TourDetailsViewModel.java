@@ -1,7 +1,7 @@
 package at.tourplannerapp.viewmodel;
 
-import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.TourService;
+import at.tourplannerapp.model.TourItem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
