@@ -5,14 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at</groupId>
-    <artifactId>Tour_planner_Helm_Kreuzer</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>TourPlannerApp</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>DAL</module>
-        <module>BL</module>
-    </modules>
-    <name>Tour_planner_Helm_Kreuzer</name>
+    <name>TourPlannerApp</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,8 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>at.tour_planner_helm_kreuzer/at.tour_planner_helm_kreuzer.Main
-                            </mainClass>
+                            <mainClass>at.tourplannerapp/at.tourplannerapp.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

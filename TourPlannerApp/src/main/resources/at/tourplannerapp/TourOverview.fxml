@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.tourplannerapp.view.TourOverviewController">
+
+    <ToolBar>
+        <Label text="Tours" />
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button fx:id="addButton" text="+" />
+        <Button fx:id="removeButton" text="-"/>
+    </ToolBar>
+    <ListView fx:id="tourItemList" VBox.vgrow="ALWAYS"/>
+</VBox>
