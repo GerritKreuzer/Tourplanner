@@ -44,5 +44,4 @@ public class ControllerFactory {
     public static ControllerFactory getInstance() {
         return instance;
     }
-
 }

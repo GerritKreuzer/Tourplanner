@@ -84,7 +84,7 @@
             <Button fx:id="editTourLog" mnemonicParsing="false" text="..." />
          </buttons>
       </ButtonBar>
-      <Label text="Tour Logs" GridPane.columnIndex="2" GridPane.rowIndex="3">
+      <Label text="dataClasses.Tour Logs" GridPane.columnIndex="2" GridPane.rowIndex="3">
          <padding>
             <Insets left="5.0" />
          </padding>

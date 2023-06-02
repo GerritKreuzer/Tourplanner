@@ -129,7 +129,7 @@
             <mxPoint x="78" y="510" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="qxxUC0PWJHGUvFRXpn1j-56" value="&lt;b&gt;Add/Remove/Edit Tour&lt;br&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="qxxUC0PWJHGUvFRXpn1j-56" value="&lt;b&gt;Add/Remove/Edit dataClasses.Tour&lt;br&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="80" y="440" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="qxxUC0PWJHGUvFRXpn1j-57" value="tourview" style="strokeWidth=1;shadow=0;dashed=0;align=center;html=1;shape=mxgraph.mockup.containers.window;align=left;verticalAlign=top;spacingLeft=8;strokeColor2=#008cff;strokeColor3=#c4c4c4;fontColor=#666666;mainText=;fontSize=17;labelBackgroundColor=none;whiteSpace=wrap;" vertex="1" parent="1">

@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 public class TourOverviewController {
-
     @FXML
     private ListView<TourItem> tourItemList;
     @FXML
@@ -36,5 +35,4 @@ public class TourOverviewController {
             tourItemList.getSelectionModel().select(tourItem);
         });
     }
-
 }

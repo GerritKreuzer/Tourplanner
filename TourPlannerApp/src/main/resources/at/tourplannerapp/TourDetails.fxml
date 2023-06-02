@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -16,27 +18,54 @@
                 <content>
                   <GridPane layoutX="1.0" layoutY="1.0" prefHeight="371.0" prefWidth="600.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="130.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="60.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                      <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="102.0" />
+                      <RowConstraints prefHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="102.0" prefHeight="102.0" vgrow="NEVER" />
+                  <RowConstraints prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" prefHeight="30.0" vgrow="NEVER" />
                       <RowConstraints maxHeight="305.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="305.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets right="20.0" />
-                           </GridPane.margin>
-                        </TextField>
-                        <TextField prefHeight="116.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
                            <GridPane.margin>
                               <Insets right="20.0" />
                            </GridPane.margin>
                         </TextField>
                         <Label text="Name" GridPane.halignment="CENTER" />
                         <Label text="Description" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin></TextArea>
+                  <TextField fx:id="fromLocationTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="toLocationTextField" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="From" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Label text="To" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Label text="Transportation type" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                  <TextField fx:id="transportTypeTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" fx:id="saveTourButton">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </Button>
                      </children>
                   </GridPane>
                 </content>

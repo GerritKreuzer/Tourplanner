@@ -2,11 +2,29 @@ package at.tourplannerapp.view;
 
 import at.tourplannerapp.viewmodel.TourDetailsViewModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class TourDetailsController {
+
     @FXML
-    public TextField nameTextField;
+    private TextField nameTextField;
+
+    @FXML
+    private TextArea descriptionTextArea;
+
+    @FXML
+    private TextField fromLocationTextField;
+
+    @FXML
+    private TextField toLocationTextField;
+
+    @FXML
+    private TextField transportTypeTextField;
+
+    @FXML
+    private Button saveTourButton;
 
     private final TourDetailsViewModel tourDetailsViewModel;
 
@@ -20,5 +38,11 @@ public class TourDetailsController {
 
     @FXML
     void initialize() {
+        nameTextField.textProperty().bindBidirectional(tourDetailsViewModel.nameProperty());
+        descriptionTextArea.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
+        fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
+        toLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.toLocationProperty());
+        transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportTypeProperty());
+        saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
     }
 }

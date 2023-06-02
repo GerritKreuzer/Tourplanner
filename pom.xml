@@ -11,6 +11,7 @@
     <modules>
         <module>DAL</module>
         <module>BL</module>
+        <module>TourPlannerApp</module>
     </modules>
     <name>Tour_planner_Helm_Kreuzer</name>
 
@@ -65,7 +66,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>at.tour_planner_helm_kreuzer/at.tour_planner_helm_kreuzer.Main
+                            <mainClass>at.tourplannerapp.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

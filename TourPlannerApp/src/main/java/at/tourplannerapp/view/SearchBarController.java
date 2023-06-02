@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 public class SearchBarController {
     @FXML
     public Button searchButton;
+
     @FXML
     public TextField searchTextField;
 
