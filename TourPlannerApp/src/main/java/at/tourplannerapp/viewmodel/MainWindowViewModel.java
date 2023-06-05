@@ -13,6 +13,12 @@ public class MainWindowViewModel {
         this.tourDetailsViewModel = tourDetailsViewModel;
 
         this.tourOverviewViewModel.addSelectionChangedListener(this::selectTour);
+
+        this.tourDetailsViewModel.setRequestRefreshTourItemList(shouldRefresh -> {
+            if (shouldRefresh) {
+                this.tourOverviewViewModel.updateTourItemList();
+            }
+        });
     }
 
     private void selectTour(TourItem selectedTourItem) {

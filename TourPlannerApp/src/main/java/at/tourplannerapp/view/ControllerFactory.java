@@ -1,9 +1,6 @@
 package at.tourplannerapp.view;
 
-import at.tourplannerapp.viewmodel.MainWindowViewModel;
-import at.tourplannerapp.viewmodel.SearchBarViewModel;
-import at.tourplannerapp.viewmodel.TourDetailsViewModel;
-import at.tourplannerapp.viewmodel.TourOverviewViewModel;
+import at.tourplannerapp.viewmodel.*;
 
 public class ControllerFactory {
 
@@ -12,10 +9,13 @@ public class ControllerFactory {
     private final TourOverviewViewModel tourOverviewViewModel;
     private final TourDetailsViewModel tourDetailsViewModel;
 
+    private final TourLogsViewModel tourLogsViewModel;
+
     public ControllerFactory() {
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel();
         tourDetailsViewModel = new TourDetailsViewModel();
+        tourLogsViewModel = new TourLogsViewModel();
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel);
     }
 
@@ -31,6 +31,8 @@ public class ControllerFactory {
             return new TourDetailsController(tourDetailsViewModel);
         } else if (controllerClass == TourOverviewController.class) {
             return new TourOverviewController(tourOverviewViewModel);
+        }else if (controllerClass == TourLogsController.class) {
+            return new TourLogsController(tourLogsViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

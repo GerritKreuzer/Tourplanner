@@ -1,5 +1,7 @@
 package at.tourplannerapp.model;
 
+import javafx.beans.Observable;
+
 public class TourItem {
     private Integer id;
     private String name;

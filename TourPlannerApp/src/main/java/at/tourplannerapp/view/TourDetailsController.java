@@ -3,6 +3,7 @@ package at.tourplannerapp.view;
 import at.tourplannerapp.viewmodel.TourDetailsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -26,6 +27,9 @@ public class TourDetailsController {
     @FXML
     private Button saveTourButton;
 
+    @FXML
+    private Label invalidDetails;
+
     private final TourDetailsViewModel tourDetailsViewModel;
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
@@ -44,5 +48,14 @@ public class TourDetailsController {
         fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
         transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportTypeProperty());
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
+        invalidDetails.textProperty().bindBidirectional(tourDetailsViewModel.invalidDetailsProperty());
+
+        tourDetailsViewModel.setInvalidDetailsStyle(invalidDetailsStyleString -> {
+            invalidDetails.setStyle(invalidDetailsStyleString);
+        });
+        tourDetailsViewModel.setNameTextFieldStyle(nameTextFieldStyleString -> {
+            nameTextField.setStyle(nameTextFieldStyleString);
+        });
+
     }
 }

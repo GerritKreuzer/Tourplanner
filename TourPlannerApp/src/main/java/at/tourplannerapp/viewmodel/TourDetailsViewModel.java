@@ -6,21 +6,24 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
 
     private TourItem tourItem;
-    private volatile boolean isInitValue = false;
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final StringProperty fromLocation = new SimpleStringProperty();
     private final StringProperty toLocation = new SimpleStringProperty();
     private final StringProperty transportType = new SimpleStringProperty();
-
+    private final StringProperty invalidDetails = new SimpleStringProperty();
     private static final String EMPTY_STRING = "";
+    private static final String successMessageStyle = "-fx-text-fill: GREEN;";
+    private static final String errorMessageStyle = "-fx-text-fill: RED;";
+
+    private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
 
     public TourDetailsViewModel() {
-        //name.addListener( (arg, oldVal, newVal)->updateTourModel());
     }
     public StringProperty nameProperty() {
         return name;
@@ -37,11 +40,16 @@ public class TourDetailsViewModel {
     public StringProperty transportTypeProperty() {
         return transportType;
     }
+    public StringProperty invalidDetailsProperty() {
+        return invalidDetails;
+    }
+    private Consumer<Boolean> requestRefreshTourItemList;
+    private Consumer<String> invalidDetailsStyleString;
+    private Consumer<String> nameTextFieldStyleString;
 
     public void setTourItem(TourItem tourItem) {
-        isInitValue = true;
         if(tourItem ==null) {
-            name.setValue(EMPTY_STRING);
+            name.set(EMPTY_STRING);
             description.set(EMPTY_STRING);
             fromLocation.set(EMPTY_STRING);
             toLocation.set(EMPTY_STRING);
@@ -54,18 +62,45 @@ public class TourDetailsViewModel {
         fromLocation.setValue(tourItem.getFromLocation());
         toLocation.setValue(tourItem.getToLocation());
         transportType.setValue(tourItem.getTransportType());
-        isInitValue = false;
+        invalidDetails.set(EMPTY_STRING);
+        nameTextFieldStyleString.accept(EMPTY_STRING);
     }
 
     public void onSaveTourButtonClicked() {
         TourService tourservice = new TourService();
-        tourservice.saveTour(tourItem, Arrays.asList(name.get(), description.get(), fromLocation.get(), toLocation.get(), transportType.get()));
+        if(validInputs()) {
+            tourservice.saveTour(tourItem, Arrays.asList(name.get(), description.get(), fromLocation.get(), toLocation.get(), transportType.get()));
+            requestRefreshTourItemList.accept(true);
+        }
     }
 
-    /*
-    private void updateTourModel() {
-        if( !isInitValue )
-            DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
+    public void setRequestRefreshTourItemList(Consumer<Boolean> requestRefreshTourItemList) {
+        this.requestRefreshTourItemList = requestRefreshTourItemList;
     }
-     */
+
+    public boolean validInputs() {
+        if(tourItem == null) {
+            invalidDetails.set("Please add a tour!");
+            invalidDetailsStyleString.accept(errorMessageStyle);
+            return false;
+        }
+        if(name.get() == null ||name.get().isEmpty() ) {
+            invalidDetails.set("The name field is required!");
+            invalidDetailsStyleString.accept(errorMessageStyle);
+            nameTextFieldStyleString.accept(errorStyle);
+            return false;
+        }
+        invalidDetails.set("Save successful!");
+        invalidDetailsStyleString.accept(successMessageStyle);
+        nameTextFieldStyleString.accept(EMPTY_STRING);
+        return true;
+    }
+
+    public void setInvalidDetailsStyle(Consumer<String> invalidDetailsStyleString) {
+        this.invalidDetailsStyleString = invalidDetailsStyleString;
+    }
+
+    public void setNameTextFieldStyle(Consumer<String> nameTextFieldStyleString) {
+        this.nameTextFieldStyleString = nameTextFieldStyleString;
+    }
 }
