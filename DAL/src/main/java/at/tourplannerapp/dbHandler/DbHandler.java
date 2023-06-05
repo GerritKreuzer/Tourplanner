@@ -1,7 +1,7 @@
 package at.tourplannerapp.dbHandler;
 
 import java.sql.*;
-
+/*
 public class DbHandler {
 
     Connection connection;
@@ -83,3 +83,4 @@ public class DbHandler {
         }
     }
 }
+*/

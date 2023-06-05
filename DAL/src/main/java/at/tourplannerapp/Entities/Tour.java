@@ -1,7 +1,6 @@
-package at.tourplannerapp.dataClasses;
+package at.tourplannerapp.Entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +13,7 @@ public class Tour {
 
     @Id
     @GeneratedValue
+    @Column(name = "id", nullable = false)
     private Integer tourId;
 
     @Column(name = "name", nullable = false, length = 64)
@@ -29,7 +29,7 @@ public class Tour {
     private Double distance;
 
     @Column(name = "estimated_time", nullable = false)
-    private Double estimatedTime;
+    private Integer estimatedTime;
 
     @Column(name = "path_to_map", nullable = false)
     private String pathToMap;
