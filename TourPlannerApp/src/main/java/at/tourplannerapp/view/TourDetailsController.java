@@ -40,8 +40,8 @@ public class TourDetailsController {
     void initialize() {
         nameTextField.textProperty().bindBidirectional(tourDetailsViewModel.nameProperty());
         descriptionTextArea.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
-        fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
         toLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.toLocationProperty());
+        fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
         transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportTypeProperty());
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
     }

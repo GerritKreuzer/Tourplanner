@@ -41,7 +41,6 @@ public class TourDetailsViewModel {
     public void setTourItem(TourItem tourItem) {
         isInitValue = true;
         if(tourItem ==null) {
-            // select the first in the list
             name.setValue(EMPTY_STRING);
             description.set(EMPTY_STRING);
             fromLocation.set(EMPTY_STRING);
@@ -52,21 +51,21 @@ public class TourDetailsViewModel {
         this.tourItem = tourItem;
         name.setValue(tourItem.getName());
         description.setValue(tourItem.getDescription());
-        fromLocation.setValue(tourItem.getFromLocation().toString());
-        toLocation.setValue(tourItem.getToLocation().toString());
+        fromLocation.setValue(tourItem.getFromLocation());
+        toLocation.setValue(tourItem.getToLocation());
         transportType.setValue(tourItem.getTransportType());
         isInitValue = false;
     }
 
     public void onSaveTourButtonClicked() {
         TourService tourservice = new TourService();
-        tourservice.saveTour(tourItem, Arrays.asList(name.get(), description.get()));
+        tourservice.saveTour(tourItem, Arrays.asList(name.get(), description.get(), fromLocation.get(), toLocation.get(), transportType.get()));
     }
+
     /*
     private void updateTourModel() {
         if( !isInitValue )
             DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
     }
-
      */
 }

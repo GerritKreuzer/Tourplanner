@@ -35,7 +35,7 @@ public class TourOverviewViewModel {
         observableTourItems.addAll(tourItems);
     }
     public void onAddButtonClicked() {
-        var tour = new TourItem(1, "1", "This is a tour description!", 40.0000, 45.00000, "walking", 25.00);
+        var tour = new TourItem(1, "1", "This is a tour description!", "40.0000", "45.00000", "walking", 25.00);
         observableTourItems.add(tour);
         tourItemToSelect.accept(tour);
     }

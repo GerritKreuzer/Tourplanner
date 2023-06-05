@@ -12,7 +12,6 @@
         <module>DAL</module>
         <module>BL</module>
         <module>TourPlannerApp</module>
-        <module>BL</module>
     </modules>
     <name>Tour_planner_Helm_Kreuzer</name>
 
@@ -44,6 +43,11 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
     </dependencies>
 

@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.log4j.BasicConfigurator;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -14,6 +15,7 @@ import java.util.ResourceBundle;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        BasicConfigurator.configure();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainWindow.fxml"),
                 ResourceBundle.getBundle("at.tourplannerapp.gui_strings", Locale.GERMAN),
                 new JavaFXBuilderFactory(),

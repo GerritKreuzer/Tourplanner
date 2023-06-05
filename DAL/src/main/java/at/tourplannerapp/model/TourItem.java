@@ -4,13 +4,13 @@ public class TourItem {
     private Integer id;
     private String name;
     private String description;
-    private Double fromLocation;
-    private Double toLocation;
+    private String fromLocation;
+    private String toLocation;
     private String transportType;
     private Double duration;
 
 
-    public TourItem(Integer id, String name, String description, Double fromLocation, Double toLocation, String transportType, Double duration) {
+    public TourItem(Integer id, String name, String description, String fromLocation, String toLocation, String transportType, Double duration) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -55,19 +55,19 @@ public class TourItem {
         this.description = description;
     }
 
-    public Double getFromLocation() {
+    public String getFromLocation() {
         return fromLocation;
     }
 
-    public void setFromLocation(Double fromLocation) {
+    public void setFromLocation(String fromLocation) {
         this.fromLocation = fromLocation;
     }
 
-    public Double getToLocation() {
+    public String getToLocation() {
         return toLocation;
     }
 
-    public void setToLocation(Double toLocation) {
+    public void setToLocation(String toLocation) {
         this.toLocation = toLocation;
     }
 

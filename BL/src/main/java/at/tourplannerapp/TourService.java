@@ -2,26 +2,31 @@ package at.tourplannerapp;
 
 
 import at.tourplannerapp.model.TourItem;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.util.List;
-import java.util.Objects;
 
 public class TourService {
 
+    private static final Logger logger = LogManager.getLogger(TourService.class);
+
     public void saveTour(TourItem tourItem, List<?> params) {
         try {
-            TourItem updatedTourItem = updateTourItem(tourItem, params);
-        } catch (NullPointerException exception) {
+            updateTourItem(tourItem, params);
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
 
-        return;
     }
 
-    private TourItem updateTourItem(TourItem tourItem, List<?> params) {
-        System.out.println(params);
-        tourItem.setName(Objects.requireNonNull(params.get(0), "Name cannot be null").toString());
+    private void updateTourItem(TourItem tourItem, List<?> params) {
+        logger.info(params);
+        tourItem.setName(ObjectUtils.requireNonEmpty(params.get(0), "Name cannot be empty").toString());
         tourItem.setDescription((params.get(1)==null)?"":params.get(1).toString());
-        return tourItem;
+        tourItem.setFromLocation((params.get(1)==null)?"":params.get(2).toString());
+        tourItem.setToLocation((params.get(1)==null)?"":params.get(3).toString());
+        tourItem.setTransportType((params.get(4)==null)?"":params.get(4).toString());
     }
 }
