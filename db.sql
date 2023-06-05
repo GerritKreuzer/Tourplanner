@@ -1,14 +1,7 @@
 -- Adminer 4.8.1 PostgreSQL 15.1 (Debian 15.1-1.pgdg110+1) dump
 
-\connect "swen2db";
-
-CREATE TABLE "public"."coordinates" (
-    "tourId" integer NOT NULL,
-    "order" integer NOT NULL,
-    "coordinates" character(32) NOT NULL
-) WITH (oids = false);
-
-
+DROP TABLE IF EXISTS "tourlogs";
+DROP SEQUENCE IF EXISTS tourlogs_id_seq;
 CREATE SEQUENCE tourlogs_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 
 CREATE TABLE "public"."tourlogs" (
@@ -23,6 +16,8 @@ CREATE TABLE "public"."tourlogs" (
 ) WITH (oids = false);
 
 
+DROP TABLE IF EXISTS "tours";
+DROP SEQUENCE IF EXISTS tours_id_seq;
 CREATE SEQUENCE tours_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 
 CREATE TABLE "public"."tours" (
@@ -33,8 +28,10 @@ CREATE TABLE "public"."tours" (
     "estimatedTime" time without time zone NOT NULL,
     "pathToMap" character(256) NOT NULL,
     "user" character(64) NOT NULL,
+    "from" character(256) NOT NULL,
+    "to" character(256) NOT NULL,
     CONSTRAINT "tours_pkey" PRIMARY KEY ("id")
 ) WITH (oids = false);
 
 
--- 2023-05-03 15:06:01.497547+00
+-- 2023-06-05 07:16:00.686335+00
