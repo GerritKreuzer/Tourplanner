@@ -25,8 +25,8 @@ public class TourService {
         logger.info(params);
         tourItem.setName(ObjectUtils.requireNonEmpty(params.get(0), "Name cannot be empty").toString());
         tourItem.setDescription((params.get(1)==null)?"":params.get(1).toString());
-        tourItem.setFromLocation((params.get(1)==null)?"":params.get(2).toString());
-        tourItem.setToLocation((params.get(1)==null)?"":params.get(3).toString());
+        tourItem.setFromLocation((params.get(2)==null)?"":params.get(2).toString());
+        tourItem.setToLocation((params.get(3)==null)?"":params.get(3).toString());
         tourItem.setTransportType((params.get(4)==null)?"":params.get(4).toString());
     }
 }

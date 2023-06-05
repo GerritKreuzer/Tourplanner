@@ -9,7 +9,7 @@
       fx:controller="at.tourplannerapp.view.TourOverviewController">
 
     <ToolBar>
-        <Label text="Tours" />
+        <Label text="%TourOverview_Tours" />
         <Pane HBox.hgrow="ALWAYS"/>
         <Button fx:id="addButton" text="+" />
         <Button fx:id="removeButton" text="-"/>

@@ -4,6 +4,7 @@ import at.tourplannerapp.view.ControllerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.log4j.BasicConfigurator;
@@ -16,11 +17,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         BasicConfigurator.configure();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainWindow.fxml"),
-                ResourceBundle.getBundle("at.tourplannerapp.gui_strings", Locale.GERMAN),
-                new JavaFXBuilderFactory(),
-                controllerCLass -> ControllerFactory.getInstance().create(controllerCLass));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.GERMAN);  // Locale.GERMANY, Locale.ENGLISH
+        Scene scene = new Scene(root);
         stage.setTitle("Tour Planner!");
         stage.setMaximized(true);
         stage.setScene(scene);

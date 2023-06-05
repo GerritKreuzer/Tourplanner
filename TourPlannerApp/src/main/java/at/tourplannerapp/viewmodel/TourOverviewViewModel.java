@@ -14,11 +14,12 @@ public class TourOverviewViewModel {
         void changeSelection(TourItem tourItem);
     }
     private List<SelectionChangedListener> listeners = new ArrayList<>();
-    private ObservableList<TourItem> observableTourItems = FXCollections.observableArrayList();
+    private final ObservableList<TourItem> observableTourItems = FXCollections.observableArrayList();
     public ObservableList<TourItem> getObservableTours() {
         return observableTourItems;
     }
     private Consumer<TourItem> tourItemToSelect;
+    private Consumer<Boolean> requestRefreshTourItemList;
     public ChangeListener<TourItem> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
     }
@@ -30,6 +31,7 @@ public class TourOverviewViewModel {
     public void addSelectionChangedListener(SelectionChangedListener listener) {
         listeners.add(listener);
     }
+
     public void setTours(List<TourItem> tourItems) {
         observableTourItems.clear();
         observableTourItems.addAll(tourItems);
@@ -39,10 +41,17 @@ public class TourOverviewViewModel {
         observableTourItems.add(tour);
         tourItemToSelect.accept(tour);
     }
-    public void onRemoveButtonClicked(TourItem tourItems) {
-        observableTourItems.remove(tourItems);
+    public void onRemoveButtonClicked(TourItem tourItem) {
+        observableTourItems.remove(tourItem);
     }
     public void setTourSelection(Consumer<TourItem> tourItemToSelect) {
         this.tourItemToSelect = tourItemToSelect;
+    }
+
+    public void updateTourItemList() {
+        requestRefreshTourItemList.accept(true);
+    }
+    public void setRequestRefreshTourItemList(Consumer<Boolean> requestRefreshTourItemList) {
+        this.requestRefreshTourItemList = requestRefreshTourItemList;
     }
 }

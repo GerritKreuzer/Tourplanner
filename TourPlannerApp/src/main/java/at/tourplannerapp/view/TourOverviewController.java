@@ -2,6 +2,7 @@ package at.tourplannerapp.view;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.viewmodel.TourOverviewViewModel;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -33,6 +34,12 @@ public class TourOverviewController {
 
         tourOverviewViewModel.setTourSelection(tourItem -> {
             tourItemList.getSelectionModel().select(tourItem);
+        });
+
+        tourOverviewViewModel.setRequestRefreshTourItemList(shouldRefresh -> {
+            if (shouldRefresh) {
+                tourItemList.refresh();
+            }
         });
     }
 }
