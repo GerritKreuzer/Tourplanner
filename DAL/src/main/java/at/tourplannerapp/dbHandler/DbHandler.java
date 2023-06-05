@@ -1,9 +1,5 @@
 package at.tourplannerapp.dbHandler;
 
-import at.tourplannerapp.dataClasses.Route;
-import at.tourplannerapp.dataClasses.Tour;
-import at.tourplannerapp.dataClasses.TourLog;
-
 import java.sql.*;
 
 public class DbHandler {
