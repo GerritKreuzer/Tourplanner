@@ -1,6 +1,7 @@
 package at.tourplannerapp.viewmodel;
 
-import at.tourplannerapp.TourService;
+import at.tourplannerapp.service.TourItemService;
+import at.tourplannerapp.service.TourItemServiceImpl;
 import at.tourplannerapp.model.TourItem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -23,7 +24,10 @@ public class TourDetailsViewModel {
 
     private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
 
-    public TourDetailsViewModel() {
+    private final TourItemService tourItemService;
+    public TourDetailsViewModel(TourItemService tourItemService)
+    {
+        this.tourItemService = tourItemService;
     }
     public StringProperty nameProperty() {
         return name;
@@ -67,9 +71,8 @@ public class TourDetailsViewModel {
     }
 
     public void onSaveTourButtonClicked() {
-        TourService tourservice = new TourService();
         if(validInputs()) {
-            tourservice.saveTour(tourItem, Arrays.asList(name.get(), description.get(), fromLocation.get(), toLocation.get(), transportType.get()));
+            tourItemService.saveTour(tourItem, Arrays.asList(name.get(), description.get(), fromLocation.get(), toLocation.get(), transportType.get()));
             requestRefreshTourItemList.accept(true);
         }
     }

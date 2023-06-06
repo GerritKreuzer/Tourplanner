@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor // mandatory for every hibernate entity
 @Entity
-public class Tourlog {
+public class TourLog {
 
     @Id
     @GeneratedValue
@@ -32,4 +32,13 @@ public class Tourlog {
 
     @Column(name = "rating", nullable = false)
     private Integer rating;
+
+    public TourLog(Integer tourLogId, Date date, String comment, Integer difficulty, Integer totalTime, Integer rating) {
+        this.tourLogId = tourLogId;
+        this.date = date;
+        this.comment = comment;
+        this.difficulty = difficulty;
+        this.totalTime = totalTime;
+        this.rating = rating;
+    }
 }

@@ -1,6 +1,10 @@
 package at.tourplannerapp.view;
 
+import at.tourplannerapp.Repositories.TourRepository;
+import at.tourplannerapp.service.TourItemService;
+import at.tourplannerapp.service.TourItemServiceImpl;
 import at.tourplannerapp.viewmodel.*;
+import org.springframework.context.ConfigurableApplicationContext;
 
 public class ControllerFactory {
 
@@ -11,10 +15,10 @@ public class ControllerFactory {
 
     private final TourLogsViewModel tourLogsViewModel;
 
-    public ControllerFactory() {
+    public ControllerFactory(ConfigurableApplicationContext applicationContext) {
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel();
-        tourDetailsViewModel = new TourDetailsViewModel();
+        tourDetailsViewModel = new TourDetailsViewModel(new TourItemServiceImpl(applicationContext.getBean(TourRepository.class)));
         tourLogsViewModel = new TourLogsViewModel();
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel);
     }
@@ -37,13 +41,12 @@ public class ControllerFactory {
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }
 
+    private static ControllerFactory instance;
 
-    //
-    // Singleton-Pattern with early-binding
-    //
-    private static ControllerFactory instance = new ControllerFactory();
-
-    public static ControllerFactory getInstance() {
+    public static ControllerFactory getInstance(ConfigurableApplicationContext applicationContext) {
+        if (instance == null) {
+            instance = new ControllerFactory(applicationContext);
+        }
         return instance;
     }
 }

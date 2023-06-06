@@ -1,6 +1,8 @@
-package at.tourplannerapp;
+package at.tourplannerapp.service;
 
 
+import at.tourplannerapp.Repositories.TourLogRepository;
+import at.tourplannerapp.Repositories.TourRepository;
 import at.tourplannerapp.model.TourItem;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.log4j.LogManager;
@@ -8,9 +10,15 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public class TourService {
+public class TourItemServiceImpl implements TourItemService{
 
-    private static final Logger logger = LogManager.getLogger(TourService.class);
+    private static final Logger logger = LogManager.getLogger(TourItemServiceImpl.class);
+
+    private final TourRepository tourRepository;
+
+    public TourItemServiceImpl(TourRepository tourRepository) {
+        this.tourRepository = tourRepository;
+    }
 
     public void saveTour(TourItem tourItem, List<?> params) {
         try {
