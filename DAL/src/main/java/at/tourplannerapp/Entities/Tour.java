@@ -34,12 +34,24 @@ public class Tour {
     @Column(name = "path_to_map", nullable = false)
     private String pathToMap;
 
-    @Column(name = "user", nullable = false)
-    private String user;
+    @Column(name = "username", nullable = false)
+    private String username;
 
-    @Column(name = "from", nullable = false)
-    private String from;
+    @Column(name = "from_location", nullable = false)
+    private String fromLocation;
 
-    @Column(name = "to", nullable = false)
-    private String to;
+    @Column(name = "to_location", nullable = false)
+    private String toLocation;
+
+    public Tour(String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+        this.name = name;
+        this.description = description;
+        this.transportationType = transportationType;
+        this.distance = distance;
+        this.estimatedTime = estimatedTime;
+        this.pathToMap = pathToMap;
+        this.username = username;
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
+    }
 }

@@ -18,9 +18,7 @@ class TourRepositoryTest {
     @Test
     void testInsertion() {
         // given
-        var tour = new Tour();
-        tour.setName("Test");
-        tour.setDescription("This is a description");
+        var tour = new Tour("Test", "This is a description", "car", 10.0, 40, "/path", "Gabriel", "Wien", "Graz");
 
         // when
         tourRepository.save(tour);
@@ -29,6 +27,13 @@ class TourRepositoryTest {
         // then
         assertEquals("Test", tour.getName());
         assertEquals("This is a description", tour.getDescription());
+        assertEquals("car", tour.getTransportationType());
+        assertEquals(10.0, tour.getDistance());
+        assertEquals(40, tour.getEstimatedTime());
+        assertEquals("/path", tour.getPathToMap());
+        assertEquals("Gabriel", tour.getUsername());
+        assertEquals("Wien", tour.getFromLocation());
+        assertEquals("Graz", tour.getToLocation());
     }
 
 }
