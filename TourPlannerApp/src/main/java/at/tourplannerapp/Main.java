@@ -1,26 +1,20 @@
 package at.tourplannerapp;
 
-import at.tourplannerapp.Repositories.TourLogRepository;
-import at.tourplannerapp.Repositories.TourRepository;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.log4j.BasicConfigurator;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"at.*"})
 public class Main extends Application {
 
     private ConfigurableApplicationContext applicationContext;

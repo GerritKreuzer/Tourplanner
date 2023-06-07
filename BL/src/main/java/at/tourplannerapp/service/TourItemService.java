@@ -5,5 +5,9 @@ import at.tourplannerapp.model.TourItem;
 import java.util.List;
 
 public interface TourItemService {
-    void saveTour(TourItem tourItem, List<?> params);
+    List<TourItem> getAll();
+
+    TourItem create();
+
+    void delete(TourItem TourItem);
 }

@@ -1,28 +1,25 @@
 package at.tourplannerapp.Repositories;
 
-import at.tourplannerapp.Entities.Tour;
+import at.tourplannerapp.Entities.TourItemEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class TourRepositoryTest {
+class TourItemEntityRepositoryTest {
     @Autowired
-    private TourRepository tourRepository;
+    private TourItemRepository tourItemRepository;
 
     @Test
     void testInsertion() {
         // given
-        var tour = new Tour("Test", "This is a description", "car", 10.0, 40, "/path", "Gabriel", "Wien", "Graz");
+        var tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40, "/path", "Gabriel", "Wien", "Graz");
 
         // when
-        tourRepository.save(tour);
-        tourRepository.flush();
+        tourItemRepository.save(tour);
+        tourItemRepository.flush();
 
         // then
         assertEquals("Test", tour.getName());

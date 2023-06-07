@@ -1,10 +1,9 @@
 package at.tourplannerapp.service;
 
 
-import at.tourplannerapp.Repositories.TourLogRepository;
-import at.tourplannerapp.Repositories.TourRepository;
+import at.tourplannerapp.Entities.TourItemEntity;
+import at.tourplannerapp.Repositories.TourItemRepository;
 import at.tourplannerapp.model.TourItem;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -14,27 +13,59 @@ public class TourItemServiceImpl implements TourItemService{
 
     private static final Logger logger = LogManager.getLogger(TourItemServiceImpl.class);
 
-    private final TourRepository tourRepository;
+    private final TourItemRepository tourItemRepository;
 
-    public TourItemServiceImpl(TourRepository tourRepository) {
-        this.tourRepository = tourRepository;
+    public TourItemServiceImpl(TourItemRepository tourItemRepository) {
+        this.tourItemRepository = tourItemRepository;
     }
 
-    public void saveTour(TourItem tourItem, List<?> params) {
-        try {
-            updateTourItem(tourItem, params);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+    @Override
+    public List<TourItem> getAll() {
+        List<TourItemEntity> tourItemEntities = tourItemRepository.findAll();
+        return tourItemEntities.stream().map(tourItemEntity ->
+                new TourItem(tourItemEntity.getTourId(), tourItemEntity.getName(), tourItemEntity.getDescription(), tourItemEntity.getFromLocation(),
+                        tourItemEntity.getToLocation(), tourItemEntity.getTransportationType(), tourItemEntity.getDistance(),
+                        tourItemEntity.getEstimatedTime(), tourItemEntity.getPathToMap(), tourItemEntity.getUsername())).toList();
+    }
+
+    @Override
+    public TourItem create() {
+        TourItemEntity tourItemEntity = new TourItemEntity();
+        tourItemRepository.save(tourItemEntity);
+        tourItemEntity.setName("Tour " + tourItemEntity.getTourId());
+        return new TourItem(tourItemEntity.getTourId(), tourItemEntity.getName(), tourItemEntity.getDescription(), tourItemEntity.getFromLocation(),
+                tourItemEntity.getToLocation(), tourItemEntity.getTransportationType(), tourItemEntity.getDistance(),
+                tourItemEntity.getEstimatedTime(), tourItemEntity.getPathToMap(), tourItemEntity.getUsername());
+    }
+
+
+    @Override
+    public void delete(TourItem TourItem) {
 
     }
 
-    private void updateTourItem(TourItem tourItem, List<?> params) {
-        logger.info(params);
-        tourItem.setName(ObjectUtils.requireNonEmpty(params.get(0), "Name cannot be empty").toString());
-        tourItem.setDescription((params.get(1)==null)?"":params.get(1).toString());
-        tourItem.setFromLocation((params.get(2)==null)?"":params.get(2).toString());
-        tourItem.setToLocation((params.get(3)==null)?"":params.get(3).toString());
-        tourItem.setTransportType((params.get(4)==null)?"":params.get(4).toString());
+    /*
+
+
+    @Override
+    public List<MediaItem> getAll() {
+        List<MediaItemEntity> mediaItemEntities = mediaItemRepository.findAll();
+        return mediaItemEntities.stream().map(mediaItemEntity ->
+                new MediaItem(mediaItemEntity.getId(), mediaItemEntity.getName(), mediaItemEntity.getDuration(), mediaItemEntity.getContent())).toList();
     }
+
+    @Override
+    public MediaItem create() {
+        MediaItemEntity mediaItemEntity = new MediaItemEntity();
+        mediaItemRepository.save(mediaItemEntity);
+        mediaItemEntity.setName("Tour " + mediaItemEntity.getId());
+        return new MediaItem(mediaItemEntity.getId(), mediaItemEntity.getName(), mediaItemEntity.getDuration(), mediaItemEntity.getContent());
+    }
+
+    @Override
+    public void delete(MediaItem mediaItem) {
+
+    }
+    */
+
 }

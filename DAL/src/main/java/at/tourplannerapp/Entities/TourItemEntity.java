@@ -9,41 +9,41 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor // mandatory for every hibernate entity
 @Entity
-public class Tour {
+public class TourItemEntity {
 
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private Integer tourId;
 
-    @Column(name = "name", nullable = false, length = 64)
+    @Column(name = "name", length = 64)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "transportation_type", nullable = false)
+    @Column(name = "transportation_type")
     private String transportationType;
 
-    @Column(name = "distance", nullable = false)
+    @Column(name = "distance")
     private Double distance;
 
-    @Column(name = "estimated_time", nullable = false)
+    @Column(name = "estimated_time")
     private Integer estimatedTime;
 
-    @Column(name = "path_to_map", nullable = false)
+    @Column(name = "path_to_map")
     private String pathToMap;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "from_location", nullable = false)
+    @Column(name = "from_location")
     private String fromLocation;
 
-    @Column(name = "to_location", nullable = false)
+    @Column(name = "to_location")
     private String toLocation;
 
-    public Tour(String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+    public TourItemEntity(String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
         this.name = name;
         this.description = description;
         this.transportationType = transportationType;

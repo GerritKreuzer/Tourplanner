@@ -72,7 +72,6 @@ public class TourDetailsViewModel {
 
     public void onSaveTourButtonClicked() {
         if(validInputs()) {
-            tourItemService.saveTour(tourItem, Arrays.asList(name.get(), description.get(), fromLocation.get(), toLocation.get(), transportType.get()));
             requestRefreshTourItemList.accept(true);
         }
     }

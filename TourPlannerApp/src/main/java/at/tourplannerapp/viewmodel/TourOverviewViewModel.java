@@ -1,6 +1,7 @@
 package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.TourItem;
+import at.tourplannerapp.service.TourItemService;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,13 @@ public class TourOverviewViewModel {
     }
     private Consumer<TourItem> tourItemToSelect;
     private Consumer<Boolean> requestRefreshTourItemList;
+
+    private final TourItemService tourItemService;
+    public TourOverviewViewModel(TourItemService tourItemService)
+    {
+        this.tourItemService = tourItemService;
+    }
+
     public ChangeListener<TourItem> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
     }
@@ -37,7 +45,7 @@ public class TourOverviewViewModel {
         observableTourItems.addAll(tourItems);
     }
     public void onAddButtonClicked() {
-        var tour = new TourItem(1, "1", "This is a tour description!", "40.0000", "45.00000", "walking", 25.00);
+        var tour = tourItemService.create();
         observableTourItems.add(tour);
         tourItemToSelect.accept(tour);
     }

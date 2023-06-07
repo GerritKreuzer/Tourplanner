@@ -1,7 +1,6 @@
 package at.tourplannerapp.view;
 
-import at.tourplannerapp.Repositories.TourRepository;
-import at.tourplannerapp.service.TourItemService;
+import at.tourplannerapp.Repositories.TourItemRepository;
 import at.tourplannerapp.service.TourItemServiceImpl;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,8 +16,8 @@ public class ControllerFactory {
 
     public ControllerFactory(ConfigurableApplicationContext applicationContext) {
         searchBarViewModel = new SearchBarViewModel();
-        tourOverviewViewModel = new TourOverviewViewModel();
-        tourDetailsViewModel = new TourDetailsViewModel(new TourItemServiceImpl(applicationContext.getBean(TourRepository.class)));
+        tourOverviewViewModel = new TourOverviewViewModel(new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class)));
+        tourDetailsViewModel = new TourDetailsViewModel(new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class)));
         tourLogsViewModel = new TourLogsViewModel();
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel);
     }
