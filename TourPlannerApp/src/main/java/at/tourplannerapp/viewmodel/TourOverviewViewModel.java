@@ -26,6 +26,7 @@ public class TourOverviewViewModel {
     public TourOverviewViewModel(TourItemService tourItemService)
     {
         this.tourItemService = tourItemService;
+        setTours(this.tourItemService.getAll());
     }
 
     public ChangeListener<TourItem> getChangeListener() {
@@ -50,6 +51,7 @@ public class TourOverviewViewModel {
         tourItemToSelect.accept(tour);
     }
     public void onRemoveButtonClicked(TourItem tourItem) {
+        tourItemService.delete(tourItem);
         observableTourItems.remove(tourItem);
     }
     public void setTourSelection(Consumer<TourItem> tourItemToSelect) {

@@ -3,39 +3,40 @@ package at.tourplannerapp.model;
 import jakarta.persistence.Column;
 
 public class TourItem {
-    private Integer id;
+
+    private Integer tourId;
     private String name;
     private String description;
-    private String fromLocation;
-    private String toLocation;
-    private String transportType;
+    private String transportationType;
     private Double distance;
     private Integer estimatedTime;
     private String pathToMap;
     private String username;
-
-    public TourItem(Integer id, String name, String description, String fromLocation, String toLocation, String transportType, Double distance, Integer estimatedTime, String pathToMap, String username) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.fromLocation = fromLocation;
-        this.toLocation = toLocation;
-        this.transportType = transportType;
-        this.distance = distance;
-        this.estimatedTime = estimatedTime;
-        this.pathToMap = pathToMap;
-        this.username = username;
-    }
+    private String fromLocation;
+    private String toLocation;
 
     public TourItem() {
     }
 
-    public int getId() {
-        return id;
+    public TourItem(Integer tourId, String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+        this.tourId = tourId;
+        this.name = name;
+        this.description = description;
+        this.transportationType = transportationType;
+        this.distance = distance;
+        this.estimatedTime = estimatedTime;
+        this.pathToMap = pathToMap;
+        this.username = username;
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Integer getTourId() {
+        return tourId;
+    }
+
+    public void setTourId(Integer tourId) {
+        this.tourId = tourId;
     }
 
     public String getName() {
@@ -46,8 +47,20 @@ public class TourItem {
         this.name = name;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTransportationType() {
+        return transportationType;
+    }
+
+    public void setTransportationType(String transportationType) {
+        this.transportationType = transportationType;
     }
 
     public Double getDistance() {
@@ -82,14 +95,6 @@ public class TourItem {
         this.username = username;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getFromLocation() {
         return fromLocation;
     }
@@ -104,14 +109,6 @@ public class TourItem {
 
     public void setToLocation(String toLocation) {
         this.toLocation = toLocation;
-    }
-
-    public String getTransportType() {
-        return transportType;
-    }
-
-    public void setTransportType(String transportType) {
-        this.transportType = transportType;
     }
 
     @Override

@@ -12,7 +12,7 @@ import lombok.Setter;
 public class TourItemEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer tourId;
 
@@ -44,6 +44,19 @@ public class TourItemEntity {
     private String toLocation;
 
     public TourItemEntity(String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+        this.name = name;
+        this.description = description;
+        this.transportationType = transportationType;
+        this.distance = distance;
+        this.estimatedTime = estimatedTime;
+        this.pathToMap = pathToMap;
+        this.username = username;
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
+    }
+
+    public TourItemEntity(Integer tourId, String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+        this.tourId = tourId;
         this.name = name;
         this.description = description;
         this.transportationType = transportationType;

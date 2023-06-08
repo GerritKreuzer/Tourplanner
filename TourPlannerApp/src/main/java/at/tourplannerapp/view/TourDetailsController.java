@@ -46,7 +46,7 @@ public class TourDetailsController {
         descriptionTextArea.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
         toLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.toLocationProperty());
         fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
-        transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportTypeProperty());
+        transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportationTypeProperty());
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
         invalidDetails.textProperty().bindBidirectional(tourDetailsViewModel.invalidDetailsProperty());
 

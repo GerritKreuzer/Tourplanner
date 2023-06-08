@@ -1,12 +1,12 @@
 package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.service.TourItemService;
-import at.tourplannerapp.service.TourItemServiceImpl;
 import at.tourplannerapp.model.TourItem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
@@ -16,7 +16,7 @@ public class TourDetailsViewModel {
     private final StringProperty description = new SimpleStringProperty();
     private final StringProperty fromLocation = new SimpleStringProperty();
     private final StringProperty toLocation = new SimpleStringProperty();
-    private final StringProperty transportType = new SimpleStringProperty();
+    private final StringProperty transportationType = new SimpleStringProperty();
     private final StringProperty invalidDetails = new SimpleStringProperty();
     private static final String EMPTY_STRING = "";
     private static final String successMessageStyle = "-fx-text-fill: GREEN;";
@@ -41,8 +41,8 @@ public class TourDetailsViewModel {
     public StringProperty toLocationProperty() {
         return toLocation;
     }
-    public StringProperty transportTypeProperty() {
-        return transportType;
+    public StringProperty transportationTypeProperty() {
+        return transportationType;
     }
     public StringProperty invalidDetailsProperty() {
         return invalidDetails;
@@ -52,26 +52,33 @@ public class TourDetailsViewModel {
     private Consumer<String> nameTextFieldStyleString;
 
     public void setTourItem(TourItem tourItem) {
+        this.tourItem = tourItem;
         if(tourItem ==null) {
             name.set(EMPTY_STRING);
             description.set(EMPTY_STRING);
             fromLocation.set(EMPTY_STRING);
             toLocation.set(EMPTY_STRING);
-            transportType.set(EMPTY_STRING);
+            transportationType.set(EMPTY_STRING);
             return;
         }
-        this.tourItem = tourItem;
         name.setValue(tourItem.getName());
         description.setValue(tourItem.getDescription());
         fromLocation.setValue(tourItem.getFromLocation());
         toLocation.setValue(tourItem.getToLocation());
-        transportType.setValue(tourItem.getTransportType());
+        transportationType.setValue(tourItem.getTransportationType());
         invalidDetails.set(EMPTY_STRING);
         nameTextFieldStyleString.accept(EMPTY_STRING);
     }
 
     public void onSaveTourButtonClicked() {
         if(validInputs()) {
+            Map<String, String> inputMap = new HashMap<>();
+            inputMap.put("Name", name.get());
+            inputMap.put("Description", description.get());
+            inputMap.put("FromLocation", fromLocation.get());
+            inputMap.put("ToLocation", toLocation.get());
+            inputMap.put("TransportationType", transportationType.get());
+            tourItemService.update(tourItem, inputMap);
             requestRefreshTourItemList.accept(true);
         }
     }
