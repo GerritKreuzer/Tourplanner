@@ -11,8 +11,14 @@ import lombok.Setter;
 @Entity
 public class TourItemEntity {
 
+    @TableGenerator(
+            name = "TourItemEntityGenerator",
+            allocationSize = 1,
+            initialValue = 0)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(
+            strategy=GenerationType.TABLE,
+            generator="TourItemEntityGenerator")
     @Column(name = "id", nullable = false)
     private Integer tourId;
 

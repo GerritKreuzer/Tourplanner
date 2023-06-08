@@ -51,8 +51,10 @@ public class TourOverviewViewModel {
         tourItemToSelect.accept(tour);
     }
     public void onRemoveButtonClicked(TourItem tourItem) {
-        tourItemService.delete(tourItem);
-        observableTourItems.remove(tourItem);
+        if(tourItem != null) {
+            tourItemService.delete(tourItem);
+            observableTourItems.remove(tourItem);
+        }
     }
     public void setTourSelection(Consumer<TourItem> tourItemToSelect) {
         this.tourItemToSelect = tourItemToSelect;

@@ -38,12 +38,11 @@ class TourItemRepositoryTest {
         // when
         tourItemRepository.save(tour);
         tourItemRepository.flush();
-        tourItemRepository.deleteByTourId(tour.getTourId());
+        tourItemRepository.deleteById(tour.getTourId());
         var actualTour = tourItemRepository.findById(tour.getTourId());
 
         // then
         assertEquals(Optional.empty(), actualTour);
         assertFalse(actualTour.isPresent());
     }
-
 }
