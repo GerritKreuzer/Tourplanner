@@ -33,6 +33,10 @@ public class TourLogEntity {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tour_item_id", nullable = false, updatable = false)
+    private TourItemEntity tourItemEntity;
+
     public TourLogEntity(Integer tourLogId, Date date, String comment, Integer difficulty, Integer totalTime, Integer rating) {
         this.tourLogId = tourLogId;
         this.date = date;

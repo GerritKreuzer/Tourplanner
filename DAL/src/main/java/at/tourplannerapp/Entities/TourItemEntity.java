@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor // mandatory for every hibernate entity
@@ -48,6 +51,9 @@ public class TourItemEntity {
 
     @Column(name = "to_location")
     private String toLocation;
+
+    @OneToMany(mappedBy = "tourItemEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private final List<TourLogEntity> tourLogEntities = new ArrayList<>();
 
     public TourItemEntity(String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
         this.name = name;
