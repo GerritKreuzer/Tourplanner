@@ -66,19 +66,20 @@ public class TourDetailsViewModel {
         fromLocation.setValue(tourItem.getFromLocation());
         toLocation.setValue(tourItem.getToLocation());
         transportationType.setValue(tourItem.getTransportationType());
+        System.out.println(tourItem.getName());
+        System.out.println(tourItem.getDescription());
         invalidDetails.set(EMPTY_STRING);
         nameTextFieldStyleString.accept(EMPTY_STRING);
     }
 
     public void onSaveTourButtonClicked() {
         if(validInputs()) {
-            Map<String, String> inputMap = new HashMap<>();
-            inputMap.put("Name", name.get());
-            inputMap.put("Description", description.get());
-            inputMap.put("FromLocation", fromLocation.get());
-            inputMap.put("ToLocation", toLocation.get());
-            inputMap.put("TransportationType", transportationType.get());
-            tourItemService.update(tourItem, inputMap);
+            tourItem.setName(name.get());
+            tourItem.setDescription(description.get());
+            tourItem.setToLocation(toLocation.get());
+            tourItem.setFromLocation(fromLocation.get());
+            tourItem.setTransportationType(transportationType.get());
+            tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
         }
     }
@@ -93,7 +94,7 @@ public class TourDetailsViewModel {
             invalidDetailsStyleString.accept(errorMessageStyle);
             return false;
         }
-        if(name.get() == null ||name.get().isEmpty() ) {
+        if(name.get() == null || name.get().isEmpty() ) {
             invalidDetails.set("The name field is required!");
             invalidDetailsStyleString.accept(errorMessageStyle);
             nameTextFieldStyleString.accept(errorStyle);

@@ -12,5 +12,5 @@ public interface TourItemService {
 
     void delete(TourItem TourItem);
 
-    void update(TourItem tourItem, Map<String, String> params);
+    void update(TourItem tourItem);
 }

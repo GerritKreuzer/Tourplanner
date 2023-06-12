@@ -1,7 +1,5 @@
 package at.tourplannerapp.model;
 
-import jakarta.persistence.Column;
-
 public class TourItem {
 
     private Integer tourId;

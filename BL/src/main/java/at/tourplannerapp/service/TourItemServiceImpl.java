@@ -1,6 +1,5 @@
 package at.tourplannerapp.service;
 
-
 import at.tourplannerapp.Entities.TourItemEntity;
 import at.tourplannerapp.Repositories.TourItemRepository;
 import at.tourplannerapp.model.TourItem;
@@ -9,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class TourItemServiceImpl implements TourItemService{
 
@@ -41,24 +41,35 @@ public class TourItemServiceImpl implements TourItemService{
     }
 
     @Override
-    public void update(TourItem tourItem, Map<String, String> params) {
-        tourItem.setName(params.get("Name"));
-        tourItem.setDescription(params.get("Description"));
-        tourItem.setFromLocation(params.get("FromLocation"));
-        tourItem.setToLocation(params.get("ToLocation"));
-        tourItem.setTransportationType(params.get("TransportationType"));
-        tourItemRepository.saveAndFlush(castTourItemToTourItemEntity(tourItem));
+    public void update(TourItem tourItem) {
+        Optional<TourItemEntity> tourItemEntityOptional
+                = tourItemRepository.findById(tourItem.getTourId());
+        tourItemEntityOptional.ifPresent(tourItemEntity -> {
+            tourItemEntity.setName(tourItem.getName());
+            tourItemEntity.setDescription(tourItem.getDescription());
+            tourItemEntity.setTransportationType(tourItem.getTransportationType());
+            tourItemEntity.setToLocation(tourItem.getToLocation());
+            tourItemEntity.setFromLocation(tourItem.getFromLocation());
+            System.out.println(tourItemEntity.getName());
+            System.out.println(tourItemEntity.getDescription());
+            System.out.println(tourItemEntity.getTransportationType());
+
+            tourItemRepository.saveAndFlush(tourItemEntity);
+        });
     }
 
     private TourItem castTourItemEntityToTourItem(TourItemEntity tourItemEntity) {
-            return new TourItem(tourItemEntity.getTourId(), tourItemEntity.getName(), tourItemEntity.getDescription(), tourItemEntity.getTransportationType(),
-                    tourItemEntity.getDistance(), tourItemEntity.getEstimatedTime(), tourItemEntity.getPathToMap(), tourItemEntity.getUsername(),
-                    tourItemEntity.getFromLocation(), tourItemEntity.getToLocation());
-    }
-
-    private TourItemEntity castTourItemToTourItemEntity(TourItem tourItem) {
-        return new TourItemEntity(tourItem.getTourId(), tourItem.getName(), tourItem.getDescription(), tourItem.getTransportationType(),
-                tourItem.getDistance(), tourItem.getEstimatedTime(), tourItem.getPathToMap(), tourItem.getUsername(),
-                tourItem.getFromLocation(), tourItem.getToLocation());
+        return new TourItem(
+                tourItemEntity.getTourId(),
+                tourItemEntity.getName(),
+                tourItemEntity.getDescription(),
+                tourItemEntity.getTransportationType(),
+                tourItemEntity.getDistance(),
+                tourItemEntity.getEstimatedTime(),
+                tourItemEntity.getPathToMap(),
+                tourItemEntity.getUsername(),
+                tourItemEntity.getFromLocation(),
+                tourItemEntity.getToLocation()
+            );
     }
 }
