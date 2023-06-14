@@ -1,6 +1,6 @@
-package at.tourplannerapp.Repositories;
+package at.tourplannerapp.repositories;
 
-import at.tourplannerapp.Entities.TourItemEntity;
+import at.tourplannerapp.entities.TourItemEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

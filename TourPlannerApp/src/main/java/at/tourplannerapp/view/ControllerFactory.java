@@ -1,6 +1,6 @@
 package at.tourplannerapp.view;
 
-import at.tourplannerapp.Repositories.TourItemRepository;
+import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.service.TourItemServiceImpl;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;

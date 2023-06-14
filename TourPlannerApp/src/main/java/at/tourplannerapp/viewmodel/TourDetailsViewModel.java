@@ -1,10 +1,13 @@
 package at.tourplannerapp.viewmodel;
 
+import at.tourplannerapp.dto.RouteMatrixRequestBody;
+import at.tourplannerapp.service.MapService;
 import at.tourplannerapp.service.TourItemService;
 import at.tourplannerapp.model.TourItem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -80,6 +83,8 @@ public class TourDetailsViewModel {
             tourItem.setFromLocation(fromLocation.get());
             tourItem.setTransportationType(transportationType.get());
             tourItemService.update(tourItem);
+            MapService mapService = new MapService();
+            mapService.getRouteMatrix(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
             requestRefreshTourItemList.accept(true);
         }
     }

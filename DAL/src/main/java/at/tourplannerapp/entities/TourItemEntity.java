@@ -1,4 +1,4 @@
-package at.tourplannerapp.Entities;
+package at.tourplannerapp.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

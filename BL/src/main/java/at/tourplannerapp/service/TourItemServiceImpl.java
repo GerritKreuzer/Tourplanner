@@ -1,13 +1,12 @@
 package at.tourplannerapp.service;
 
-import at.tourplannerapp.Entities.TourItemEntity;
-import at.tourplannerapp.Repositories.TourItemRepository;
+import at.tourplannerapp.entities.TourItemEntity;
+import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.model.TourItem;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class TourItemServiceImpl implements TourItemService{
