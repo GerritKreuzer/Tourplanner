@@ -7,6 +7,7 @@ import at.tourplannerapp.service.TourItemService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.awt.image.BufferedImage;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
@@ -29,42 +30,51 @@ public class TourDetailsViewModel {
     private final TourItemService tourItemService;
 
     private final MapService mapService;
-    public TourDetailsViewModel(TourItemService tourItemService, MapService mapService)
-    {
+
+    public TourDetailsViewModel(TourItemService tourItemService, MapService mapService) {
         this.tourItemService = tourItemService;
         this.mapService = mapService;
     }
+
     public StringProperty nameProperty() {
         return name;
     }
+
     public StringProperty descriptionProperty() {
         return description;
     }
+
     public StringProperty fromLocationProperty() {
         return fromLocation;
     }
+
     public StringProperty toLocationProperty() {
         return toLocation;
     }
+
     public StringProperty transportationTypeProperty() {
         return transportationType;
     }
+
     public StringProperty distanceProperty() {
         return distance;
     }
+
     public StringProperty timeProperty() {
         return time;
     }
+
     public StringProperty invalidDetailsProperty() {
         return invalidDetails;
     }
+
     private Consumer<Boolean> requestRefreshTourItemList;
     private Consumer<String> invalidDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
 
     public void setTourItem(TourItem tourItem) {
         this.tourItem = tourItem;
-        if(tourItem ==null) {
+        if (tourItem == null) {
             name.set(EMPTY_STRING);
             description.set(EMPTY_STRING);
             fromLocation.set(EMPTY_STRING);
@@ -84,7 +94,7 @@ public class TourDetailsViewModel {
     }
 
     public void onSaveTourButtonClicked() {
-        if(validInputs()) {
+        if (validInputs()) {
             tourItem.setName(name.get());
             tourItem.setDescription(description.get());
             tourItem.setToLocation(toLocation.get());
@@ -96,6 +106,8 @@ public class TourDetailsViewModel {
             Long time = mapService.getTime(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
             tourItem.setEstimatedTime(time.intValue());
             timeProperty().setValue(time.toString());
+            BufferedImage image = mapService.fetchAndSaveImage();
+            // TO - DO: display image
             tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
         }
@@ -106,12 +118,12 @@ public class TourDetailsViewModel {
     }
 
     public boolean validInputs() {
-        if(tourItem == null) {
+        if (tourItem == null) {
             invalidDetails.set("Please add a tour!");
             invalidDetailsStyleString.accept(errorMessageStyle);
             return false;
         }
-        if(name.get() == null || name.get().isEmpty() ) {
+        if (name.get() == null || name.get().isEmpty()) {
             invalidDetails.set("The name field is required!");
             invalidDetailsStyleString.accept(errorMessageStyle);
             nameTextFieldStyleString.accept(errorStyle);

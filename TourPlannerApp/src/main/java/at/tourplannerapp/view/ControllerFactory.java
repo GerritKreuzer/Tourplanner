@@ -1,7 +1,7 @@
 package at.tourplannerapp.view;
 
 import at.tourplannerapp.repositories.TourItemRepository;
-import at.tourplannerapp.service.MapService;
+import at.tourplannerapp.service.MapServiceImpl;
 import at.tourplannerapp.service.TourItemServiceImpl;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,7 +15,7 @@ public class ControllerFactory {
     private final TourLogsViewModel tourLogsViewModel;
 
     public ControllerFactory(ConfigurableApplicationContext applicationContext) {
-        MapService mapService = new MapService();
+        MapServiceImpl mapService = new MapServiceImpl();
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class)));
         tourDetailsViewModel = new TourDetailsViewModel(new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class)), mapService);
