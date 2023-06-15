@@ -1,15 +1,12 @@
 package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.dto.RouteMatrixRequestBody;
+import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.service.MapService;
 import at.tourplannerapp.service.TourItemService;
-import at.tourplannerapp.model.TourItem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
@@ -20,6 +17,8 @@ public class TourDetailsViewModel {
     private final StringProperty fromLocation = new SimpleStringProperty();
     private final StringProperty toLocation = new SimpleStringProperty();
     private final StringProperty transportationType = new SimpleStringProperty();
+    private final StringProperty distance = new SimpleStringProperty();
+    private final StringProperty time = new SimpleStringProperty();
     private final StringProperty invalidDetails = new SimpleStringProperty();
     private static final String EMPTY_STRING = "";
     private static final String successMessageStyle = "-fx-text-fill: GREEN;";
@@ -28,9 +27,12 @@ public class TourDetailsViewModel {
     private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
 
     private final TourItemService tourItemService;
-    public TourDetailsViewModel(TourItemService tourItemService)
+
+    private final MapService mapService;
+    public TourDetailsViewModel(TourItemService tourItemService, MapService mapService)
     {
         this.tourItemService = tourItemService;
+        this.mapService = mapService;
     }
     public StringProperty nameProperty() {
         return name;
@@ -46,6 +48,12 @@ public class TourDetailsViewModel {
     }
     public StringProperty transportationTypeProperty() {
         return transportationType;
+    }
+    public StringProperty distanceProperty() {
+        return distance;
+    }
+    public StringProperty timeProperty() {
+        return time;
     }
     public StringProperty invalidDetailsProperty() {
         return invalidDetails;
@@ -69,8 +77,8 @@ public class TourDetailsViewModel {
         fromLocation.setValue(tourItem.getFromLocation());
         toLocation.setValue(tourItem.getToLocation());
         transportationType.setValue(tourItem.getTransportationType());
-        System.out.println(tourItem.getName());
-        System.out.println(tourItem.getDescription());
+        distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
+        time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getEstimatedTime().toString());
         invalidDetails.set(EMPTY_STRING);
         nameTextFieldStyleString.accept(EMPTY_STRING);
     }
@@ -82,9 +90,13 @@ public class TourDetailsViewModel {
             tourItem.setToLocation(toLocation.get());
             tourItem.setFromLocation(fromLocation.get());
             tourItem.setTransportationType(transportationType.get());
+            Double distance = mapService.getDistance(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
+            tourItem.setDistance(distance);
+            distanceProperty().setValue(distance.toString());
+            Long time = mapService.getTime(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
+            tourItem.setEstimatedTime(time.intValue());
+            timeProperty().setValue(time.toString());
             tourItemService.update(tourItem);
-            MapService mapService = new MapService();
-            mapService.getRouteMatrix(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
             requestRefreshTourItemList.accept(true);
         }
     }

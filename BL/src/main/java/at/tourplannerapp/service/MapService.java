@@ -8,6 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MapService {
     private final MapQuestApi api;
@@ -22,13 +23,23 @@ public class MapService {
         api = retrofit.create(MapQuestApi.class);
     }
 
-    public void getRouteMatrix(RouteMatrixRequestBody routeMatrixRequestBody) {
+    public RouteMatrixResponse getRouteMatrix(RouteMatrixRequestBody routeMatrixRequestBody) {
         try {
             Response<RouteMatrixResponse> response = api.getRouteMatrix(apiKey, routeMatrixRequestBody).execute();
-            System.out.println(response);
+            return response.body();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Double getDistance(RouteMatrixRequestBody routeMatrixRequestBody) {
+        double[] distanceArray = getRouteMatrix(routeMatrixRequestBody).getDistance();
+        return distanceArray[distanceArray.length-1];
+    }
+
+    public Long getTime(RouteMatrixRequestBody routeMatrixRequestBody) {
+        long[] timeArray = getRouteMatrix(routeMatrixRequestBody).getTime();
+        return timeArray[timeArray.length-1];
     }
 
 }

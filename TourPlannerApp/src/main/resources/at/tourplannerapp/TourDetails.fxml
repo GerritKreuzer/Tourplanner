@@ -21,8 +21,9 @@
             <RowConstraints maxHeight="102.0" prefHeight="102.0" vgrow="NEVER" />
             <RowConstraints prefHeight="30.0" vgrow="NEVER" />
             <RowConstraints maxHeight="1.7976931348623157E308" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="305.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="305.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
             <RowConstraints prefHeight="30.0" vgrow="NEVER" />
         </rowConstraints>
         <children>
@@ -55,15 +56,19 @@
                     <Insets right="20.0" />
                 </GridPane.margin>
             </TextField>
-            <Button fx:id="saveTourButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+            <Button fx:id="saveTourButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                 <GridPane.margin>
                     <Insets right="20.0" />
                 </GridPane.margin>
             </Button>
-      <Label fx:id="invalidDetails" textFill="RED" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="invalidDetails" textFill="RED" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
       </Label>
+      <Label text="Distance" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Label fx:id="distanceLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Label text="Time" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+      <Label fx:id="timeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
         </children>
     </GridPane>

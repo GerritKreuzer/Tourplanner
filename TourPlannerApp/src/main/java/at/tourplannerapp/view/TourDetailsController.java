@@ -25,6 +25,10 @@ public class TourDetailsController {
     private TextField transportTypeTextField;
 
     @FXML
+    private Label distanceLabel;
+    @FXML
+    private Label timeLabel;
+    @FXML
     private Button saveTourButton;
 
     @FXML
@@ -47,6 +51,8 @@ public class TourDetailsController {
         toLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.toLocationProperty());
         fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
         transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportationTypeProperty());
+        distanceLabel.textProperty().bindBidirectional(tourDetailsViewModel.distanceProperty());
+        timeLabel.textProperty().bindBidirectional(tourDetailsViewModel.timeProperty());
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
         invalidDetails.textProperty().bindBidirectional(tourDetailsViewModel.invalidDetailsProperty());
 
