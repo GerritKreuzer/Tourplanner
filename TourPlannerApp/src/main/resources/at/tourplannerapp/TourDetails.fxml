@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -70,5 +71,6 @@
       <Label fx:id="distanceLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label text="Time" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Label fx:id="timeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <ImageView fx:id="tourImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
         </children>
     </GridPane>

@@ -1,12 +1,15 @@
 package at.tourplannerapp.viewmodel;
 
-import at.tourplannerapp.dto.RouteMatrixRequestBody;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.service.MapService;
 import at.tourplannerapp.service.TourItemService;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 
+import javax.swing.text.html.ImageView;
 import java.awt.image.BufferedImage;
 import java.util.function.Consumer;
 
@@ -21,6 +24,8 @@ public class TourDetailsViewModel {
     private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty time = new SimpleStringProperty();
     private final StringProperty invalidDetails = new SimpleStringProperty();
+
+    public final ObjectProperty<Image> tourImage = new SimpleObjectProperty<>();
     private static final String EMPTY_STRING = "";
     private static final String successMessageStyle = "-fx-text-fill: GREEN;";
     private static final String errorMessageStyle = "-fx-text-fill: RED;";
@@ -68,6 +73,10 @@ public class TourDetailsViewModel {
         return invalidDetails;
     }
 
+    public ObjectProperty<Image> tourImageProperty() {
+        return tourImage;
+    }
+
     private Consumer<Boolean> requestRefreshTourItemList;
     private Consumer<String> invalidDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
@@ -100,14 +109,13 @@ public class TourDetailsViewModel {
             tourItem.setToLocation(toLocation.get());
             tourItem.setFromLocation(fromLocation.get());
             tourItem.setTransportationType(transportationType.get());
-            Double distance = mapService.getDistance(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
+            Double distance = mapService.getDistance(fromLocation.get(), toLocation.get());
             tourItem.setDistance(distance);
             distanceProperty().setValue(distance.toString());
-            Long time = mapService.getTime(new RouteMatrixRequestBody(new String[]{fromLocation.get(), toLocation.get()}));
+            Long time = mapService.getTime(fromLocation.get(), toLocation.get());
             tourItem.setEstimatedTime(time.intValue());
             timeProperty().setValue(time.toString());
-            BufferedImage image = mapService.fetchAndSaveImage();
-            // TO - DO: display image
+            tourImage.set(mapService.fetchImage());
             tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
         }

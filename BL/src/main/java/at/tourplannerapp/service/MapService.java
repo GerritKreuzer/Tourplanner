@@ -1,14 +1,14 @@
 package at.tourplannerapp.service;
 
-import at.tourplannerapp.dto.RouteMatrixRequestBody;
+import javafx.scene.image.Image;
 
 import java.awt.image.BufferedImage;
 
 public interface MapService {
-    Double getDistance(RouteMatrixRequestBody routeMatrixRequestBody);
+    Double getDistance(String fromLocation, String toLocation);
 
-    Long getTime(RouteMatrixRequestBody routeMatrixRequestBody);
+    Long getTime(String fromLocation, String toLocation);
 
-    BufferedImage fetchAndSaveImage();
+    Image fetchImage();
 
 }

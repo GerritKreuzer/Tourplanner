@@ -1,8 +1,8 @@
 package at.tourplannerapp.service;
 
-import at.tourplannerapp.dto.RouteMatrixRequestBody;
-import at.tourplannerapp.dto.RouteMatrixResponse;
+import at.tourplannerapp.dto.RouteResponse;
 import at.tourplannerapp.repositories.MapQuestApi;
+import javafx.scene.image.Image;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -29,9 +29,9 @@ public class MapServiceImpl implements MapService {
         api = retrofit.create(MapQuestApi.class);
     }
 
-    public RouteMatrixResponse getRouteMatrix(RouteMatrixRequestBody routeMatrixRequestBody) {
+    public RouteResponse getRouteMatrix(String fromLocation, String toLocation) {
         try {
-            Response<RouteMatrixResponse> response = api.getRouteMatrix(apiKey, routeMatrixRequestBody).execute();
+            Response<RouteResponse> response = api.getRoute(apiKey, fromLocation, toLocation).execute();
             return response.body();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -39,26 +39,20 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public Double getDistance(RouteMatrixRequestBody routeMatrixRequestBody) {
-        double[] distanceArray = getRouteMatrix(routeMatrixRequestBody).getDistance();
-        return distanceArray[distanceArray.length-1];
+    public Double getDistance(String fromLocation, String toLocation) {
+        return getRouteMatrix(fromLocation, toLocation).getRoute().getDistance();
     }
     @Override
-    public Long getTime(RouteMatrixRequestBody routeMatrixRequestBody) {
-        long[] timeArray = getRouteMatrix(routeMatrixRequestBody).getTime();
-        return timeArray[timeArray.length-1];
+    public Long getTime(String fromLocation, String toLocation) {
+        return getRouteMatrix(fromLocation, toLocation).getRoute().getTime();
     }
 
     @Override
-    public BufferedImage fetchAndSaveImage() {
+    public Image fetchImage() {
         Call<ResponseBody> responseBodyCall = api.fetchImage(apiKey, "Boston");
         try {
             byte[] bytes = Objects.requireNonNull(responseBodyCall.execute().body()).bytes();
-            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-            BufferedImage image = ImageIO.read(bais);
-            return image;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            return new Image(new ByteArrayInputStream(bytes));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

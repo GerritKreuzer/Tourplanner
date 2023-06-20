@@ -1,7 +1,6 @@
 package at.tourplannerapp.repositories;
 
-import at.tourplannerapp.dto.RouteMatrixRequestBody;
-import at.tourplannerapp.dto.RouteMatrixResponse;
+import at.tourplannerapp.dto.RouteResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -11,8 +10,8 @@ import retrofit2.http.Query;
 
 public interface MapQuestApi {
 
-    @POST("directions/v2/routematrix")
-    Call<RouteMatrixResponse> getRouteMatrix(@Query("key") String key, @Body RouteMatrixRequestBody routeMatrixRequestBody);
+    @POST("directions/v2/route")
+    Call<RouteResponse> getRoute(@Query("key") String key, @Query("from") String fromLocation, @Query("to") String toLocation);
 
     @GET("staticmap/v5/map")
     Call<ResponseBody> fetchImage(@Query("key") String key, @Query("center") String center);
