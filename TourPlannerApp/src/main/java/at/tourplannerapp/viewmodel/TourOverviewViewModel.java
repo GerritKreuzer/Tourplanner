@@ -11,25 +11,19 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class TourOverviewViewModel {
-    public interface SelectionChangedListener {
-        void changeSelection(TourItem tourItem);
-    }
-
-    private List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<TourItem> observableTourItems = FXCollections.observableArrayList();
-
-    public ObservableList<TourItem> getObservableTours() {
-        return observableTourItems;
-    }
-
+    private final TourItemService tourItemService;
+    private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private Consumer<TourItem> tourItemToSelect;
     private Consumer<Boolean> requestRefreshTourItemList;
-
-    private final TourItemService tourItemService;
 
     public TourOverviewViewModel(TourItemService tourItemService) {
         this.tourItemService = tourItemService;
         setTours(this.tourItemService.getAll());
+    }
+
+    public ObservableList<TourItem> getObservableTours() {
+        return observableTourItems;
     }
 
     public ChangeListener<TourItem> getChangeListener() {
@@ -74,5 +68,9 @@ public class TourOverviewViewModel {
 
     public void setRequestRefreshTourItemList(Consumer<Boolean> requestRefreshTourItemList) {
         this.requestRefreshTourItemList = requestRefreshTourItemList;
+    }
+
+    public interface SelectionChangedListener {
+        void changeSelection(TourItem tourItem);
     }
 }

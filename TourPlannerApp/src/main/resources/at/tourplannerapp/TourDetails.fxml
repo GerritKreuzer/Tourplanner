@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane layoutX="1.0" layoutY="1.0" prefHeight="371.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.tourplannerapp.view.TourDetailsController">
@@ -25,6 +26,7 @@
       <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
       <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="305.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints prefHeight="30.0" vgrow="NEVER" />
         </rowConstraints>
         <children>
@@ -57,20 +59,27 @@
                     <Insets right="20.0" />
                 </GridPane.margin>
             </TextField>
-            <Button fx:id="saveTourButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+            <Button fx:id="saveTourButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
                 <GridPane.margin>
-                    <Insets right="20.0" />
+                    <Insets bottom="10.0" right="20.0" />
                 </GridPane.margin>
             </Button>
-      <Label fx:id="invalidDetails" textFill="RED" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+      <Label fx:id="validationDetails" textFill="RED" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
       </Label>
       <Label text="Distance" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Label fx:id="distanceLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label text="Time" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Label fx:id="timeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <ImageView fx:id="tourImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
+         <children>
+            <ImageView fx:id="tourImageView" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
         </children>
     </GridPane>

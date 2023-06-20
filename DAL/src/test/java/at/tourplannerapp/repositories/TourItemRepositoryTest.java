@@ -17,7 +17,7 @@ class TourItemRepositoryTest {
     @Test
     void testInsertion() {
         // given
-        var tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40, "/path", "Gabriel", "Wien", "Graz");
+        var tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40L, "test".getBytes(), "Wien", "Graz");
 
         // when
         tourItemRepository.save(tour);
@@ -33,7 +33,7 @@ class TourItemRepositoryTest {
     @Test
     void testDeleteByTourId() {
         // given
-        var tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40, "/path", "Gabriel", "Wien", "Graz");
+        var tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40L, "test".getBytes(), "Wien", "Graz");
 
         // when
         tourItemRepository.save(tour);

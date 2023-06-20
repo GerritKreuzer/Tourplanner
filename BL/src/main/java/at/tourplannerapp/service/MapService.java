@@ -1,14 +1,10 @@
 package at.tourplannerapp.service;
 
-import javafx.scene.image.Image;
-
-import java.awt.image.BufferedImage;
-
 public interface MapService {
-    Double getDistance(String fromLocation, String toLocation);
+    Double getDistance(String transportType, String fromLocation, String toLocation);
 
-    Long getTime(String fromLocation, String toLocation);
+    Long getTime(String transportType, String fromLocation, String toLocation);
 
-    Image fetchImage();
+    byte[] fetchImageAsByteArray(String fromLocation, String toLocation);
 
 }

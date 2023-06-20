@@ -1,17 +1,13 @@
 package at.tourplannerapp.service;
 
 import at.tourplannerapp.entities.TourItemEntity;
-import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.model.TourItem;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import at.tourplannerapp.repositories.TourItemRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 public class TourItemServiceImpl implements TourItemService{
-
-    private static final Logger logger = LogManager.getLogger(TourItemServiceImpl.class);
 
     private final TourItemRepository tourItemRepository;
 
@@ -47,11 +43,11 @@ public class TourItemServiceImpl implements TourItemService{
             tourItemEntity.setName(tourItem.getName());
             tourItemEntity.setDescription(tourItem.getDescription());
             tourItemEntity.setTransportationType(tourItem.getTransportationType());
-            tourItemEntity.setToLocation(tourItem.getToLocation());
+            tourItemEntity.setDistance(tourItem.getDistance());
+            tourItemEntity.setEstimatedTime(tourItem.getEstimatedTime());
+            tourItemEntity.setMap(tourItem.getMap());
             tourItemEntity.setFromLocation(tourItem.getFromLocation());
-            System.out.println(tourItemEntity.getName());
-            System.out.println(tourItemEntity.getDescription());
-            System.out.println(tourItemEntity.getTransportationType());
+            tourItemEntity.setToLocation(tourItem.getToLocation());
 
             tourItemRepository.saveAndFlush(tourItemEntity);
         });
@@ -65,8 +61,7 @@ public class TourItemServiceImpl implements TourItemService{
                 tourItemEntity.getTransportationType(),
                 tourItemEntity.getDistance(),
                 tourItemEntity.getEstimatedTime(),
-                tourItemEntity.getPathToMap(),
-                tourItemEntity.getUsername(),
+                tourItemEntity.getMap(),
                 tourItemEntity.getFromLocation(),
                 tourItemEntity.getToLocation()
             );

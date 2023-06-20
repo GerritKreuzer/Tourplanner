@@ -38,44 +38,38 @@ public class TourItemEntity {
     private Double distance;
 
     @Column(name = "estimated_time")
-    private Integer estimatedTime;
+    private Long estimatedTime;
 
-    @Column(name = "path_to_map")
-    private String pathToMap;
-
-    @Column(name = "username")
-    private String username;
+    @Column(name = "map")
+    private byte[] map;
 
     @Column(name = "from_location")
     private String fromLocation;
-
     @Column(name = "to_location")
     private String toLocation;
 
     @OneToMany(mappedBy = "tourItemEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private final List<TourLogEntity> tourLogEntities = new ArrayList<>();
 
-    public TourItemEntity(String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+    public TourItemEntity(String name, String description, String transportationType, Double distance, Long estimatedTime, byte[] map, String fromLocation, String toLocation) {
         this.name = name;
         this.description = description;
         this.transportationType = transportationType;
         this.distance = distance;
         this.estimatedTime = estimatedTime;
-        this.pathToMap = pathToMap;
-        this.username = username;
+        this.map = map;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
     }
 
-    public TourItemEntity(Integer tourId, String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+    public TourItemEntity(Integer tourId, String name, String description, String transportationType, Double distance, Long estimatedTime, byte[] map, String fromLocation, String toLocation) {
         this.tourId = tourId;
         this.name = name;
         this.description = description;
         this.transportationType = transportationType;
         this.distance = distance;
         this.estimatedTime = estimatedTime;
-        this.pathToMap = pathToMap;
-        this.username = username;
+        this.map = map;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
     }

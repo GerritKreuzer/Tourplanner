@@ -7,24 +7,22 @@ public class TourItem {
     private String description;
     private String transportationType;
     private Double distance;
-    private Integer estimatedTime;
-    private String pathToMap;
-    private String username;
+    private Long estimatedTime;
+    private byte[] map;
     private String fromLocation;
     private String toLocation;
 
     public TourItem() {
     }
 
-    public TourItem(Integer tourId, String name, String description, String transportationType, Double distance, Integer estimatedTime, String pathToMap, String username, String fromLocation, String toLocation) {
+    public TourItem(Integer tourId, String name, String description, String transportationType, Double distance, Long estimatedTime, byte[] map, String fromLocation, String toLocation) {
         this.tourId = tourId;
         this.name = name;
         this.description = description;
         this.transportationType = transportationType;
         this.distance = distance;
         this.estimatedTime = estimatedTime;
-        this.pathToMap = pathToMap;
-        this.username = username;
+        this.map = map;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
     }
@@ -69,28 +67,20 @@ public class TourItem {
         this.distance = distance;
     }
 
-    public Integer getEstimatedTime() {
+    public Long getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(Integer estimatedTime) {
+    public void setEstimatedTime(Long estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
 
-    public String getPathToMap() {
-        return pathToMap;
+    public byte[] getMap() {
+        return map;
     }
 
-    public void setPathToMap(String pathToMap) {
-        this.pathToMap = pathToMap;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMap(byte[] map) {
+        this.map = map;
     }
 
     public String getFromLocation() {

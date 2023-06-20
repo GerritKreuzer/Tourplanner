@@ -9,13 +9,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
-import javax.swing.text.html.ImageView;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
 
-    private TourItem tourItem;
+    private static final String EMPTY_STRING = "";
+    private static final String successMessageStyle = "-fx-text-fill: GREEN;";
+    private static final String errorMessageStyle = "-fx-text-fill: RED;";
+    private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    public final ObjectProperty<Image> tourImage = new SimpleObjectProperty<>();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final StringProperty fromLocation = new SimpleStringProperty();
@@ -23,18 +31,13 @@ public class TourDetailsViewModel {
     private final StringProperty transportationType = new SimpleStringProperty();
     private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty time = new SimpleStringProperty();
-    private final StringProperty invalidDetails = new SimpleStringProperty();
-
-    public final ObjectProperty<Image> tourImage = new SimpleObjectProperty<>();
-    private static final String EMPTY_STRING = "";
-    private static final String successMessageStyle = "-fx-text-fill: GREEN;";
-    private static final String errorMessageStyle = "-fx-text-fill: RED;";
-
-    private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
-
+    private final StringProperty validationDetails = new SimpleStringProperty();
     private final TourItemService tourItemService;
-
     private final MapService mapService;
+    private TourItem tourItem;
+    private Consumer<Boolean> requestRefreshTourItemList;
+    private Consumer<String> validationDetailsStyleString;
+    private Consumer<String> nameTextFieldStyleString;
 
     public TourDetailsViewModel(TourItemService tourItemService, MapService mapService) {
         this.tourItemService = tourItemService;
@@ -69,53 +72,37 @@ public class TourDetailsViewModel {
         return time;
     }
 
-    public StringProperty invalidDetailsProperty() {
-        return invalidDetails;
+    public StringProperty validationDetailsProperty() {
+        return validationDetails;
     }
 
     public ObjectProperty<Image> tourImageProperty() {
         return tourImage;
     }
 
-    private Consumer<Boolean> requestRefreshTourItemList;
-    private Consumer<String> invalidDetailsStyleString;
-    private Consumer<String> nameTextFieldStyleString;
-
     public void setTourItem(TourItem tourItem) {
         this.tourItem = tourItem;
         if (tourItem == null) {
-            name.set(EMPTY_STRING);
-            description.set(EMPTY_STRING);
-            fromLocation.set(EMPTY_STRING);
-            toLocation.set(EMPTY_STRING);
-            transportationType.set(EMPTY_STRING);
+            emptyTourProperties();
             return;
         }
-        name.setValue(tourItem.getName());
-        description.setValue(tourItem.getDescription());
-        fromLocation.setValue(tourItem.getFromLocation());
-        toLocation.setValue(tourItem.getToLocation());
-        transportationType.setValue(tourItem.getTransportationType());
-        distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
-        time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getEstimatedTime().toString());
-        invalidDetails.set(EMPTY_STRING);
+        setPropertiesToTourItemValues();
+        validationDetails.set(EMPTY_STRING);
         nameTextFieldStyleString.accept(EMPTY_STRING);
     }
 
     public void onSaveTourButtonClicked() {
         if (validInputs()) {
-            tourItem.setName(name.get());
-            tourItem.setDescription(description.get());
-            tourItem.setToLocation(toLocation.get());
-            tourItem.setFromLocation(fromLocation.get());
-            tourItem.setTransportationType(transportationType.get());
-            Double distance = mapService.getDistance(fromLocation.get(), toLocation.get());
-            tourItem.setDistance(distance);
+            Double distance = mapService.getDistance(transportationType.get(), fromLocation.get(), toLocation.get());
             distanceProperty().setValue(distance.toString());
-            Long time = mapService.getTime(fromLocation.get(), toLocation.get());
-            tourItem.setEstimatedTime(time.intValue());
+            Long time = mapService.getTime(transportationType.get(), fromLocation.get(), toLocation.get());
             timeProperty().setValue(time.toString());
-            tourImage.set(mapService.fetchImage());
+
+            byte[] imageByteArray = mapService.fetchImageAsByteArray(fromLocation.get(), toLocation.get());
+            tourImage.set(getImageFromByteArray(imageByteArray));
+
+            updateTour();
+            tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
         }
@@ -127,27 +114,72 @@ public class TourDetailsViewModel {
 
     public boolean validInputs() {
         if (tourItem == null) {
-            invalidDetails.set("Please add a tour!");
-            invalidDetailsStyleString.accept(errorMessageStyle);
+            setValidationTextAndStyles("Please add a tour!", errorMessageStyle, EMPTY_STRING);
             return false;
         }
         if (name.get() == null || name.get().isEmpty()) {
-            invalidDetails.set("The name field is required!");
-            invalidDetailsStyleString.accept(errorMessageStyle);
-            nameTextFieldStyleString.accept(errorStyle);
+            setValidationTextAndStyles("The name field is required!", errorMessageStyle, errorStyle);
             return false;
         }
-        invalidDetails.set("Save successful!");
-        invalidDetailsStyleString.accept(successMessageStyle);
-        nameTextFieldStyleString.accept(EMPTY_STRING);
+        if (name.get().length() > 64) {
+            setValidationTextAndStyles("The name field can only be 64 characters long!", errorMessageStyle, errorStyle);
+            return false;
+        }
+        setValidationTextAndStyles("Save successful!", successMessageStyle, EMPTY_STRING);
         return true;
     }
 
     public void setInvalidDetailsStyle(Consumer<String> invalidDetailsStyleString) {
-        this.invalidDetailsStyleString = invalidDetailsStyleString;
+        this.validationDetailsStyleString = invalidDetailsStyleString;
     }
 
     public void setNameTextFieldStyle(Consumer<String> nameTextFieldStyleString) {
         this.nameTextFieldStyleString = nameTextFieldStyleString;
     }
+
+    private void emptyTourProperties() {
+        name.set(EMPTY_STRING);
+        description.set(EMPTY_STRING);
+        fromLocation.set(EMPTY_STRING);
+        toLocation.set(EMPTY_STRING);
+        transportationType.set(EMPTY_STRING);
+        distance.set(EMPTY_STRING);
+        time.set(EMPTY_STRING);
+        tourImage.set(null);
+    }
+
+    private void updateTour() {
+        tourItem.setName(name.get());
+        tourItem.setDescription(description.get());
+        tourItem.setToLocation(toLocation.get());
+        tourItem.setFromLocation(fromLocation.get());
+        tourItem.setTransportationType(transportationType.get());
+        tourItem.setDistance(Double.parseDouble(distance.get()));
+        tourItem.setEstimatedTime(Long.valueOf(time.get()));
+    }
+
+    private void setPropertiesToTourItemValues() {
+        name.setValue(tourItem.getName());
+        description.setValue(tourItem.getDescription());
+        fromLocation.setValue(tourItem.getFromLocation());
+        toLocation.setValue(tourItem.getToLocation());
+        transportationType.setValue(tourItem.getTransportationType());
+        distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
+        time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getEstimatedTime().toString());
+        tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
+    }
+
+    private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {
+        validationDetails.set(invalidDetailsText);
+        validationDetailsStyleString.accept(validationDetailsStyleText);
+        nameTextFieldStyleString.accept(nameTextFieldStyleText);
+    }
+
+    private Image getImageFromByteArray(byte[] imageByteArray) {
+        if(imageByteArray == null) {
+            return null;
+        }
+        return new Image(new ByteArrayInputStream(imageByteArray));
+    }
+
 }

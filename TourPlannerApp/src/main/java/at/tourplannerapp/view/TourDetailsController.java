@@ -1,7 +1,6 @@
 package at.tourplannerapp.view;
 
 import at.tourplannerapp.viewmodel.TourDetailsViewModel;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,7 +32,7 @@ public class TourDetailsController {
     @FXML
     private Button saveTourButton;
     @FXML
-    private Label invalidDetails;
+    private Label validationDetails;
     @FXML
     private ImageView tourImageView;
 
@@ -57,11 +56,11 @@ public class TourDetailsController {
         distanceLabel.textProperty().bindBidirectional(tourDetailsViewModel.distanceProperty());
         timeLabel.textProperty().bindBidirectional(tourDetailsViewModel.timeProperty());
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
-        invalidDetails.textProperty().bindBidirectional(tourDetailsViewModel.invalidDetailsProperty());
-        tourImageView.imageProperty().bind(tourDetailsViewModel.tourImageProperty());
+        validationDetails.textProperty().bindBidirectional(tourDetailsViewModel.validationDetailsProperty());
+        tourImageView.imageProperty().bindBidirectional(tourDetailsViewModel.tourImageProperty());
 
-        tourDetailsViewModel.setInvalidDetailsStyle(invalidDetailsStyleString -> {
-            invalidDetails.setStyle(invalidDetailsStyleString);
+        tourDetailsViewModel.setInvalidDetailsStyle(validationDetailsStyleString -> {
+            validationDetails.setStyle(validationDetailsStyleString);
         });
         tourDetailsViewModel.setNameTextFieldStyle(nameTextFieldStyleString -> {
             nameTextField.setStyle(nameTextFieldStyleString);
