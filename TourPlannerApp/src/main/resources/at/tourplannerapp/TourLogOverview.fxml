@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.tourplannerapp.view.TourLogOverviewController">
-
-    <ToolBar>
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.tourplannerapp.view.TourLogOverviewController">
+    <Label fx:id="errorDetails" prefHeight="-NaN" minHeight="-NaN" style="-fx-text-fill: RED;"/>
+    <ToolBar prefWidth="248.0">
         <Label text="%TourLogOverview_TourLogs" />
-        <Pane HBox.hgrow="ALWAYS"/>
+        <Pane HBox.hgrow="ALWAYS" />
         <Button fx:id="addButton" text="+" />
-        <Button fx:id="removeButton" text="-"/>
+        <Button fx:id="removeButton" text="-" />
     </ToolBar>
-    <ListView fx:id="tourLogList" VBox.vgrow="ALWAYS"/>
+
+    <ListView fx:id="tourLogList" VBox.vgrow="ALWAYS" />
 </VBox>

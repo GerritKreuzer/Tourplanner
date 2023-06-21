@@ -2,6 +2,7 @@ package at.tourplannerapp.repositories;
 
 import at.tourplannerapp.entities.TourItemEntity;
 import at.tourplannerapp.entities.TourLogEntity;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,24 +15,29 @@ class TourLogRepositoryTest {
     @Autowired
     TourLogRepository tourLogRepository;
 
+    @Autowired
+    TourItemRepository tourItemRepository;
+
+    TourItemEntity tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40L, "test".getBytes(), "Wien", "Graz");
+
+    @BeforeEach
+    void InsertionTourItem() {
+        tourItemRepository.save(tour);
+        tourItemRepository.flush();
+    }
+
     @Test
     void testInsertion() {
         // given
-        var tourLog = new TourLogEntity();
-/*
+        TourLogEntity tourLogEntity = new TourLogEntity(tour);
+
         // when
-        tourItemRepository.save(tour);
-        tourItemRepository.flush();
-        var actualTour = tourItemRepository.findById(tour.getTourId());
+        tourLogRepository.saveAndFlush(tourLogEntity);
+        var actualTourLog = tourLogRepository.findById(tourLogEntity.getTourLogId());
 
         // then
-        assertNotNull(actualTour);
-        assertTrue(actualTour.isPresent());
-        assertEquals(tour, actualTour.get());
-         */
-
+        assertNotNull(actualTourLog);
+        assertTrue(actualTourLog.isPresent());
     }
-
-
 
 }

@@ -26,7 +26,7 @@ public class ControllerFactory {
         tourDetailsViewModel = new TourDetailsViewModel(tourItemService, mapService);
         tourLogsViewModel = new TourLogsViewModel();
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
-        mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel);
+        mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel, tourLogOverviewViewModel);
     }
 
     //

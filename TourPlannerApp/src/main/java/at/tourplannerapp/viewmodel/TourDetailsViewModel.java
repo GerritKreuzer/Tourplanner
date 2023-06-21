@@ -15,9 +15,9 @@ import java.util.function.Consumer;
 public class TourDetailsViewModel {
 
     private static final String EMPTY_STRING = "";
-    private static final String successMessageStyle = "-fx-text-fill: GREEN;";
-    private static final String errorMessageStyle = "-fx-text-fill: RED;";
-    private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    private static final String SUCCESS_MESSAGE_STYLE = "-fx-text-fill: GREEN;";
+    private static final String ERROR_MESSAGE_STYLE = "-fx-text-fill: RED;";
+    private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     public final ObjectProperty<Image> tourImage = new SimpleObjectProperty<>();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
@@ -109,18 +109,18 @@ public class TourDetailsViewModel {
 
     public boolean validInputs() {
         if (tourItem == null) {
-            setValidationTextAndStyles("Please add a tour!", errorMessageStyle, EMPTY_STRING);
+            setValidationTextAndStyles("Please add a tour!", ERROR_MESSAGE_STYLE, EMPTY_STRING);
             return false;
         }
         if (name.get() == null || name.get().isEmpty()) {
-            setValidationTextAndStyles("The name field is required!", errorMessageStyle, errorStyle);
+            setValidationTextAndStyles("The name field is required!", ERROR_MESSAGE_STYLE, ERROR_STYLE);
             return false;
         }
         if (name.get().length() > 64) {
-            setValidationTextAndStyles("The name field can only be 64 characters long!", errorMessageStyle, errorStyle);
+            setValidationTextAndStyles("The name field can only be 64 characters long!", ERROR_MESSAGE_STYLE, ERROR_STYLE);
             return false;
         }
-        setValidationTextAndStyles("Save successful!", successMessageStyle, EMPTY_STRING);
+        setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE, EMPTY_STRING);
         return true;
     }
 
