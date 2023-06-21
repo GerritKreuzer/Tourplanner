@@ -18,6 +18,9 @@ public class TourLogEntity {
     @Column(name = "id", nullable = false)
     private Integer tourLogId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "date")
     private Date date;
 
@@ -37,12 +40,7 @@ public class TourLogEntity {
     @JoinColumn(name = "tour_item_id", nullable = false, updatable = false)
     private TourItemEntity tourItemEntity;
 
-    public TourLogEntity(Integer tourLogId, Date date, String comment, Integer difficulty, Integer totalTime, Integer rating) {
-        this.tourLogId = tourLogId;
-        this.date = date;
-        this.comment = comment;
-        this.difficulty = difficulty;
-        this.totalTime = totalTime;
-        this.rating = rating;
+    public TourLogEntity(TourItemEntity tourItemEntity) {
+        this.tourItemEntity = tourItemEntity;
     }
 }

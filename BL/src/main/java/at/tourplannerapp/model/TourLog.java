@@ -12,6 +12,8 @@ public class TourLog {
 
     private Integer tourLogId;
 
+    private String name;
+
     private Date date;
 
     private String comment;
@@ -22,12 +24,18 @@ public class TourLog {
 
     private Integer rating;
 
-    public TourLog(Integer tourLogId, Date date, String comment, Integer difficulty, Integer totalTime, Integer rating) {
+    public TourLog(Integer tourLogId, String name, Date date, String comment, Integer difficulty, Integer totalTime, Integer rating) {
         this.tourLogId = tourLogId;
+        this.name = name;
         this.date = date;
         this.comment = comment;
         this.difficulty = difficulty;
         this.totalTime = totalTime;
         this.rating = rating;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

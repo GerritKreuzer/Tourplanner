@@ -1,9 +1,12 @@
 package at.tourplannerapp.service;
 
+import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
 
-public interface TourLogService {
+import java.util.List;
 
-    TourLog create();
+public interface TourLogService {
+    List<TourLog> getAll(TourItem tourItem);
+    TourLog create(TourItem tourItem);
     void delete(TourLog tourLog);
 }
