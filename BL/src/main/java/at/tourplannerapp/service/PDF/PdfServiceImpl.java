@@ -168,8 +168,8 @@ public class PdfServiceImpl implements PdfService {
 
         TourItem tourItem = new TourItem(1, "tourname", d, "bike", 5.5, 7L, byteArr, "wien", "linz");
         List<TourLog> logs = new ArrayList<>();
-        logs.add(new TourLog(3, new Date(), "comment1", 45, 65, 17));
-        logs.add(new TourLog(7, new Date(), "comment2", 76, 98, 2));
+        logs.add(new TourLog(3, "Tour 1",  new Date(), "comment1", 45, 65, 17));
+        logs.add(new TourLog(7, "Tour 2", new Date(), "comment2", 76, 98, 2));
 
         PdfServiceImpl reportService = new PdfServiceImpl();
         reportService.createReport(tourItem, logs);
