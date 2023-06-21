@@ -10,7 +10,7 @@ public interface TourItemService {
 
     TourItem create();
 
-    void delete(TourItem TourItem);
+    void delete(TourItem tourItem);
 
     void update(TourItem tourItem);
 }

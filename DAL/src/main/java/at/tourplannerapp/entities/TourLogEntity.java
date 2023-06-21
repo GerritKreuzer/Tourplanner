@@ -18,19 +18,19 @@ public class TourLogEntity {
     @Column(name = "id", nullable = false)
     private Integer tourLogId;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment")
     private String comment;
 
-    @Column(name = "difficulty", nullable = false)
+    @Column(name = "difficulty")
     private Integer difficulty;
 
-    @Column(name = "duration", nullable = false)
+    @Column(name = "duration")
     private Integer totalTime;
 
-    @Column(name = "rating", nullable = false)
+    @Column(name = "rating")
     private Integer rating;
 
     @ManyToOne(optional = false)

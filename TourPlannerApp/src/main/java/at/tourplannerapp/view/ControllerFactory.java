@@ -1,8 +1,9 @@
 package at.tourplannerapp.view;
 
+import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.repositories.TourItemRepository;
-import at.tourplannerapp.service.MapServiceImpl;
-import at.tourplannerapp.service.TourItemServiceImpl;
+import at.tourplannerapp.repositories.TourLogRepository;
+import at.tourplannerapp.service.*;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -14,12 +15,17 @@ public class ControllerFactory {
     private final TourDetailsViewModel tourDetailsViewModel;
     private final TourLogsViewModel tourLogsViewModel;
 
+    private final TourLogOverviewViewModel tourLogOverviewViewModel;
+
     public ControllerFactory(ConfigurableApplicationContext applicationContext) {
         MapServiceImpl mapService = new MapServiceImpl();
+        TourItemService tourItemService = new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class));
+        TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
         searchBarViewModel = new SearchBarViewModel();
-        tourOverviewViewModel = new TourOverviewViewModel(new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class)));
-        tourDetailsViewModel = new TourDetailsViewModel(new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class)), mapService);
+        tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
+        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, mapService);
         tourLogsViewModel = new TourLogsViewModel();
+        tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel);
     }
 
@@ -37,6 +43,8 @@ public class ControllerFactory {
             return new TourOverviewController(tourOverviewViewModel);
         }else if (controllerClass == TourLogsController.class) {
             return new TourLogsController(tourLogsViewModel);
+        }else if (controllerClass == TourLogOverviewController.class) {
+            return new TourLogOverviewController(tourLogOverviewViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }
