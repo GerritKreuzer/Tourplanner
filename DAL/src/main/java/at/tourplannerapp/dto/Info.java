@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RouteResponse {
-    private Route route;
-    private Info info;
+public class Info {
+    private int statuscode;
 }

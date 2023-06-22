@@ -159,7 +159,7 @@ public class PdfServiceImpl implements PdfService {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\Gerrit\\Pictures\\Priel\\20220625_080034.jpg"));
+        BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\gabri\\Pictures\\Aws.PNG"));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", baos);
         byte[] byteArr = baos.toByteArray();
@@ -169,7 +169,9 @@ public class PdfServiceImpl implements PdfService {
         TourItem tourItem = new TourItem(1, "tourname", d, "bike", 5.5, 7L, byteArr, "wien", "linz");
         List<TourLog> logs = new ArrayList<>();
         logs.add(new TourLog(3, "Tour 1",  new Date(), "comment1", 45, 65, 17));
-        logs.add(new TourLog(7, "Tour 2", new Date(), "comment2", 76, 98, 2));
+        for (int i = 0; i < 100; i++) {
+            logs.add(new TourLog(7, "Tour 2", new Date(), "comment2", 76, 98, 2));
+        }
 
         PdfServiceImpl reportService = new PdfServiceImpl();
         reportService.createReport(tourItem, logs);

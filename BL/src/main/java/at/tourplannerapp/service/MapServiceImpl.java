@@ -1,6 +1,8 @@
 package at.tourplannerapp.service;
 
+import at.tourplannerapp.dto.Route;
 import at.tourplannerapp.dto.RouteResponse;
+import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.repositories.MapQuestApi;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -24,22 +26,14 @@ public class MapServiceImpl implements MapService {
         api = retrofit.create(MapQuestApi.class);
     }
 
-    public RouteResponse getRoute(String transportType, String fromLocation, String toLocation) {
+    public RouteResponseModel getRoute(String transportType, String fromLocation, String toLocation) {
         try {
             Response<RouteResponse> response = api.getRoute(apiKey, distanceUnit, transportType, fromLocation, toLocation).execute();
-            return response.body();
+            Route route = response.body().getRoute();
+            return new RouteResponseModel(route.getDistance(), route.getTime());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public Double getDistance(String transportType, String fromLocation, String toLocation) {
-        return getRoute(transportType, fromLocation, toLocation).getRoute().getDistance();
-    }
-    @Override
-    public Long getTime(String transportType, String fromLocation, String toLocation) {
-        return getRoute(transportType, fromLocation, toLocation).getRoute().getTime();
     }
 
     @Override

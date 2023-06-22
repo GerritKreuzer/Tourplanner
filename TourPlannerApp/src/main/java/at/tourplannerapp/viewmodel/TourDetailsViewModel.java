@@ -1,5 +1,6 @@
 package at.tourplannerapp.viewmodel;
 
+import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.service.MapService;
 import at.tourplannerapp.service.TourItemService;
@@ -88,10 +89,9 @@ public class TourDetailsViewModel {
 
     public void onSaveTourButtonClicked() {
         if (validInputs()) {
-            Double distance = mapService.getDistance(transportationType.get(), fromLocation.get(), toLocation.get());
-            distanceProperty().setValue(distance.toString());
-            Long time = mapService.getTime(transportationType.get(), fromLocation.get(), toLocation.get());
-            timeProperty().setValue(time.toString());
+            RouteResponseModel route = mapService.getRoute(transportationType.get(), fromLocation.get(), toLocation.get());
+            distanceProperty().setValue(route.getDistance().toString());
+            timeProperty().setValue(route.getTime().toString());
 
             byte[] imageByteArray = mapService.fetchImageAsByteArray(fromLocation.get(), toLocation.get());
             tourImage.set(getImageFromByteArray(imageByteArray));

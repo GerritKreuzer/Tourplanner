@@ -1,9 +1,9 @@
 package at.tourplannerapp.service;
 
-public interface MapService {
-    Double getDistance(String transportType, String fromLocation, String toLocation);
+import at.tourplannerapp.model.RouteResponseModel;
 
-    Long getTime(String transportType, String fromLocation, String toLocation);
+public interface MapService {
+    RouteResponseModel getRoute(String transportType, String fromLocation, String toLocation);
 
     byte[] fetchImageAsByteArray(String fromLocation, String toLocation);
 
