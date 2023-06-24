@@ -12,19 +12,19 @@ public class TourLogDetailsController {
     @FXML
     private TextArea commentTextArea;
     @FXML
-    private DatePicker datePicker;
-    @FXML
-    private TimePicker timePicker;
-    @FXML
     private TextField difficultyTextField;
-    @FXML
-    private Button saveTourLogButton;
-    @FXML
-    private Label validationDetails;
     @FXML
     private TextField totalTimeTextField;
     @FXML
     private TextField ratingTextField;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private TimePicker timePicker;
+    @FXML
+    private Button saveTourLogButton;
+    @FXML
+    private Label validationDetails;
 
     private final TourLogDetailsViewModel tourLogDetailsViewModel;
 
@@ -38,5 +38,13 @@ public class TourLogDetailsController {
 
     @FXML
     void initialize() {
+        nameTextField.textProperty().bindBidirectional(tourLogDetailsViewModel.nameProperty());
+        commentTextArea.textProperty().bindBidirectional(tourLogDetailsViewModel.commentProperty());
+        difficultyTextField.textProperty().bindBidirectional(tourLogDetailsViewModel.difficultyProperty());
+        totalTimeTextField.textProperty().bindBidirectional(tourLogDetailsViewModel.totalTimeProperty());
+        ratingTextField.textProperty().bindBidirectional(tourLogDetailsViewModel.ratingProperty());
+        datePicker.valueProperty().bindBidirectional(tourLogDetailsViewModel.dateProperty());
+        timePicker.timeProperty().bindBidirectional(tourLogDetailsViewModel.timeProperty());
+        saveTourLogButton.setOnAction(event -> tourLogDetailsViewModel.onSaveTourButtonClicked());
     }
 }

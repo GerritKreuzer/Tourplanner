@@ -7,6 +7,7 @@ import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.repositories.TourLogRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TourLogServiceImpl implements TourLogService{
     private final TourLogRepository tourLogRepository;
@@ -35,6 +36,23 @@ public class TourLogServiceImpl implements TourLogService{
         return tourLogEntities.stream().map(this::castTourLogEntityToTourLog).toList();
     }
 
+    @Override
+    public void update(TourLog tourLog) {
+        Optional<TourLogEntity> tourLogEntityOptional
+                = tourLogRepository.findById(tourLog.getTourLogId());
+        tourLogEntityOptional.ifPresent(tourLogEntity -> {
+            tourLogEntity.setName(tourLog.getName());
+            tourLogEntity.setComment(tourLog.getComment());
+            tourLogEntity.setDifficulty(tourLog.getDifficulty());
+            tourLogEntity.setTotalTime(tourLog.getTotalTime());
+            tourLogEntity.setRating(tourLog.getRating());
+            tourLogEntity.setDate(tourLog.getDate());
+            tourLogEntity.setTime(tourLog.getTime());
+
+            tourLogRepository.saveAndFlush(tourLogEntity);
+        });
+    }
+
     private TourItemEntity casteTourItemToTourItemEntity(TourItem tourItem) {
         return new TourItemEntity(
                 tourItem.getTourId(),
@@ -53,6 +71,7 @@ public class TourLogServiceImpl implements TourLogService{
                 tourLogEntity.getTourLogId(),
                 tourLogEntity.getName(),
                 tourLogEntity.getDate(),
+                tourLogEntity.getTime(),
                 tourLogEntity.getComment(),
                 tourLogEntity.getDifficulty(),
                 tourLogEntity.getTotalTime(),

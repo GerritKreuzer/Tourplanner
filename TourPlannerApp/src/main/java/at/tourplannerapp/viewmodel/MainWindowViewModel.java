@@ -1,13 +1,13 @@
 package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.TourItem;
+import at.tourplannerapp.model.TourLog;
 
 public class MainWindowViewModel {
     private SearchBarViewModel searchBarViewModel;
     private TourOverviewViewModel tourOverviewViewModel;
     private TourDetailsViewModel tourDetailsViewModel;
     private TourLogOverviewViewModel tourLogOverviewViewModel;
-
     private TourLogDetailsViewModel tourLogDetailsViewModel;
 
     public MainWindowViewModel(SearchBarViewModel searchBarViewModel, TourOverviewViewModel tourOverviewViewModel, TourDetailsViewModel tourDetailsViewModel, TourLogOverviewViewModel tourLogOverviewViewModel, TourLogDetailsViewModel tourLogDetailsViewModel) {
@@ -18,6 +18,7 @@ public class MainWindowViewModel {
         this.tourLogDetailsViewModel = tourLogDetailsViewModel;
 
         this.tourOverviewViewModel.addSelectionChangedListener(this::selectTour);
+        this.tourLogOverviewViewModel.addSelectionChangedListener(this::selectTourLog);
 
         this.tourDetailsViewModel.setRequestRefreshTourItemList(shouldRefresh -> {
             if (shouldRefresh) {
@@ -29,6 +30,10 @@ public class MainWindowViewModel {
     private void selectTour(TourItem selectedTourItem) {
         tourDetailsViewModel.setTourItem(selectedTourItem);
         tourLogOverviewViewModel.setTourItem(selectedTourItem);
+    }
+
+    private void selectTourLog(TourLog selectTourLog) {
+        tourLogDetailsViewModel.setTourLog(selectTourLog);
     }
 
 }

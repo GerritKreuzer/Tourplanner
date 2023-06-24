@@ -19,7 +19,7 @@ public class TourLogOverviewViewModel {
     private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     private final ObservableList<TourLog> observableTourLogItems = FXCollections.observableArrayList();
     private final TourLogService tourLogService;
-    private final List<TourLogOverviewViewModel.SelectionChangedListener> listeners = new ArrayList<>();
+    private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final StringProperty errorDetails = new SimpleStringProperty();
     private Consumer<TourLog> tourLogToSelect;
     private Consumer<Double> errorDetailsHeight;

@@ -1,18 +1,26 @@
 package at.tourplannerapp.view;
 
 import at.tourplannerapp.viewmodel.MainWindowViewModel;
+import at.tourplannerapp.viewmodel.TourLogDetailsViewModel;
+import at.tourplannerapp.viewmodel.TourOverviewViewModel;
 import javafx.fxml.FXML;
 
 public class MainWindowController {
 
     @FXML
-    private SearchBarController searchBarController;    // injected controller of SearchBar.fxml
+    private SearchBarController searchBarController;
 
     @FXML
-    private TourOverviewController tourOverviewController;    // injected controller of MediaOverview.fxml
+    private TourOverviewController tourOverviewController;
 
     @FXML
-    private TourDetailsController tourDetailsController;    // injected controller of MediaDetails.fxml
+    private TourDetailsController tourDetailsController;
+
+    @FXML
+    private TourLogOverviewController tourLogOverviewController;
+
+    @FXML
+    private TourLogDetailsController tourLogDetailsController;
 
     @FXML
     private final MainWindowViewModel mainViewModel;
