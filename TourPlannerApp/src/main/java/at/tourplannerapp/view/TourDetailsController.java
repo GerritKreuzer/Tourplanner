@@ -12,19 +12,14 @@ public class TourDetailsController {
 
     @FXML
     private TextField nameTextField;
-
     @FXML
     private TextArea descriptionTextArea;
-
     @FXML
     private TextField fromLocationTextField;
-
     @FXML
     private TextField toLocationTextField;
-
     @FXML
     private TextField transportTypeTextField;
-
     @FXML
     private Label distanceLabel;
     @FXML
@@ -35,7 +30,6 @@ public class TourDetailsController {
     private Label validationDetails;
     @FXML
     private ImageView tourImageView;
-
     private final TourDetailsViewModel tourDetailsViewModel;
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {

@@ -1,4 +1,4 @@
 package at.tourplannerapp.viewmodel;
 
-public class TourLogsViewModel {
+public class TourLogDetailsViewModel {
 }

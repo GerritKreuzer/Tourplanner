@@ -39,6 +39,7 @@ public class MapServiceImpl implements MapService {
     @Override
     public byte[] fetchImageAsByteArray(String fromLocation, String toLocation) {
         Call<ResponseBody> responseBodyCall = api.fetchImage(apiKey, fromLocation, toLocation);
+
         try {
             Response<ResponseBody> response = responseBodyCall.execute();
             if(response.body() != null) {
@@ -49,5 +50,4 @@ public class MapServiceImpl implements MapService {
             throw new RuntimeException(e);
         }
     }
-
 }

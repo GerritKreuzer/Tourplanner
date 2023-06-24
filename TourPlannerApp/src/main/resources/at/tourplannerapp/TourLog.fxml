@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <fx:include fx:id="tourLogOverview" source="TourLogOverview.fxml" />
+    <fx:include fx:id="tourLogDetails" source="TourLogDetails.fxml" HBox.hgrow="ALWAYS" />
+</HBox>

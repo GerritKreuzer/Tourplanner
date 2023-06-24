@@ -2,14 +2,12 @@ package at.tourplannerapp.service.PDF;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.layout.Style;
-import com.itextpdf.layout.element.Image;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.AreaBreak;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 

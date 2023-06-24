@@ -18,6 +18,7 @@ import java.util.Locale;
 public class Main extends Application {
 
     private ConfigurableApplicationContext applicationContext;
+
     @Override
     public void init() throws Exception {
         SpringApplicationBuilder builder = new
@@ -37,7 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         BasicConfigurator.configure();
-        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.GERMAN, applicationContext);  // Locale.GERMANY, Locale.ENGLISH
+        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.GERMAN, applicationContext);  // Locale.GERMAN, Locale.ENGLISH
         Scene scene = new Scene(root);
         stage.setTitle("Tour Planner!");
         stage.setMaximized(true);

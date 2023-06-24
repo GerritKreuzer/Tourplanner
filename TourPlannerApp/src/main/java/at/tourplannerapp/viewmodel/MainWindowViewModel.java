@@ -8,11 +8,14 @@ public class MainWindowViewModel {
     private TourDetailsViewModel tourDetailsViewModel;
     private TourLogOverviewViewModel tourLogOverviewViewModel;
 
-    public MainWindowViewModel(SearchBarViewModel searchBarViewModel, TourOverviewViewModel tourOverviewViewModel, TourDetailsViewModel tourDetailsViewModel, TourLogOverviewViewModel tourLogOverviewViewModel) {
+    private TourLogDetailsViewModel tourLogDetailsViewModel;
+
+    public MainWindowViewModel(SearchBarViewModel searchBarViewModel, TourOverviewViewModel tourOverviewViewModel, TourDetailsViewModel tourDetailsViewModel, TourLogOverviewViewModel tourLogOverviewViewModel, TourLogDetailsViewModel tourLogDetailsViewModel) {
         this.searchBarViewModel = searchBarViewModel;
         this.tourOverviewViewModel = tourOverviewViewModel;
         this.tourDetailsViewModel = tourDetailsViewModel;
         this.tourLogOverviewViewModel = tourLogOverviewViewModel;
+        this.tourLogDetailsViewModel = tourLogDetailsViewModel;
 
         this.tourOverviewViewModel.addSelectionChangedListener(this::selectTour);
 
@@ -27,4 +30,5 @@ public class MainWindowViewModel {
         tourDetailsViewModel.setTourItem(selectedTourItem);
         tourLogOverviewViewModel.setTourItem(selectedTourItem);
     }
+
 }

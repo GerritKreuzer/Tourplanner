@@ -9,21 +9,13 @@ import java.util.Date;
 @Getter
 @Setter
 public class TourLog {
-
     private Integer tourLogId;
-
     private String name;
-
     private Date date;
-
     private String comment;
-
     private Integer difficulty;
-
     private Integer totalTime;
-
     private Integer rating;
-
     public TourLog(Integer tourLogId, String name, Date date, String comment, Integer difficulty, Integer totalTime, Integer rating) {
         this.tourLogId = tourLogId;
         this.name = name;

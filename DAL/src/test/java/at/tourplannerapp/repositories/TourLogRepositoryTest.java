@@ -40,4 +40,22 @@ class TourLogRepositoryTest {
         assertTrue(actualTourLog.isPresent());
     }
 
+    @Test
+    void testAllByTourItemEntity() {
+        // given
+        TourLogEntity tourLogEntity1 = new TourLogEntity(tour);
+        TourLogEntity tourLogEntity2 = new TourLogEntity(tour);
+        TourLogEntity tourLogEntity3 = new TourLogEntity(tour);
+
+        // when
+        tourLogRepository.saveAndFlush(tourLogEntity1);
+        tourLogRepository.saveAndFlush(tourLogEntity2);
+        tourLogRepository.saveAndFlush(tourLogEntity3);
+        var tourLogList = tourLogRepository.findAllByTourItemEntity(tour);
+
+        // then
+        assertNotNull(tourLogList);
+        assertEquals(3, tourLogList.size());
+    }
+
 }

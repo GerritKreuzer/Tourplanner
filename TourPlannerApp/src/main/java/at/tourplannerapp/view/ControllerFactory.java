@@ -1,6 +1,5 @@
 package at.tourplannerapp.view;
 
-import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.repositories.TourLogRepository;
 import at.tourplannerapp.service.*;
@@ -13,8 +12,7 @@ public class ControllerFactory {
     private final SearchBarViewModel searchBarViewModel;
     private final TourOverviewViewModel tourOverviewViewModel;
     private final TourDetailsViewModel tourDetailsViewModel;
-    private final TourLogsViewModel tourLogsViewModel;
-
+    private final TourLogDetailsViewModel tourLogDetailsViewModel;
     private final TourLogOverviewViewModel tourLogOverviewViewModel;
 
     public ControllerFactory(ConfigurableApplicationContext applicationContext) {
@@ -24,9 +22,9 @@ public class ControllerFactory {
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
         tourDetailsViewModel = new TourDetailsViewModel(tourItemService, mapService);
-        tourLogsViewModel = new TourLogsViewModel();
+        tourLogDetailsViewModel = new TourLogDetailsViewModel();
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
-        mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel, tourLogOverviewViewModel);
+        mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel, tourLogOverviewViewModel, tourLogDetailsViewModel);
     }
 
     //
@@ -41,8 +39,8 @@ public class ControllerFactory {
             return new TourDetailsController(tourDetailsViewModel);
         } else if (controllerClass == TourOverviewController.class) {
             return new TourOverviewController(tourOverviewViewModel);
-        }else if (controllerClass == TourLogsController.class) {
-            return new TourLogsController(tourLogsViewModel);
+        }else if (controllerClass == TourLogDetailsController.class) {
+            return new TourLogDetailsController(tourLogDetailsViewModel);
         }else if (controllerClass == TourLogOverviewController.class) {
             return new TourLogOverviewController(tourLogOverviewViewModel);
         }
