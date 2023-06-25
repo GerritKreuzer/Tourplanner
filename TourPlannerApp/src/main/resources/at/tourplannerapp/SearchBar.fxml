@@ -8,6 +8,6 @@
       fx:controller="at.tourplannerapp.view.SearchBarController"
       prefHeight="400.0" prefWidth="600.0">
 
-    <TextField fx:id="searchText" promptText="%SearchBar_Search" HBox.hgrow="ALWAYS"/>
+    <TextField fx:id="searchTextField" promptText="%SearchBar_Search" HBox.hgrow="ALWAYS"/>
     <Button fx:id="searchButton" text="%SearchBar_Search"/>
 </HBox>

@@ -29,6 +29,10 @@ public class TourDetailsController {
     @FXML
     private Label validationDetails;
     @FXML
+    private Label popularityLabel;
+    @FXML
+    private Label childFriendlinessLabel;
+    @FXML
     private ImageView tourImageView;
     private final TourDetailsViewModel tourDetailsViewModel;
 
@@ -52,6 +56,8 @@ public class TourDetailsController {
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
         validationDetails.textProperty().bindBidirectional(tourDetailsViewModel.validationDetailsProperty());
         tourImageView.imageProperty().bindBidirectional(tourDetailsViewModel.tourImageProperty());
+        popularityLabel.textProperty().bindBidirectional(tourDetailsViewModel.popularityProperty());
+        childFriendlinessLabel.textProperty().bindBidirectional(tourDetailsViewModel.childFriendlinessProperty());
 
         tourDetailsViewModel.setInvalidDetailsStyle(validationDetailsStyleString -> {
             validationDetails.setStyle(validationDetailsStyleString);
@@ -59,6 +65,6 @@ public class TourDetailsController {
         tourDetailsViewModel.setNameTextFieldStyle(nameTextFieldStyleString -> {
             nameTextField.setStyle(nameTextFieldStyleString);
         });
-
+        saveTourButton.toFront();
     }
 }

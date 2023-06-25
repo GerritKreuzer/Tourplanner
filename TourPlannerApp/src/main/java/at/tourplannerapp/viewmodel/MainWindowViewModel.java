@@ -36,4 +36,5 @@ public class MainWindowViewModel {
         tourLogDetailsViewModel.setTourLog(selectTourLog);
     }
 
+
 }
