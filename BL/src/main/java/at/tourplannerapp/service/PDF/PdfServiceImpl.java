@@ -155,11 +155,11 @@ public class PdfServiceImpl implements PdfService {
         for (TourLog log: tourLogs) {
             nanoSum += log.getTotalTime().toNanoOfDay();
         }
-        return LocalTime.ofNanoOfDay(nanoSum / (1+tourLogs.size())).format(DateTimeFormatter.ofPattern("HH:mm"));
+        return LocalTime.ofNanoOfDay(nanoSum / (tourLogs.size())).format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public static void main(String[] args) throws IOException {
-
+/*
         BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\gabri\\Pictures\\Aws.PNG"));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", baos);
@@ -177,5 +177,7 @@ public class PdfServiceImpl implements PdfService {
         PdfServiceImpl reportService = new PdfServiceImpl();
         reportService.createReport(tourItem, logs);
         reportService.createSummary(tourItem, logs);
+
+ */
     }
 }

@@ -21,7 +21,7 @@ public class ControllerFactory {
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
-        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, mapService);
+        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService);
         tourLogDetailsViewModel = new TourLogDetailsViewModel(tourLogService);
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel, tourLogOverviewViewModel, tourLogDetailsViewModel);

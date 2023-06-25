@@ -2,8 +2,10 @@ package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.model.TourItem;
+import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.service.MapService;
 import at.tourplannerapp.service.TourItemService;
+import at.tourplannerapp.service.TourLogService;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +13,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
@@ -31,14 +34,16 @@ public class TourDetailsViewModel {
     private final StringProperty childFriendliness = new SimpleStringProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final TourItemService tourItemService;
+    private final TourLogService tourLogService;
     private final MapService mapService;
     private TourItem tourItem;
     private Consumer<Boolean> requestRefreshTourItemList;
     private Consumer<String> validationDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
 
-    public TourDetailsViewModel(TourItemService tourItemService, MapService mapService) {
+    public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService) {
         this.tourItemService = tourItemService;
+        this.tourLogService = tourLogService;
         this.mapService = mapService;
     }
 
@@ -105,6 +110,7 @@ public class TourDetailsViewModel {
             tourImage.set(getImageFromByteArray(imageByteArray));
 
             updateTour();
+            setCalculatedProperties();
             tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
@@ -171,9 +177,67 @@ public class TourDetailsViewModel {
         transportationType.setValue(tourItem.getTransportationType());
         distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
         time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getEstimatedTime().toString());
-        //popularity.setValue();
-        //childFriendliness.setValue();
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
+        setCalculatedProperties();
+    }
+
+    public void setCalculatedProperties() {
+        List<TourLog> tourLogs = tourLogService.getAll(tourItem);
+        popularity.setValue(String.valueOf(tourLogs.size()));
+        childFriendliness.setValue(String.valueOf(calculateChildFriendliness(tourItem, tourLogs)));
+    }
+
+    private Integer calculateChildFriendliness(TourItem tourItem, List<TourLog> tourLogs) {
+        double childFriendliness = 0.0;
+        childFriendliness += getDistanceFriendliness(tourItem.getDistance());
+        childFriendliness += getTotalTimesFriendliness(tourLogs);
+        childFriendliness += getDifficultyFriendliness(tourLogs);
+        return (int)Math.round(childFriendliness / 3.0);
+    }
+
+    private Integer getDistanceFriendliness(Double distance) {
+        if(distance == null || distance == 0) {
+            return 0;
+        }
+
+        int intDistance = (int)Math.round(distance);
+        if(intDistance > 100) {
+            return 0;
+        } else {
+            return (10 - (int)Math.round(intDistance/10.0));
+        }
+    }
+
+    private Integer getTotalTimesFriendliness(List<TourLog> tourLogs) {
+        long secSum = 0;
+        if(tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        for (TourLog log: tourLogs) {
+            if(log.getTotalTime() == null) {
+                continue;
+            }
+            secSum += log.getTotalTime().toSecondOfDay();
+        }
+        if(secSum == 0) return 0;
+        return (10 - (int)Math.round(secSum / (3600 * 2.4)));
+    }
+
+    private Integer getDifficultyFriendliness(List<TourLog> tourLogs) {
+        long difficulty = 0;
+        if(tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        for (TourLog log: tourLogs) {
+            if(log.getDifficulty() == null) {
+                continue;
+            }
+            difficulty += log.getDifficulty();
+        }
+        if(difficulty == 0) return 0;
+        return (10 - Math.toIntExact(difficulty / tourLogs.size()));
     }
 
     private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {

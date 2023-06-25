@@ -66,5 +66,6 @@ public class TourDetailsController {
             nameTextField.setStyle(nameTextFieldStyleString);
         });
         saveTourButton.toFront();
+        validationDetails.toFront();
     }
 }

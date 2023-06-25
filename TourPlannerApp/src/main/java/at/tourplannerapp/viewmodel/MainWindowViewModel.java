@@ -25,6 +25,18 @@ public class MainWindowViewModel {
                 this.tourOverviewViewModel.updateTourItemList();
             }
         });
+
+        this.tourLogOverviewViewModel.updateCalculatedAttributes(updateCalculatedAttributes -> {
+            if(updateCalculatedAttributes) {
+                this.tourDetailsViewModel.setCalculatedProperties();
+            }
+        });
+
+        this.tourLogDetailsViewModel.updateCalculatedAttributes(updateCalculatedAttributes -> {
+            if(updateCalculatedAttributes) {
+                this.tourDetailsViewModel.setCalculatedProperties();
+            }
+        });
     }
 
     private void selectTour(TourItem selectedTourItem) {

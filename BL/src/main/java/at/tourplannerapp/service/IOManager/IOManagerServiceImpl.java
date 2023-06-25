@@ -63,6 +63,7 @@ public class IOManagerServiceImpl implements IOManagerService{
 
 
     public static void main(String[] args) throws IOException {
+        /*
         BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\Gerrit\\Pictures\\polybird.png"));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", baos);
@@ -84,5 +85,7 @@ public class IOManagerServiceImpl implements IOManagerService{
 
         TourItemSerializable item2 = ioManager.importTour(tourItem.getName() + ".json");
         System.out.println(item2.getTourItem().getName());
+
+         */
     }
 }

@@ -1,7 +1,9 @@
 package at.tourplannerapp.service;
 
 import at.tourplannerapp.entities.TourItemEntity;
+import at.tourplannerapp.entities.TourLogEntity;
 import at.tourplannerapp.model.TourItem;
+import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.repositories.TourItemRepository;
 
 import java.util.List;
