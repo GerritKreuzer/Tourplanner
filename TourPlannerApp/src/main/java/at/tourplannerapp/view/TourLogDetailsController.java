@@ -48,5 +48,11 @@ public class TourLogDetailsController {
         validationDetails.textProperty().bindBidirectional(tourLogDetailsViewModel.validationDetailsProperty());
 
         saveTourLogButton.setOnAction(event -> tourLogDetailsViewModel.onSaveTourButtonClicked());
+        tourLogDetailsViewModel.setInvalidDetailsStyle(validationDetailsStyleString -> {
+            validationDetails.setStyle(validationDetailsStyleString);
+        });
+        tourLogDetailsViewModel.setNameTextFieldStyle(nameTextFieldStyleString -> {
+            nameTextField.setStyle(nameTextFieldStyleString);
+        });
     }
 }

@@ -1,8 +1,6 @@
 package at.tourplannerapp.view;
 
 import at.tourplannerapp.viewmodel.MainWindowViewModel;
-import at.tourplannerapp.viewmodel.TourLogDetailsViewModel;
-import at.tourplannerapp.viewmodel.TourOverviewViewModel;
 import javafx.fxml.FXML;
 
 public class MainWindowController {

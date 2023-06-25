@@ -6,10 +6,14 @@ import javafx.beans.property.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.function.Consumer;
 
 public class TourLogDetailsViewModel {
 
     private static final String EMPTY_STRING = "";
+    private static final String ERROR_MESSAGE_STYLE = "-fx-text-fill: RED;";
+    private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    private static final String SUCCESS_MESSAGE_STYLE = "-fx-text-fill: GREEN;";
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty comment = new SimpleStringProperty();
     private final IntegerProperty difficulty = new SimpleIntegerProperty();
@@ -42,6 +46,8 @@ public class TourLogDetailsViewModel {
         return date;
     }
     public ObjectProperty<LocalTime> timeProperty() { return time; }
+    private Consumer<String> validationDetailsStyleString;
+    private Consumer<String> nameTextFieldStyleString;
 
     public TourLogDetailsViewModel(TourLogService tourLogService) {
         this.tourLogService = tourLogService;
@@ -57,8 +63,31 @@ public class TourLogDetailsViewModel {
     }
 
     public void onSaveTourButtonClicked() {
-        updateTourLog();
-        tourLogService.update(tourLog);
+        if (validInputs()) {
+            updateTourLog();
+            tourLogService.update(tourLog);
+        }
+    }
+
+    public void setInvalidDetailsStyle(Consumer<String> invalidDetailsStyleString) {
+        this.validationDetailsStyleString = invalidDetailsStyleString;
+    }
+
+    public void setNameTextFieldStyle(Consumer<String> nameTextFieldStyleString) {
+        this.nameTextFieldStyleString = nameTextFieldStyleString;
+    }
+
+    private boolean validInputs() {
+        if (tourLog == null) {
+            setValidationTextAndStyles("Please select a tour log!", ERROR_MESSAGE_STYLE, EMPTY_STRING);
+            return false;
+        }
+        if (name.get() == null || name.get().isEmpty()) {
+            setValidationTextAndStyles("The name field is required!", ERROR_MESSAGE_STYLE, ERROR_STYLE);
+            return false;
+        }
+        setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE, EMPTY_STRING);
+        return true;
     }
 
     private void emptyTourLogProperties() {
@@ -89,6 +118,12 @@ public class TourLogDetailsViewModel {
         tourLog.setRating(rating.get());
         tourLog.setDate(date.get());
         tourLog.setTime(time.getValue());
+    }
+
+    private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {
+        validationDetails.set(invalidDetailsText);
+        validationDetailsStyleString.accept(validationDetailsStyleText);
+        nameTextFieldStyleString.accept(nameTextFieldStyleText);
     }
 
 }
