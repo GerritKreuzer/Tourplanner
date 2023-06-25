@@ -14,12 +14,12 @@ public class TourLog {
     private String name;
     private String comment;
     private Integer difficulty;
-    private Integer totalTime;
+    private LocalTime totalTime;
     private Integer rating;
     private LocalDate date;
     private LocalTime time;
 
-    public TourLog(Integer tourLogId, String name, LocalDate date, LocalTime time, String comment, Integer difficulty, Integer totalTime, Integer rating) {
+    public TourLog(Integer tourLogId, String name, LocalDate date, LocalTime time, String comment, Integer difficulty, LocalTime totalTime, Integer rating) {
         this.tourLogId = tourLogId;
         this.name = name;
         this.comment = comment;

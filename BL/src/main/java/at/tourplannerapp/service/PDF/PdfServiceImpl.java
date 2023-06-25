@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,10 +68,10 @@ public class PdfServiceImpl implements PdfService {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             for (TourLog tourLog : tourLogs) {
-                tourLogTable.addCell(dateFormat.format(tourLog.getDate()))
+                tourLogTable.addCell((tourLog.getDate().toString()))
                             .addCell(tourLog.getComment())
                             .addCell(tourLog.getDifficulty().toString())
-                            .addCell(tourLog.getTotalTime().toString())
+                            .addCell(tourLog.getTotalTime().format(DateTimeFormatter.ofPattern("HH:mm")))
                             .addCell(tourLog.getRating().toString());
             }
 
@@ -150,11 +151,11 @@ public class PdfServiceImpl implements PdfService {
     }
 
     private String getAverageTime(List<TourLog> tourLogs) {
-        float sum = 0;
-        for(TourLog log: tourLogs){
-            sum += log.getTotalTime();
+        long nanoSum = 0;
+        for (TourLog log: tourLogs) {
+            nanoSum += log.getTotalTime().toNanoOfDay();
         }
-        return String.format("%.2f", sum/tourLogs.size());
+        return LocalTime.ofNanoOfDay(nanoSum / (1+tourLogs.size())).format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public static void main(String[] args) throws IOException {
@@ -168,9 +169,9 @@ public class PdfServiceImpl implements PdfService {
 
         TourItem tourItem = new TourItem(1, "tourname", d, "bike", 5.5, 7L, byteArr, "wien", "linz");
         List<TourLog> logs = new ArrayList<>();
-        logs.add(new TourLog(3, "Tour 1",  LocalDate.of(2020, 1, 8), LocalTime.now(), "comment1", 45, 65, 17));
+        logs.add(new TourLog(3, "Tour 1",  LocalDate.of(2020, 1, 8), LocalTime.now(), "comment1", 45, LocalTime.now(), 17));
         for (int i = 0; i < 100; i++) {
-            logs.add(new TourLog(7, "Tour 2",LocalDate.of(2020, 1, 8), LocalTime.now(), "comment2", 76, 98, 2));
+            logs.add(new TourLog(7, "Tour 2",LocalDate.of(2020, 1, 8), LocalTime.now(), "comment2", 76, LocalTime.now(), 2));
         }
 
         PdfServiceImpl reportService = new PdfServiceImpl();

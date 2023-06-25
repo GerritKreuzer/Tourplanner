@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -36,7 +35,7 @@ public class TourLogEntity {
     private Integer difficulty;
 
     @Column(name = "duration")
-    private Integer totalTime;
+    private LocalTime totalTime;
 
     @Column(name = "rating")
     private Integer rating;

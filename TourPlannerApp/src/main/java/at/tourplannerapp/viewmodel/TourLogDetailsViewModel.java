@@ -2,23 +2,20 @@ package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.service.TourLogService;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Objects;
 
 public class TourLogDetailsViewModel {
 
     private static final String EMPTY_STRING = "";
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty comment = new SimpleStringProperty();
-    private final StringProperty difficulty = new SimpleStringProperty();
-    private final StringProperty totalTime = new SimpleStringProperty();
-    private final StringProperty rating = new SimpleStringProperty();
+    private final IntegerProperty difficulty = new SimpleIntegerProperty();
+    private final ObjectProperty<LocalTime> totalTime = new SimpleObjectProperty();
+    private final IntegerProperty rating = new SimpleIntegerProperty();
+    private final StringProperty validationDetails = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalTime> time = new SimpleObjectProperty<>();
     private TourLog tourLog;
@@ -29,14 +26,17 @@ public class TourLogDetailsViewModel {
     public StringProperty commentProperty() {
         return comment;
     }
-    public StringProperty difficultyProperty() {
+    public IntegerProperty difficultyProperty() {
         return difficulty;
     }
-    public StringProperty totalTimeProperty() {
+    public ObjectProperty<LocalTime> totalTimeProperty() {
         return totalTime;
     }
-    public StringProperty ratingProperty() {
+    public IntegerProperty ratingProperty() {
         return rating;
+    }
+    public StringProperty validationDetailsProperty() {
+        return validationDetails;
     }
     public ObjectProperty<LocalDate> dateProperty() {
         return date;
@@ -64,9 +64,9 @@ public class TourLogDetailsViewModel {
     private void emptyTourLogProperties() {
         name.set(EMPTY_STRING);
         comment.set(EMPTY_STRING);
-        difficulty.set(EMPTY_STRING);
-        totalTime.set(EMPTY_STRING);
-        rating.set(EMPTY_STRING);
+        difficulty.set(1);
+        totalTime.set(null);
+        rating.set(1);
         date.set(null);
         time.set(null);
     }
@@ -74,9 +74,9 @@ public class TourLogDetailsViewModel {
     private void setPropertiesToTourLogValues() {
         name.setValue(tourLog.getName());
         comment.setValue(tourLog.getComment());
-        difficulty.setValue(tourLog.getDifficulty() == null ? "" : tourLog.getDifficulty().toString());
-        totalTime.setValue(tourLog.getTotalTime() == null ? "" : tourLog.getTotalTime().toString());
-        rating.setValue(tourLog.getRating() == null ? "" : tourLog.getRating().toString());
+        difficulty.setValue(tourLog.getDifficulty());
+        totalTime.setValue(tourLog.getTotalTime());
+        rating.setValue(tourLog.getRating());
         date.setValue(tourLog.getDate());
         time.setValue(tourLog.getTime());
     }
@@ -84,9 +84,9 @@ public class TourLogDetailsViewModel {
     private void updateTourLog() {
         tourLog.setName(name.get());
         tourLog.setComment(comment.get());
-        tourLog.setDifficulty(Objects.equals(difficulty.get(), "") ? null : Integer.valueOf(difficulty.get()));
-        tourLog.setTotalTime(Objects.equals(totalTime.get(), "") ? null : Integer.valueOf(totalTime.get()));
-        tourLog.setRating(Objects.equals(rating.get(), "") ? null : Integer.valueOf(rating.get()));
+        tourLog.setDifficulty(difficulty.get());
+        tourLog.setTotalTime(totalTime.get());
+        tourLog.setRating(rating.get());
         tourLog.setDate(date.get());
         tourLog.setTime(time.getValue());
     }
