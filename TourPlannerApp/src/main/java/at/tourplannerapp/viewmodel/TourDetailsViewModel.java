@@ -27,6 +27,8 @@ public class TourDetailsViewModel {
     private final StringProperty transportationType = new SimpleStringProperty();
     private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty time = new SimpleStringProperty();
+    private final StringProperty popularity = new SimpleStringProperty();
+    private final StringProperty childFriendliness = new SimpleStringProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final TourItemService tourItemService;
     private final MapService mapService;
@@ -71,6 +73,12 @@ public class TourDetailsViewModel {
     public StringProperty validationDetailsProperty() {
         return validationDetails;
     }
+    public StringProperty popularityProperty() {
+        return popularity;
+    }
+    public StringProperty childFriendlinessProperty() {
+        return childFriendliness;
+    }
 
     public ObjectProperty<Image> tourImageProperty() {
         return tourImage;
@@ -109,7 +117,7 @@ public class TourDetailsViewModel {
 
     public boolean validInputs() {
         if (tourItem == null) {
-            setValidationTextAndStyles("Please add a tour!", ERROR_MESSAGE_STYLE, EMPTY_STRING);
+            setValidationTextAndStyles("Please select a tour!", ERROR_MESSAGE_STYLE, EMPTY_STRING);
             return false;
         }
         if (name.get() == null || name.get().isEmpty()) {
@@ -140,6 +148,8 @@ public class TourDetailsViewModel {
         transportationType.set(EMPTY_STRING);
         distance.set(EMPTY_STRING);
         time.set(EMPTY_STRING);
+        popularity.set(EMPTY_STRING);
+        childFriendliness.set(EMPTY_STRING);
         tourImage.set(null);
     }
 
@@ -161,6 +171,8 @@ public class TourDetailsViewModel {
         transportationType.setValue(tourItem.getTransportationType());
         distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
         time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getEstimatedTime().toString());
+        //popularity.setValue();
+        //childFriendliness.setValue();
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
     }
 

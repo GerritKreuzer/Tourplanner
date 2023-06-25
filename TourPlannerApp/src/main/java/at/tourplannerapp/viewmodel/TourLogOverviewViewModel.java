@@ -83,7 +83,9 @@ public class TourLogOverviewViewModel {
 
     public void setTourItem(TourItem tourItem) {
         this.tourItem = tourItem;
-        setTourLogs(tourLogService.getAll(tourItem));
+        if (tourItem != null) {
+            setTourLogs(tourLogService.getAll(tourItem));
+        }
     }
 
     public void setErrorDetailsStyle(Consumer<Double> errorDetailsHeight) {

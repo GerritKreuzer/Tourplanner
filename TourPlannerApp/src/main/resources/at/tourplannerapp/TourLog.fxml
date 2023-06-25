@@ -3,6 +3,6 @@
 <?import javafx.scene.layout.HBox?>
 
 <HBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-    <fx:include fx:id="tourLogOverview" source="TourLogOverview.fxml" />
-    <fx:include fx:id="tourLogDetails" source="TourLogDetails.fxml" HBox.hgrow="ALWAYS" />
+    <fx:include fx:id="tourLogOverview" source="TourLogOverview.fxml" minWidth="100.0" prefWidth="200.0" />
+    <fx:include fx:id="tourLogDetails" source="TourLogDetails.fxml"/>
 </HBox>
