@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.awt.event.ActionEvent;
+
 public class SearchBarController {
     @FXML
     public Button searchButton;
@@ -24,6 +26,11 @@ public class SearchBarController {
 
     @FXML
     void initialize() {
+        searchTextField.textProperty().bindBidirectional( searchBarViewModel.searchStringProperty() );
+        searchButton.disableProperty().bind( searchBarViewModel.searchDisabledBinding() );
     }
 
+    public void onSearchButton(ActionEvent actionEvent) {
+        searchBarViewModel.doSearch();
+    }
 }

@@ -1,6 +1,7 @@
 package at.tourplannerapp.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +15,15 @@ public class TourLog {
     private String name;
     private String comment;
     private Integer difficulty;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH/mm")
     private LocalTime totalTime;
     private Integer rating;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH/mm")
     private LocalTime time;
+
+    public TourLog(){}
 
     public TourLog(Integer tourLogId, String name, LocalDate date, LocalTime time, String comment, Integer difficulty, LocalTime totalTime, Integer rating) {
         this.tourLogId = tourLogId;
