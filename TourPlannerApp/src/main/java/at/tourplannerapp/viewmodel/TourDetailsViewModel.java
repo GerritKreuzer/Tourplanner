@@ -6,10 +6,7 @@ import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.service.MapService;
 import at.tourplannerapp.service.TourItemService;
 import at.tourplannerapp.service.TourLogService;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
@@ -32,7 +29,7 @@ public class TourDetailsViewModel {
     private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty time = new SimpleStringProperty();
     private final StringProperty popularity = new SimpleStringProperty();
-    private final StringProperty childFriendliness = new SimpleStringProperty();
+    private final IntegerProperty childFriendliness = new SimpleIntegerProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final TourItemService tourItemService;
     private final TourLogService tourLogService;
@@ -82,7 +79,7 @@ public class TourDetailsViewModel {
     public StringProperty popularityProperty() {
         return popularity;
     }
-    public StringProperty childFriendlinessProperty() {
+    public IntegerProperty childFriendlinessProperty() {
         return childFriendliness;
     }
 
@@ -156,7 +153,7 @@ public class TourDetailsViewModel {
         distance.set(EMPTY_STRING);
         time.set(EMPTY_STRING);
         popularity.set(EMPTY_STRING);
-        childFriendliness.set(EMPTY_STRING);
+        childFriendliness.set(1);
         tourImage.set(null);
     }
 
@@ -185,7 +182,7 @@ public class TourDetailsViewModel {
     public void setCalculatedProperties() {
         List<TourLog> tourLogs = tourLogService.getAll(tourItem);
         popularity.setValue(String.valueOf(tourLogs.size()));
-        childFriendliness.setValue(String.valueOf(calculateChildFriendliness(tourItem, tourLogs)));
+        childFriendliness.setValue(calculateChildFriendliness(tourItem, tourLogs));
     }
 
     private Integer calculateChildFriendliness(TourItem tourItem, List<TourLog> tourLogs) {

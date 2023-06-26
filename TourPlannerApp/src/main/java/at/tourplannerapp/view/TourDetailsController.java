@@ -2,10 +2,7 @@ package at.tourplannerapp.view;
 
 import at.tourplannerapp.viewmodel.TourDetailsViewModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
 public class TourDetailsController {
@@ -31,7 +28,7 @@ public class TourDetailsController {
     @FXML
     private Label popularityLabel;
     @FXML
-    private Label childFriendlinessLabel;
+    private Slider childFriendlinessSlider;
     @FXML
     private ImageView tourImageView;
     private final TourDetailsViewModel tourDetailsViewModel;
@@ -57,7 +54,7 @@ public class TourDetailsController {
         validationDetails.textProperty().bindBidirectional(tourDetailsViewModel.validationDetailsProperty());
         tourImageView.imageProperty().bindBidirectional(tourDetailsViewModel.tourImageProperty());
         popularityLabel.textProperty().bindBidirectional(tourDetailsViewModel.popularityProperty());
-        childFriendlinessLabel.textProperty().bindBidirectional(tourDetailsViewModel.childFriendlinessProperty());
+        childFriendlinessSlider.valueProperty().bindBidirectional(tourDetailsViewModel.childFriendlinessProperty());
 
         tourDetailsViewModel.setInvalidDetailsStyle(validationDetailsStyleString -> {
             validationDetails.setStyle(validationDetailsStyleString);
