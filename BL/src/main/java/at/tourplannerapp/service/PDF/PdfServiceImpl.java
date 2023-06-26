@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 public class PdfServiceImpl implements PdfService {
 
@@ -67,7 +68,7 @@ public class PdfServiceImpl implements PdfService {
             tourItemTable.addCell("Distance");
             tourItemTable.addCell(tourItem.getDistance().toString());
             tourItemTable.addCell("Estimated Time");
-            tourItemTable.addCell(tourItem.getEstimatedTime().toString());
+            tourItemTable.addCell(tourItem.getFormattedStringForEstimatedTime());
             tourItemTable.addCell("Start");
             tourItemTable.addCell(tourItem.getFromLocation());
             tourItemTable.addCell("End");
@@ -114,35 +115,37 @@ public class PdfServiceImpl implements PdfService {
         }
     }
 
-    public void createSummary(TourItem tourItem, List<TourLog> tourLogs) {
+    public void createSummary(Map<TourItem, List<TourLog>> tourMap) {
 
         try {
-            PdfDocument pdf = new PdfDocument(new PdfWriter(tourItem.getName() + "-Summary.pdf"));
+            PdfDocument pdf = new PdfDocument(new PdfWriter("Summary.pdf"));
             Document document = new Document(pdf, PageSize.A4);
 
-            // Create a title paragraph for the TourItem
-            Paragraph titleParagraph = new Paragraph(tourItem.getName() + "-Summary")
-                    .setFontSize(18)
-                    .setBold()
-                    .setMarginBottom(20);
+            tourMap.forEach((tourItem, tourLogs) -> {
+                // Create a title paragraph for the TourItem
+                Paragraph titleParagraph = new Paragraph(tourItem.getName() + "-Summary")
+                        .setFontSize(18)
+                        .setBold()
+                        .setMarginBottom(20);
 
-            Paragraph subParagraph = new Paragraph("Average Values of all Tourlogs")
-                    .setFontSize(14)
-                    .setBold();
+                Paragraph subParagraph = new Paragraph("Average Values of all Tourlogs")
+                        .setFontSize(14)
+                        .setBold();
 
-            // Create a table for the TourItem information
-            Table tourItemTable = new Table(2);
+                // Create a table for the TourItem information
+                Table tourItemTable = new Table(2);
 
-            tourItemTable.addCell("Time");
-            tourItemTable.addCell(getAverageTime(tourLogs));
-            tourItemTable.addCell("Difficulty");
-            tourItemTable.addCell(getAverageDifficulty(tourLogs));
-            tourItemTable.addCell("Rating");
-            tourItemTable.addCell(getAverageRating(tourLogs));
+                tourItemTable.addCell("Time");
+                tourItemTable.addCell(getAverageTime(tourLogs));
+                tourItemTable.addCell("Difficulty");
+                tourItemTable.addCell(getAverageDifficulty(tourLogs));
+                tourItemTable.addCell("Rating");
+                tourItemTable.addCell(getAverageRating(tourLogs));
 
-            document.add(titleParagraph);
-            document.add(subParagraph);
-            document.add(tourItemTable);
+                document.add(titleParagraph);
+                document.add(subParagraph);
+                document.add(tourItemTable);
+            });
 
             document.close();
 

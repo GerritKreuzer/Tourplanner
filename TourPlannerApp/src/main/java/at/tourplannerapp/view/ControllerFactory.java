@@ -3,6 +3,8 @@ package at.tourplannerapp.view;
 import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.repositories.TourLogRepository;
 import at.tourplannerapp.service.*;
+import at.tourplannerapp.service.PDF.PdfService;
+import at.tourplannerapp.service.PDF.PdfServiceImpl;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -20,12 +22,14 @@ public class ControllerFactory {
         MapServiceImpl mapService = new MapServiceImpl();
         TourItemService tourItemService = new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class));
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
+        PdfService pdfService = new PdfServiceImpl();
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
         tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService);
         tourLogDetailsViewModel = new TourLogDetailsViewModel(tourLogService);
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
-        mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel, tourLogOverviewViewModel, tourLogDetailsViewModel);
+        mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel,
+                tourLogOverviewViewModel, tourLogDetailsViewModel, pdfService, tourItemService, tourLogService);
     }
 
     public static ControllerFactory getInstance(ConfigurableApplicationContext applicationContext) {

@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
@@ -74,7 +75,6 @@
             </padding>
         </Label>
         <Label text="Distance" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-        <Label fx:id="distanceLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <Label text="Time" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
         <Label fx:id="timeLabel" GridPane.columnIndex="2" GridPane.rowIndex="4">
          <GridPane.margin>
@@ -96,5 +96,15 @@
             <Insets right="20.0" />
          </opaqueInsets>
       </Slider>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <children>
+              <Label fx:id="distanceLabel" text="354343" />
+              <Label fx:id="distanceUnitLabel" text="km">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
     </children>
 </GridPane>

@@ -3,6 +3,8 @@ package at.tourplannerapp.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.concurrent.TimeUnit;
+
 @Getter
 @Setter
 public class TourItem {
@@ -36,5 +38,26 @@ public class TourItem {
         return name;
     }
 
+    public String getFormattedStringForEstimatedTime() {
+        int day = (int) TimeUnit.SECONDS.toDays(estimatedTime);
+        long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day * 24);
+        long minute = TimeUnit.SECONDS.toMinutes(estimatedTime) - (TimeUnit.SECONDS.toHours(estimatedTime) * 60);
+        long second = TimeUnit.SECONDS.toSeconds(estimatedTime) - (TimeUnit.SECONDS.toMinutes(estimatedTime) * 60);
 
+        StringBuilder str = new StringBuilder();
+
+        if (day != 0) {
+            if (day == 1) {
+                str.append("1 Day ");
+            }
+            str.append(day);
+            str.append(" Days ");
+        }
+        str.append(String.format("%02d", hours));
+        str.append(":");
+        str.append(String.format("%02d", minute));
+        str.append(":");
+        str.append(String.format("%02d", second));
+        return str.toString();
+    }
 }

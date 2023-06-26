@@ -43,7 +43,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         BasicConfigurator.configure();
-        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.GERMAN, applicationContext);  // Locale.GERMAN, Locale.ENGLISH
+        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.ENGLISH, applicationContext);  // Locale.GERMAN, Locale.ENGLISH
         Scene scene = new Scene(root);
         stage.setTitle("Tour Planner!");
         stage.setMaximized(true);

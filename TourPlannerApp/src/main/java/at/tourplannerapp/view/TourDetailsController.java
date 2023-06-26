@@ -32,6 +32,8 @@ public class TourDetailsController {
     private Slider childFriendlinessSlider;
     @FXML
     private ImageView tourImageView;
+    @FXML
+    private Label distanceUnitLabel;
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
         this.tourDetailsViewModel = tourDetailsViewModel;
@@ -55,6 +57,7 @@ public class TourDetailsController {
         tourImageView.imageProperty().bindBidirectional(tourDetailsViewModel.tourImageProperty());
         popularityLabel.textProperty().bindBidirectional(tourDetailsViewModel.popularityProperty());
         childFriendlinessSlider.valueProperty().bindBidirectional(tourDetailsViewModel.childFriendlinessProperty());
+        distanceUnitLabel.textProperty().bindBidirectional(tourDetailsViewModel.distanceUnitProperty());
 
         tourDetailsViewModel.setInvalidDetailsStyle(validationDetailsStyleString -> {
             validationDetails.setStyle(validationDetailsStyleString);

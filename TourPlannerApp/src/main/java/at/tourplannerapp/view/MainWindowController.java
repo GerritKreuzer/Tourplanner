@@ -2,6 +2,7 @@ package at.tourplannerapp.view;
 
 import at.tourplannerapp.viewmodel.MainWindowViewModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 
 public class MainWindowController {
 
@@ -17,6 +18,10 @@ public class MainWindowController {
     private TourLogOverviewController tourLogOverviewController;
     @FXML
     private TourLogDetailsController tourLogDetailsController;
+    @FXML
+    private MenuItem exportPdfTour;
+    @FXML
+    private MenuItem exportPdfSummary;
 
     public MainWindowController(MainWindowViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
@@ -28,5 +33,7 @@ public class MainWindowController {
 
     @FXML
     void initialize() {
+        exportPdfTour.setOnAction(event -> mainViewModel.exportPdfTour());
+        exportPdfSummary.setOnAction(event -> mainViewModel.exportPdfSummary());
     }
 }

@@ -21,7 +21,8 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="exportPdfTour" mnemonicParsing="false" text="Export tour as pdf" />
+                   <MenuItem fx:id="exportPdfSummary" mnemonicParsing="false" text="Export summary as pdf" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">

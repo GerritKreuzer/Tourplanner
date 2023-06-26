@@ -31,6 +31,7 @@ public class TourDetailsViewModel {
     private final StringProperty popularity = new SimpleStringProperty();
     private final IntegerProperty childFriendliness = new SimpleIntegerProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
+    private final StringProperty distanceUnit = new SimpleStringProperty();
     private final TourItemService tourItemService;
     private final TourLogService tourLogService;
     private final MapService mapService;
@@ -77,6 +78,10 @@ public class TourDetailsViewModel {
         return validationDetails;
     }
 
+    public StringProperty distanceUnitProperty() {
+        return distanceUnit;
+    }
+
     public StringProperty popularityProperty() {
         return popularity;
     }
@@ -103,14 +108,15 @@ public class TourDetailsViewModel {
     public void onSaveTourButtonClicked() {
         if (validInputs()) {
             RouteResponseModel route = mapService.getRoute(transportationType.get(), fromLocation.get(), toLocation.get());
-            distanceProperty().setValue(route.getDistance().toString());
-            timeProperty().setValue(getFormattedStringFromEstimatedTime(route.getTime()));
 
             byte[] imageByteArray = mapService.fetchImageAsByteArray(fromLocation.get(), toLocation.get());
             tourImage.set(getImageFromByteArray(imageByteArray));
-
             updateTour(route);
             setCalculatedProperties();
+            distance.setValue(tourItem.getDistance().toString());
+            distanceUnit.setValue("km");
+            time.setValue(tourItem.getFormattedStringForEstimatedTime());
+
             tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
@@ -153,6 +159,7 @@ public class TourDetailsViewModel {
         toLocation.set(EMPTY_STRING);
         transportationType.set(EMPTY_STRING);
         distance.set(EMPTY_STRING);
+        distanceUnit.set(EMPTY_STRING);
         time.set(EMPTY_STRING);
         popularity.set(EMPTY_STRING);
         childFriendliness.set(1);
@@ -176,7 +183,8 @@ public class TourDetailsViewModel {
         toLocation.setValue(tourItem.getToLocation());
         transportationType.setValue(tourItem.getTransportationType());
         distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
-        time.setValue(tourItem.getEstimatedTime() == null ? "" : getFormattedStringFromEstimatedTime(tourItem.getEstimatedTime()));
+        distanceUnit.setValue(tourItem.getDistance() == null ? "" : "km");
+        time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getFormattedStringForEstimatedTime());
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
         setCalculatedProperties();
     }
@@ -238,29 +246,6 @@ public class TourDetailsViewModel {
         }
         if (difficulty == 0) return 0;
         return (10 - Math.toIntExact(difficulty / tourLogs.size()));
-    }
-
-    private String getFormattedStringFromEstimatedTime(Long estimatedTime) {
-        int day = (int) TimeUnit.SECONDS.toDays(estimatedTime);
-        long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day * 24);
-        long minute = TimeUnit.SECONDS.toMinutes(estimatedTime) - (TimeUnit.SECONDS.toHours(estimatedTime) * 60);
-        long second = TimeUnit.SECONDS.toSeconds(estimatedTime) - (TimeUnit.SECONDS.toMinutes(estimatedTime) * 60);
-
-        StringBuilder str = new StringBuilder();
-
-        if (day != 0) {
-            if (day == 1) {
-                str.append("1 Day ");
-            }
-            str.append(day);
-            str.append(" Days ");
-        }
-        str.append(String.format("%02d", hours));
-        str.append(":");
-        str.append(String.format("%02d", minute));
-        str.append(":");
-        str.append(String.format("%02d", second));
-        return str.toString();
     }
 
     private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {
