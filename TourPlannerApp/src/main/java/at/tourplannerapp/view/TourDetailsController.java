@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 
 public class TourDetailsController {
 
+    private final TourDetailsViewModel tourDetailsViewModel;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -31,7 +32,6 @@ public class TourDetailsController {
     private Slider childFriendlinessSlider;
     @FXML
     private ImageView tourImageView;
-    private final TourDetailsViewModel tourDetailsViewModel;
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
         this.tourDetailsViewModel = tourDetailsViewModel;

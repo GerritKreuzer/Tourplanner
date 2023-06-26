@@ -6,22 +6,17 @@ import javafx.fxml.FXML;
 public class MainWindowController {
 
     @FXML
+    private final MainWindowViewModel mainViewModel;
+    @FXML
     private SearchBarController searchBarController;
-
     @FXML
     private TourOverviewController tourOverviewController;
-
     @FXML
     private TourDetailsController tourDetailsController;
-
     @FXML
     private TourLogOverviewController tourLogOverviewController;
-
     @FXML
     private TourLogDetailsController tourLogDetailsController;
-
-    @FXML
-    private final MainWindowViewModel mainViewModel;
 
     public MainWindowController(MainWindowViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;

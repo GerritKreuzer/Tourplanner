@@ -21,7 +21,7 @@ public class FXMLDependencyInjection {
                 FXMLDependencyInjection.class.getResource("/at/tourplannerapp/" + location),
                 ResourceBundle.getBundle("at.tourplannerapp." + "gui_strings", locale),
                 new JavaFXBuilderFactory(),
-                controllerClass-> ControllerFactory.getInstance(context).create(controllerClass)
+                controllerClass -> ControllerFactory.getInstance(context).create(controllerClass)
         );
     }
 }

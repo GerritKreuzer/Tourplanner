@@ -9,7 +9,7 @@ import at.tourplannerapp.repositories.TourLogRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class TourLogServiceImpl implements TourLogService{
+public class TourLogServiceImpl implements TourLogService {
     private final TourLogRepository tourLogRepository;
 
     public TourLogServiceImpl(TourLogRepository tourLogRepository) {
@@ -66,6 +66,7 @@ public class TourLogServiceImpl implements TourLogService{
                 tourItem.getToLocation()
         );
     }
+
     private TourLog castTourLogEntityToTourLog(TourLogEntity tourLogEntity) {
         return new TourLog(
                 tourLogEntity.getTourLogId(),

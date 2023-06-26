@@ -3,8 +3,6 @@ package at.tourplannerapp.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class TourItem {
@@ -18,7 +16,8 @@ public class TourItem {
     private String fromLocation;
     private String toLocation;
 
-    public TourItem(){}
+    public TourItem() {
+    }
 
     public TourItem(Integer tourId, String name, String description, String transportationType, Double distance, Long estimatedTime, byte[] map, String fromLocation, String toLocation) {
         this.tourId = tourId;

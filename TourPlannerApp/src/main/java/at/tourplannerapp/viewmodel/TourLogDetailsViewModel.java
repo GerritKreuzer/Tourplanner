@@ -22,37 +22,46 @@ public class TourLogDetailsViewModel {
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalTime> time = new SimpleObjectProperty<>();
-    private TourLog tourLog;
     private final TourLogService tourLogService;
-    public StringProperty nameProperty() {
-        return name;
-    }
-    public StringProperty commentProperty() {
-        return comment;
-    }
-    public IntegerProperty difficultyProperty() {
-        return difficulty;
-    }
-    public ObjectProperty<LocalTime> totalTimeProperty() {
-        return totalTime;
-    }
-    public IntegerProperty ratingProperty() {
-        return rating;
-    }
-    public StringProperty validationDetailsProperty() {
-        return validationDetails;
-    }
-    public ObjectProperty<LocalDate> dateProperty() {
-        return date;
-    }
-    public ObjectProperty<LocalTime> timeProperty() { return time; }
+    private TourLog tourLog;
     private Consumer<String> validationDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
-
     private Consumer<Boolean> updateCalculatedAttributes;
 
     public TourLogDetailsViewModel(TourLogService tourLogService) {
         this.tourLogService = tourLogService;
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public StringProperty commentProperty() {
+        return comment;
+    }
+
+    public IntegerProperty difficultyProperty() {
+        return difficulty;
+    }
+
+    public ObjectProperty<LocalTime> totalTimeProperty() {
+        return totalTime;
+    }
+
+    public IntegerProperty ratingProperty() {
+        return rating;
+    }
+
+    public StringProperty validationDetailsProperty() {
+        return validationDetails;
+    }
+
+    public ObjectProperty<LocalDate> dateProperty() {
+        return date;
+    }
+
+    public ObjectProperty<LocalTime> timeProperty() {
+        return time;
     }
 
     public void setTourLog(TourLog tourLog) {

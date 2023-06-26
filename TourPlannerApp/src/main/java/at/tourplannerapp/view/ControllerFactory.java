@@ -8,6 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ControllerFactory {
 
+    private static ControllerFactory instance;
     private final MainWindowViewModel mainWindowViewModel;
     private final SearchBarViewModel searchBarViewModel;
     private final TourOverviewViewModel tourOverviewViewModel;
@@ -27,6 +28,13 @@ public class ControllerFactory {
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel, tourLogOverviewViewModel, tourLogDetailsViewModel);
     }
 
+    public static ControllerFactory getInstance(ConfigurableApplicationContext applicationContext) {
+        if (instance == null) {
+            instance = new ControllerFactory(applicationContext);
+        }
+        return instance;
+    }
+
     //
     // Factory-Method Pattern
     //
@@ -39,20 +47,11 @@ public class ControllerFactory {
             return new TourDetailsController(tourDetailsViewModel);
         } else if (controllerClass == TourOverviewController.class) {
             return new TourOverviewController(tourOverviewViewModel);
-        }else if (controllerClass == TourLogDetailsController.class) {
+        } else if (controllerClass == TourLogDetailsController.class) {
             return new TourLogDetailsController(tourLogDetailsViewModel);
-        }else if (controllerClass == TourLogOverviewController.class) {
+        } else if (controllerClass == TourLogOverviewController.class) {
             return new TourLogOverviewController(tourLogOverviewViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
-    }
-
-    private static ControllerFactory instance;
-
-    public static ControllerFactory getInstance(ConfigurableApplicationContext applicationContext) {
-        if (instance == null) {
-            instance = new ControllerFactory(applicationContext);
-        }
-        return instance;
     }
 }

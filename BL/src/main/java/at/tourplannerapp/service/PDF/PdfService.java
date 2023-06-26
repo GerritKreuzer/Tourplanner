@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface PdfService {
     void createReport(TourItem tourItem, List<TourLog> tourLogs);
+
     void createSummary(TourItem tourItem, List<TourLog> tourLogs);
 }

@@ -14,42 +14,34 @@ import java.util.List;
 @Entity
 public class TourItemEntity {
 
+    @OneToMany(mappedBy = "tourItemEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private final List<TourLogEntity> tourLogEntities = new ArrayList<>();
     @TableGenerator(
             name = "TourItemEntityGenerator",
             allocationSize = 1,
             initialValue = 0)
     @Id
     @GeneratedValue(
-            strategy=GenerationType.TABLE,
-            generator="TourItemEntityGenerator")
+            strategy = GenerationType.TABLE,
+            generator = "TourItemEntityGenerator")
     @Column(name = "id", nullable = false)
     private Integer tourId;
-
     @Column(name = "name", length = 64)
     private String name;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "transportation_type")
     private String transportationType;
-
     @Column(name = "distance")
     private Double distance;
-
     @Column(name = "estimated_time")
     private Long estimatedTime;
-
     @Column(name = "map")
     private byte[] map;
-
     @Column(name = "from_location")
     private String fromLocation;
     @Column(name = "to_location")
     private String toLocation;
-
-    @OneToMany(mappedBy = "tourItemEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private final List<TourLogEntity> tourLogEntities = new ArrayList<>();
 
     public TourItemEntity(String name, String description, String transportationType, Double distance, Long estimatedTime, byte[] map, String fromLocation, String toLocation) {
         this.name = name;

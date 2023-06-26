@@ -61,7 +61,7 @@ public class TourLogOverviewViewModel {
     }
 
     public void onAddButtonClicked() {
-        if(tourItem == null) {
+        if (tourItem == null) {
             errorDetails.set("Please select a tour!");
             addButtonStyleString.accept(ERROR_STYLE);
             errorDetailsHeight.accept(30d);
@@ -104,13 +104,13 @@ public class TourLogOverviewViewModel {
         this.addButtonStyleString = addButtonStyleString;
     }
 
-    public interface SelectionChangedListener {
-        void changeSelection(TourLog tourLog);
-    }
-
     private void removeError() {
         errorDetails.set(EMPTY_STRING);
         addButtonStyleString.accept(EMPTY_STRING);
         errorDetailsHeight.accept(0d);
+    }
+
+    public interface SelectionChangedListener {
+        void changeSelection(TourLog tourLog);
     }
 }

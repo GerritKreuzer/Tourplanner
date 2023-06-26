@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 
 public class TourLogDetailsController {
 
+    private final TourLogDetailsViewModel tourLogDetailsViewModel;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -25,8 +26,6 @@ public class TourLogDetailsController {
     private Button saveTourLogButton;
     @FXML
     private Label validationDetails;
-
-    private final TourLogDetailsViewModel tourLogDetailsViewModel;
 
     public TourLogDetailsController(TourLogDetailsViewModel tourLogDetailsViewModel) {
         this.tourLogDetailsViewModel = tourLogDetailsViewModel;

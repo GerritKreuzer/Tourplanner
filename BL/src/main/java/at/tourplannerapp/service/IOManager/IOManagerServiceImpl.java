@@ -1,31 +1,21 @@
 package at.tourplannerapp.service.IOManager;
 
-import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourItemSerializable;
-import at.tourplannerapp.model.TourLog;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
-public class IOManagerServiceImpl implements IOManagerService{
+public class IOManagerServiceImpl implements IOManagerService {
 
     ObjectMapper objectMapper;
 
-    public IOManagerServiceImpl(){
+    public IOManagerServiceImpl() {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
         LocalDateTimeDeserializer dateTimeDeserializer = new LocalDateTimeDeserializer(formatter);
@@ -38,29 +28,6 @@ public class IOManagerServiceImpl implements IOManagerService{
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(javaTimeModule);
     }
-
-    public void export(TourItemSerializable item){
-        try {
-            objectMapper.writeValue(new File(item.getTourItem().getName() + ".json"), item);
-            System.out.println("TourItem exported successfully.");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public TourItemSerializable importTour(String path) {
-        File file = new File(path);
-        try {
-            TourItemSerializable item = objectMapper.readValue(file, TourItemSerializable.class);
-            System.out.println("TourItem imported successfully.");
-            return item;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     public static void main(String[] args) throws IOException {
         /*
@@ -87,5 +54,27 @@ public class IOManagerServiceImpl implements IOManagerService{
         System.out.println(item2.getTourItem().getName());
 
          */
+    }
+
+    public void export(TourItemSerializable item) {
+        try {
+            objectMapper.writeValue(new File(item.getTourItem().getName() + ".json"), item);
+            System.out.println("TourItem exported successfully.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public TourItemSerializable importTour(String path) {
+        File file = new File(path);
+        try {
+            TourItemSerializable item = objectMapper.readValue(file, TourItemSerializable.class);
+            System.out.println("TourItem imported successfully.");
+            return item;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

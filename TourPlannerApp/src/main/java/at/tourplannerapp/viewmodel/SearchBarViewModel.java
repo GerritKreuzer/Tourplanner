@@ -9,17 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBarViewModel {
-    public interface SearchListener {
-        void search(String searchString);
-    }
-
-    private List<SearchListener> listeners = new ArrayList<>();
-
     private final StringProperty searchString = new SimpleStringProperty("");
-    private final BooleanBinding isSearchDisabledBinding = Bindings.createBooleanBinding( ()-> false );
-
+    private final BooleanBinding isSearchDisabledBinding = Bindings.createBooleanBinding(() -> false);
+    private List<SearchListener> listeners = new ArrayList<>();
     public SearchBarViewModel() {
-        searchString.addListener( (arg, oldVal, newVal)->isSearchDisabledBinding.invalidate() );
+        searchString.addListener((arg, oldVal, newVal) -> isSearchDisabledBinding.invalidate());
     }
 
     public StringProperty searchStringProperty() {
@@ -39,8 +33,12 @@ public class SearchBarViewModel {
     }
 
     public void doSearch() {
-        for (var listener : listeners ) {
+        for (var listener : listeners) {
             listener.search(searchString.get());
         }
+    }
+
+    public interface SearchListener {
+        void search(String searchString);
     }
 }

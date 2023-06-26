@@ -8,6 +8,7 @@ import lombok.Setter;
 public class RouteResponseModel {
     private Double distance;
     private Long time;
+
     public RouteResponseModel(Double distance, Long time) {
         this.distance = distance;
         this.time = time;

@@ -7,14 +7,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 public class TourOverviewController {
+    private final TourOverviewViewModel tourOverviewViewModel;
     @FXML
     private ListView<TourItem> tourItemList;
     @FXML
     private Button addButton;
     @FXML
     private Button removeButton;
-
-    private final TourOverviewViewModel tourOverviewViewModel;
 
     public TourOverviewController(TourOverviewViewModel tourOverviewViewModel) {
         this.tourOverviewViewModel = tourOverviewViewModel;

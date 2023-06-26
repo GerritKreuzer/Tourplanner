@@ -19,9 +19,33 @@ import java.util.List;
 
 public class PdfServiceImpl implements PdfService {
 
-    public PdfServiceImpl(){}
+    public PdfServiceImpl() {
+    }
 
-    public void createReport(TourItem tourItem, List<TourLog> tourLogs){
+    public static void main(String[] args) throws IOException {
+/*
+        BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\gabri\\Pictures\\Aws.PNG"));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", baos);
+        byte[] byteArr = baos.toByteArray();
+
+        String d = "rgdgdgdvdihbgsidrghbdirghbrdiöbgsrdtfjugbnsrdgbsdujögsrdl\ngbsrdgbsdrpöiugbsdrpujfgrbsdibgsdighbsgbsdiugbvsdru\ngusdrgbirsuedg34tvz9339ü9gdürgsrdgd";
+
+        TourItem tourItem = new TourItem(1, "tourname", d, "bike", 5.5, 7L, byteArr, "wien", "linz");
+        List<TourLog> logs = new ArrayList<>();
+        logs.add(new TourLog(3, "Tour 1",  LocalDate.of(2020, 1, 8), LocalTime.now(), "comment1", 45, LocalTime.now(), 17));
+        for (int i = 0; i < 100; i++) {
+            logs.add(new TourLog(7, "Tour 2",LocalDate.of(2020, 1, 8), LocalTime.now(), "comment2", 76, LocalTime.now(), 2));
+        }
+
+        PdfServiceImpl reportService = new PdfServiceImpl();
+        reportService.createReport(tourItem, logs);
+        reportService.createSummary(tourItem, logs);
+
+ */
+    }
+
+    public void createReport(TourItem tourItem, List<TourLog> tourLogs) {
 
         try {
             PdfDocument pdf = new PdfDocument(new PdfWriter(tourItem.getName() + ".pdf"));
@@ -35,7 +59,7 @@ public class PdfServiceImpl implements PdfService {
 
             // Create a table for the TourItem information
             Table tourItemTable = new Table(2);
-            
+
             tourItemTable.addCell("Description");
             tourItemTable.addCell(tourItem.getDescription());
             tourItemTable.addCell("Transportation Type");
@@ -62,10 +86,10 @@ public class PdfServiceImpl implements PdfService {
 
             for (TourLog tourLog : tourLogs) {
                 tourLogTable.addCell((tourLog.getDate().toString()))
-                            .addCell(tourLog.getComment())
-                            .addCell(tourLog.getDifficulty().toString())
-                            .addCell(tourLog.getTotalTime().format(DateTimeFormatter.ofPattern("HH:mm")))
-                            .addCell(tourLog.getRating().toString());
+                        .addCell(tourLog.getComment())
+                        .addCell(tourLog.getDifficulty().toString())
+                        .addCell(tourLog.getTotalTime().format(DateTimeFormatter.ofPattern("HH:mm")))
+                        .addCell(tourLog.getRating().toString());
             }
 
             // Add the title, TourItem table, and TourLog table to the document
@@ -90,14 +114,14 @@ public class PdfServiceImpl implements PdfService {
         }
     }
 
-    public void createSummary(TourItem tourItem, List<TourLog> tourLogs){
+    public void createSummary(TourItem tourItem, List<TourLog> tourLogs) {
 
         try {
             PdfDocument pdf = new PdfDocument(new PdfWriter(tourItem.getName() + "-Summary.pdf"));
             Document document = new Document(pdf, PageSize.A4);
 
             // Create a title paragraph for the TourItem
-            Paragraph titleParagraph = new Paragraph(tourItem.getName()+"-Summary")
+            Paragraph titleParagraph = new Paragraph(tourItem.getName() + "-Summary")
                     .setFontSize(18)
                     .setBold()
                     .setMarginBottom(20);
@@ -129,48 +153,25 @@ public class PdfServiceImpl implements PdfService {
 
     private String getAverageRating(List<TourLog> tourLogs) {
         float sum = 0;
-        for(TourLog log: tourLogs){
+        for (TourLog log : tourLogs) {
             sum += log.getRating();
         }
-        return String.format("%.2f", sum/tourLogs.size());
+        return String.format("%.2f", sum / tourLogs.size());
     }
 
     private String getAverageDifficulty(List<TourLog> tourLogs) {
         float sum = 0;
-        for(TourLog log: tourLogs){
+        for (TourLog log : tourLogs) {
             sum += log.getDifficulty();
         }
-        return String.format("%.2f", sum/tourLogs.size());
+        return String.format("%.2f", sum / tourLogs.size());
     }
 
     private String getAverageTime(List<TourLog> tourLogs) {
         long nanoSum = 0;
-        for (TourLog log: tourLogs) {
+        for (TourLog log : tourLogs) {
             nanoSum += log.getTotalTime().toNanoOfDay();
         }
         return LocalTime.ofNanoOfDay(nanoSum / (tourLogs.size())).format(DateTimeFormatter.ofPattern("HH:mm"));
-    }
-
-    public static void main(String[] args) throws IOException {
-/*
-        BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\gabri\\Pictures\\Aws.PNG"));
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", baos);
-        byte[] byteArr = baos.toByteArray();
-
-        String d = "rgdgdgdvdihbgsidrghbdirghbrdiöbgsrdtfjugbnsrdgbsdujögsrdl\ngbsrdgbsdrpöiugbsdrpujfgrbsdibgsdighbsgbsdiugbvsdru\ngusdrgbirsuedg34tvz9339ü9gdürgsrdgd";
-
-        TourItem tourItem = new TourItem(1, "tourname", d, "bike", 5.5, 7L, byteArr, "wien", "linz");
-        List<TourLog> logs = new ArrayList<>();
-        logs.add(new TourLog(3, "Tour 1",  LocalDate.of(2020, 1, 8), LocalTime.now(), "comment1", 45, LocalTime.now(), 17));
-        for (int i = 0; i < 100; i++) {
-            logs.add(new TourLog(7, "Tour 2",LocalDate.of(2020, 1, 8), LocalTime.now(), "comment2", 76, LocalTime.now(), 2));
-        }
-
-        PdfServiceImpl reportService = new PdfServiceImpl();
-        reportService.createReport(tourItem, logs);
-        reportService.createSummary(tourItem, logs);
-
- */
     }
 }

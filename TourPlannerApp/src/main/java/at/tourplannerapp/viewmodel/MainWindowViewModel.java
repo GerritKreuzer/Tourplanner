@@ -27,13 +27,13 @@ public class MainWindowViewModel {
         });
 
         this.tourLogOverviewViewModel.updateCalculatedAttributes(updateCalculatedAttributes -> {
-            if(updateCalculatedAttributes) {
+            if (updateCalculatedAttributes) {
                 this.tourDetailsViewModel.setCalculatedProperties();
             }
         });
 
         this.tourLogDetailsViewModel.updateCalculatedAttributes(updateCalculatedAttributes -> {
-            if(updateCalculatedAttributes) {
+            if (updateCalculatedAttributes) {
                 this.tourDetailsViewModel.setCalculatedProperties();
             }
         });

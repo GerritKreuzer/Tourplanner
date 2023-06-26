@@ -19,6 +19,10 @@ public class Main extends Application {
 
     private ConfigurableApplicationContext applicationContext;
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void init() throws Exception {
         SpringApplicationBuilder builder = new
@@ -35,6 +39,7 @@ public class Main extends Application {
         super.stop();
         applicationContext.stop();
     }
+
     @Override
     public void start(Stage stage) throws IOException {
         BasicConfigurator.configure();
@@ -44,9 +49,5 @@ public class Main extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

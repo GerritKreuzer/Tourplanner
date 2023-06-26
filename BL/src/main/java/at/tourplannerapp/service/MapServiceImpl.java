@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class MapServiceImpl implements MapService {
-    private final MapQuestApi api;
     private static final String apiKey = "L79tHIt13lDFgMikqzc1o3aEuMh5DxmP";
     private static final String distanceUnit = "k";
+    private final MapQuestApi api;
 
     public MapServiceImpl() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -42,7 +42,7 @@ public class MapServiceImpl implements MapService {
 
         try {
             Response<ResponseBody> response = responseBodyCall.execute();
-            if(response.body() != null) {
+            if (response.body() != null) {
                 return Objects.requireNonNull(response.body()).bytes();
             }
             return null;

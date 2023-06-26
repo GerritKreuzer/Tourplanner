@@ -76,9 +76,11 @@ public class TourDetailsViewModel {
     public StringProperty validationDetailsProperty() {
         return validationDetails;
     }
+
     public StringProperty popularityProperty() {
         return popularity;
     }
+
     public IntegerProperty childFriendlinessProperty() {
         return childFriendliness;
     }
@@ -190,68 +192,68 @@ public class TourDetailsViewModel {
         childFriendliness += getDistanceFriendliness(tourItem.getDistance());
         childFriendliness += getTotalTimesFriendliness(tourLogs);
         childFriendliness += getDifficultyFriendliness(tourLogs);
-        return (int)Math.round(childFriendliness / 3.0);
+        return (int) Math.round(childFriendliness / 3.0);
     }
 
     private Integer getDistanceFriendliness(Double distance) {
-        if(distance == null || distance == 0) {
+        if (distance == null || distance == 0) {
             return 0;
         }
 
-        int intDistance = (int)Math.round(distance);
-        if(intDistance > 100) {
+        int intDistance = (int) Math.round(distance);
+        if (intDistance > 100) {
             return 0;
         } else {
-            return (10 - (int)Math.round(intDistance/10.0));
+            return (10 - (int) Math.round(intDistance / 10.0));
         }
     }
 
     private Integer getTotalTimesFriendliness(List<TourLog> tourLogs) {
         long secSum = 0;
-        if(tourLogs.isEmpty()) {
+        if (tourLogs.isEmpty()) {
             return 0;
         }
 
-        for (TourLog log: tourLogs) {
-            if(log.getTotalTime() == null) {
+        for (TourLog log : tourLogs) {
+            if (log.getTotalTime() == null) {
                 continue;
             }
             secSum += log.getTotalTime().toSecondOfDay();
         }
-        if(secSum == 0) return 0;
-        return (10 - (int)Math.round(secSum / (3600 * 2.4)));
+        if (secSum == 0) return 0;
+        return (10 - (int) Math.round(secSum / (3600 * 2.4)));
     }
 
     private Integer getDifficultyFriendliness(List<TourLog> tourLogs) {
         long difficulty = 0;
-        if(tourLogs.isEmpty()) {
+        if (tourLogs.isEmpty()) {
             return 0;
         }
 
-        for (TourLog log: tourLogs) {
-            if(log.getDifficulty() == null) {
+        for (TourLog log : tourLogs) {
+            if (log.getDifficulty() == null) {
                 continue;
             }
             difficulty += log.getDifficulty();
         }
-        if(difficulty == 0) return 0;
+        if (difficulty == 0) return 0;
         return (10 - Math.toIntExact(difficulty / tourLogs.size()));
     }
 
     private String getFormattedStringFromEstimatedTime(Long estimatedTime) {
         int day = (int) TimeUnit.SECONDS.toDays(estimatedTime);
-        long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day *24);
-        long minute = TimeUnit.SECONDS.toMinutes(estimatedTime) - (TimeUnit.SECONDS.toHours(estimatedTime)* 60);
-        long second = TimeUnit.SECONDS.toSeconds(estimatedTime) - (TimeUnit.SECONDS.toMinutes(estimatedTime) *60);
+        long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day * 24);
+        long minute = TimeUnit.SECONDS.toMinutes(estimatedTime) - (TimeUnit.SECONDS.toHours(estimatedTime) * 60);
+        long second = TimeUnit.SECONDS.toSeconds(estimatedTime) - (TimeUnit.SECONDS.toMinutes(estimatedTime) * 60);
 
         StringBuilder str = new StringBuilder();
 
-        if(day != 0) {
-            if(day == 1) {
+        if (day != 0) {
+            if (day == 1) {
                 str.append("1 Day ");
             }
             str.append(day);
-            str.append( " Days ");
+            str.append(" Days ");
         }
         str.append(String.format("%02d", hours));
         str.append(":");
@@ -268,7 +270,7 @@ public class TourDetailsViewModel {
     }
 
     private Image getImageFromByteArray(byte[] imageByteArray) {
-        if(imageByteArray == null) {
+        if (imageByteArray == null) {
             return null;
         }
         return new Image(new ByteArrayInputStream(imageByteArray));

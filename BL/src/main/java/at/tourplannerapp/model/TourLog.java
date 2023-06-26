@@ -23,7 +23,8 @@ public class TourLog {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH/mm")
     private LocalTime time;
 
-    public TourLog(){}
+    public TourLog() {
+    }
 
     public TourLog(Integer tourLogId, String name, LocalDate date, LocalTime time, String comment, Integer difficulty, LocalTime totalTime, Integer rating) {
         this.tourLogId = tourLogId;
@@ -35,6 +36,7 @@ public class TourLog {
         this.date = date;
         this.time = time;
     }
+
     @Override
     public String toString() {
         return name;
