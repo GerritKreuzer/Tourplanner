@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
@@ -176,7 +177,7 @@ public class TourDetailsViewModel {
         toLocation.setValue(tourItem.getToLocation());
         transportationType.setValue(tourItem.getTransportationType());
         distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
-        time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getEstimatedTime().toString());
+        time.setValue(tourItem.getEstimatedTime() == null ? "" : getFormattedStringFromEstimatedTime(tourItem.getEstimatedTime()));
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
         setCalculatedProperties();
     }
@@ -238,6 +239,29 @@ public class TourDetailsViewModel {
         }
         if(difficulty == 0) return 0;
         return (10 - Math.toIntExact(difficulty / tourLogs.size()));
+    }
+
+    private String getFormattedStringFromEstimatedTime(Long estimatedTime) {
+        int day = (int) TimeUnit.SECONDS.toDays(estimatedTime);
+        long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day *24);
+        long minute = TimeUnit.SECONDS.toMinutes(estimatedTime) - (TimeUnit.SECONDS.toHours(estimatedTime)* 60);
+        long second = TimeUnit.SECONDS.toSeconds(estimatedTime) - (TimeUnit.SECONDS.toMinutes(estimatedTime) *60);
+
+        StringBuilder str = new StringBuilder();
+
+        if(day != 0) {
+            if(day == 1) {
+                str.append("1 Day ");
+            }
+            str.append(day);
+            str.append( " Days ");
+        }
+        str.append(String.format("%02d", hours));
+        str.append(":");
+        str.append(String.format("%02d", minute));
+        str.append(":");
+        str.append(String.format("%02d", second));
+        return str.toString();
     }
 
     private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {
