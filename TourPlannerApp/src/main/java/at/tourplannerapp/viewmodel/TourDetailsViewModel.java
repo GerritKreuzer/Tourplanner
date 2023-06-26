@@ -105,12 +105,12 @@ public class TourDetailsViewModel {
         if (validInputs()) {
             RouteResponseModel route = mapService.getRoute(transportationType.get(), fromLocation.get(), toLocation.get());
             distanceProperty().setValue(route.getDistance().toString());
-            timeProperty().setValue(route.getTime().toString());
+            timeProperty().setValue(getFormattedStringFromEstimatedTime(route.getTime()));
 
             byte[] imageByteArray = mapService.fetchImageAsByteArray(fromLocation.get(), toLocation.get());
             tourImage.set(getImageFromByteArray(imageByteArray));
 
-            updateTour();
+            updateTour(route);
             setCalculatedProperties();
             tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
@@ -160,14 +160,14 @@ public class TourDetailsViewModel {
         tourImage.set(null);
     }
 
-    private void updateTour() {
+    private void updateTour(RouteResponseModel route) {
         tourItem.setName(name.get());
         tourItem.setDescription(description.get());
         tourItem.setToLocation(toLocation.get());
         tourItem.setFromLocation(fromLocation.get());
         tourItem.setTransportationType(transportationType.get());
-        tourItem.setDistance(Double.parseDouble(distance.get()));
-        tourItem.setEstimatedTime(Long.valueOf(time.get()));
+        tourItem.setDistance(route.getDistance());
+        tourItem.setEstimatedTime(route.getTime());
     }
 
     private void setPropertiesToTourItemValues() {
