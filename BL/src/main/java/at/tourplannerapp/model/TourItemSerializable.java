@@ -1,5 +1,7 @@
 package at.tourplannerapp.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 public class TourItemSerializable {

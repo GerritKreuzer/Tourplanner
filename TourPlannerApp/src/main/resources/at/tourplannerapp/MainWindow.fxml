@@ -23,6 +23,8 @@
                <items>
                   <MenuItem fx:id="exportPdfTour" mnemonicParsing="false" text="Export tour as pdf" />
                    <MenuItem fx:id="exportPdfSummary" mnemonicParsing="false" text="Export summary as pdf" />
+                   <MenuItem fx:id="exportTourData" mnemonicParsing="false" text="Export tour" />
+                   <MenuItem fx:id="importTourData" mnemonicParsing="false" text="Import tour" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">

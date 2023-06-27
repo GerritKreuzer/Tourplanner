@@ -1,6 +1,7 @@
 package at.tourplannerapp.service.IOManager;
 
 import at.tourplannerapp.model.TourItemSerializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -27,6 +28,7 @@ public class IOManagerServiceImpl implements IOManagerService {
 
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(javaTimeModule);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public static void main(String[] args) throws IOException {

@@ -1,5 +1,7 @@
 package at.tourplannerapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +40,7 @@ public class TourItem {
         return name;
     }
 
+    @JsonIgnore
     public String getFormattedStringForEstimatedTime() {
         int day = (int) TimeUnit.SECONDS.toDays(estimatedTime);
         long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day * 24);
