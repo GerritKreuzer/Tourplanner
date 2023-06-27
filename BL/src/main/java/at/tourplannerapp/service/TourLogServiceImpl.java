@@ -26,6 +26,23 @@ public class TourLogServiceImpl implements TourLogService {
     }
 
     @Override
+    public void create(TourItem tourItem, TourLog tourLog) {
+        TourLogEntity tourLogEntity = new TourLogEntity(casteTourItemToTourItemEntity(tourItem));
+        setTourLogEntityValues(tourLog, tourLogEntity);
+        tourLogRepository.saveAndFlush(tourLogEntity);
+    }
+
+    private void setTourLogEntityValues(TourLog tourLog, TourLogEntity tourLogEntity) {
+        tourLogEntity.setName(tourLog.getName());
+        tourLogEntity.setComment(tourLog.getComment());
+        tourLogEntity.setDifficulty(tourLog.getDifficulty());
+        tourLogEntity.setTotalTime(tourLog.getTotalTime());
+        tourLogEntity.setRating(tourLog.getRating());
+        tourLogEntity.setDate(tourLog.getDate());
+        tourLogEntity.setTime(tourLog.getTime());
+    }
+
+    @Override
     public void delete(TourLog tourLog) {
         tourLogRepository.deleteById(tourLog.getTourLogId());
     }
@@ -41,14 +58,7 @@ public class TourLogServiceImpl implements TourLogService {
         Optional<TourLogEntity> tourLogEntityOptional
                 = tourLogRepository.findById(tourLog.getTourLogId());
         tourLogEntityOptional.ifPresent(tourLogEntity -> {
-            tourLogEntity.setName(tourLog.getName());
-            tourLogEntity.setComment(tourLog.getComment());
-            tourLogEntity.setDifficulty(tourLog.getDifficulty());
-            tourLogEntity.setTotalTime(tourLog.getTotalTime());
-            tourLogEntity.setRating(tourLog.getRating());
-            tourLogEntity.setDate(tourLog.getDate());
-            tourLogEntity.setTime(tourLog.getTime());
-
+            setTourLogEntityValues(tourLog, tourLogEntity);
             tourLogRepository.saveAndFlush(tourLogEntity);
         });
     }

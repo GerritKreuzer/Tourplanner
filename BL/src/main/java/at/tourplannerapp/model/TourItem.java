@@ -1,7 +1,6 @@
 package at.tourplannerapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Setter
 public class TourItem {
+    @JsonIgnore
     private Integer tourId;
     private String name;
     private String description;

@@ -93,6 +93,8 @@ public class TourLogOverviewViewModel {
         this.tourItem = tourItem;
         if (tourItem != null) {
             setTourLogs(tourLogService.getAll(tourItem));
+        } else {
+            observableTourLogItems.clear();
         }
     }
 

@@ -68,8 +68,7 @@ public class IOManagerServiceImpl implements IOManagerService {
         }
     }
 
-    public TourItemSerializable importTour(String path) {
-        File file = new File(path);
+    public TourItemSerializable importTour(File file) {
         try {
             TourItemSerializable item = objectMapper.readValue(file, TourItemSerializable.class);
             System.out.println("TourItem imported successfully.");

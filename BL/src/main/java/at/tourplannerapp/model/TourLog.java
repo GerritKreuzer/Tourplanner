@@ -2,6 +2,7 @@ package at.tourplannerapp.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class TourLog {
+    @JsonIgnore
     private Integer tourLogId;
     private String name;
     private String comment;

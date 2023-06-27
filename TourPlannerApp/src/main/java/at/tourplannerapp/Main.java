@@ -19,6 +19,8 @@ public class Main extends Application {
 
     private ConfigurableApplicationContext applicationContext;
 
+    private static Stage mainStage;
+
     public static void main(String[] args) {
         launch();
     }
@@ -48,6 +50,11 @@ public class Main extends Application {
         stage.setTitle("Tour Planner!");
         stage.setMaximized(true);
         stage.setScene(scene);
+        mainStage = stage;
         stage.show();
+    }
+
+    public static Stage getMainStage() {
+        return mainStage;
     }
 }

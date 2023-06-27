@@ -9,6 +9,7 @@ public interface TourLogService {
     List<TourLog> getAll(TourItem tourItem);
 
     TourLog create(TourItem tourItem);
+    void create(TourItem tourItem, TourLog tourLog);
 
     void delete(TourLog tourLog);
 

@@ -8,6 +8,7 @@ public interface TourItemService {
     List<TourItem> getAll();
 
     TourItem create();
+    TourItem create(TourItem tourItem);
 
     void delete(TourItem tourItem);
 

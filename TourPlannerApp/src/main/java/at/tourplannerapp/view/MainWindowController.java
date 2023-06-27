@@ -1,11 +1,16 @@
 package at.tourplannerapp.view;
 
+import at.tourplannerapp.Main;
 import at.tourplannerapp.viewmodel.MainWindowViewModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.function.Consumer;
 
 public class MainWindowController {
@@ -30,6 +35,7 @@ public class MainWindowController {
     private MenuItem exportTourData;
     @FXML
     private MenuItem importTourData;
+    private ObjectProperty<File> file = new SimpleObjectProperty<>();
 
     public MainWindowController(MainWindowViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
@@ -47,15 +53,26 @@ public class MainWindowController {
         importTourData.setOnAction(event -> mainViewModel.importTourData());
         mainViewModel.setAlertInfoMessageString(this::showInformationAlert);
         mainViewModel.setAlertErrorMessageStringInfoMessageString(this::showErrorAlert);
+        mainViewModel.setFileChooser(this::showFileChooser);
+        file.bindBidirectional(mainViewModel.fileProperty());
     }
 
     private void showInformationAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
         alert.showAndWait();
     }
 
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
         alert.showAndWait();
+    }
+
+    private void showFileChooser(Boolean showFileChooser) {
+        if(showFileChooser) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open tour data json");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+            file.setValue(fileChooser.showOpenDialog(Main.getMainStage()));
+        }
     }
 }

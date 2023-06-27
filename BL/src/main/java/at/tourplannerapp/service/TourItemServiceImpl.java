@@ -31,6 +31,25 @@ public class TourItemServiceImpl implements TourItemService {
     }
 
     @Override
+    public TourItem create(TourItem tourItem) {
+        TourItemEntity tourItemEntity = new TourItemEntity();
+        setTourItemEntityValues(tourItem, tourItemEntity);
+        tourItemRepository.saveAndFlush(tourItemEntity);
+        return castTourItemEntityToTourItem(tourItemEntity);
+    }
+
+    private void setTourItemEntityValues(TourItem tourItem, TourItemEntity tourItemEntity) {
+        tourItemEntity.setName(tourItem.getName());
+        tourItemEntity.setDescription(tourItem.getDescription());
+        tourItemEntity.setTransportationType(tourItem.getTransportationType());
+        tourItemEntity.setDistance(tourItem.getDistance());
+        tourItemEntity.setEstimatedTime(tourItem.getEstimatedTime());
+        tourItemEntity.setMap(tourItem.getMap());
+        tourItemEntity.setFromLocation(tourItem.getFromLocation());
+        tourItemEntity.setToLocation(tourItem.getToLocation());
+    }
+
+    @Override
     public void delete(TourItem tourItem) {
         tourItemRepository.deleteById(tourItem.getTourId());
     }
@@ -40,15 +59,7 @@ public class TourItemServiceImpl implements TourItemService {
         Optional<TourItemEntity> tourItemEntityOptional
                 = tourItemRepository.findById(tourItem.getTourId());
         tourItemEntityOptional.ifPresent(tourItemEntity -> {
-            tourItemEntity.setName(tourItem.getName());
-            tourItemEntity.setDescription(tourItem.getDescription());
-            tourItemEntity.setTransportationType(tourItem.getTransportationType());
-            tourItemEntity.setDistance(tourItem.getDistance());
-            tourItemEntity.setEstimatedTime(tourItem.getEstimatedTime());
-            tourItemEntity.setMap(tourItem.getMap());
-            tourItemEntity.setFromLocation(tourItem.getFromLocation());
-            tourItemEntity.setToLocation(tourItem.getToLocation());
-
+            setTourItemEntityValues(tourItem, tourItemEntity);
             tourItemRepository.saveAndFlush(tourItemEntity);
         });
     }
