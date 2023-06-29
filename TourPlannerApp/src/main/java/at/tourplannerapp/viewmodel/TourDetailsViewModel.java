@@ -190,9 +190,11 @@ public class TourDetailsViewModel {
     }
 
     public void setCalculatedProperties() {
-        List<TourLog> tourLogs = tourLogService.getAll(tourItem);
-        popularity.setValue(String.valueOf(tourLogs.size()));
-        childFriendliness.setValue(calculateChildFriendliness(tourItem, tourLogs));
+        if(tourItem != null) {
+            List<TourLog> tourLogs = tourLogService.getAll(tourItem);
+            popularity.setValue(String.valueOf(tourLogs.size()));
+            childFriendliness.setValue(calculateChildFriendliness(tourItem, tourLogs));
+        }
     }
 
     private Integer calculateChildFriendliness(TourItem tourItem, List<TourLog> tourLogs) {

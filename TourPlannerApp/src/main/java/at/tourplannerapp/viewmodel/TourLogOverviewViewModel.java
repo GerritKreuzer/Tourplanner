@@ -24,8 +24,6 @@ public class TourLogOverviewViewModel {
     private Consumer<TourLog> tourLogToSelect;
     private Consumer<Double> errorDetailsHeight;
     private Consumer<String> addButtonStyleString;
-
-    private Consumer<Boolean> updateCalculatedAttributes;
     private TourItem tourItem;
 
     public TourLogOverviewViewModel(TourLogService tourLogService) {
@@ -68,25 +66,22 @@ public class TourLogOverviewViewModel {
             return;
         }
         var tourLog = tourLogService.create(tourItem);
+        tourLog.setDifficulty(1);
+        tourLog.setRating(1);
+        tourLogService.update(tourLog);
         observableTourLogItems.add(tourLog);
         tourLogToSelect.accept(tourLog);
-        updateCalculatedAttributes.accept(true);
     }
 
     public void onRemoveButtonClicked(TourLog tourLog) {
         if (tourLog != null) {
             tourLogService.delete(tourLog);
             observableTourLogItems.remove(tourLog);
-            updateCalculatedAttributes.accept(true);
         }
     }
 
     public void setTourLogSelection(Consumer<TourLog> tourLogToSelect) {
         this.tourLogToSelect = tourLogToSelect;
-    }
-
-    public void updateCalculatedAttributes(Consumer<Boolean> updateCalculatedAttributes) {
-        this.updateCalculatedAttributes = updateCalculatedAttributes;
     }
 
     public void setTourItem(TourItem tourItem) {

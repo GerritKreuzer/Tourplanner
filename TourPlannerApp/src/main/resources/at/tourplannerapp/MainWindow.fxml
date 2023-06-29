@@ -43,7 +43,7 @@
        <fx:include fx:id="tourOverview" source="TourOverview.fxml" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.columnSpan="2"/>
        <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19"
                 xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
-           <Tab text="Tour Details">
+           <Tab fx:id="tourDetailTab" text="Tour Details">
                <fx:include fx:id="tourDetails" source="TourDetails.fxml"/>
            </Tab>
            <Tab text="Tour Logs">

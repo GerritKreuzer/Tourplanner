@@ -26,7 +26,6 @@ public class TourLogDetailsViewModel {
     private TourLog tourLog;
     private Consumer<String> validationDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
-    private Consumer<Boolean> updateCalculatedAttributes;
 
     public TourLogDetailsViewModel(TourLogService tourLogService) {
         this.tourLogService = tourLogService;
@@ -77,7 +76,6 @@ public class TourLogDetailsViewModel {
         if (validInputs()) {
             updateTourLog();
             tourLogService.update(tourLog);
-            updateCalculatedAttributes.accept(true);
         }
     }
 
@@ -100,10 +98,6 @@ public class TourLogDetailsViewModel {
         }
         setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE, EMPTY_STRING);
         return true;
-    }
-
-    public void updateCalculatedAttributes(Consumer<Boolean> updateCalculatedAttributes) {
-        this.updateCalculatedAttributes = updateCalculatedAttributes;
     }
 
     private void emptyTourLogProperties() {

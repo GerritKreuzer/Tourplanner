@@ -63,18 +63,10 @@ public class MainWindowViewModel {
                 this.tourOverviewViewModel.updateTourItemList();
             }
         });
+    }
 
-        this.tourLogOverviewViewModel.updateCalculatedAttributes(updateCalculatedAttributes -> {
-            if (updateCalculatedAttributes) {
-                this.tourDetailsViewModel.setCalculatedProperties();
-            }
-        });
-
-        this.tourLogDetailsViewModel.updateCalculatedAttributes(updateCalculatedAttributes -> {
-            if (updateCalculatedAttributes) {
-                this.tourDetailsViewModel.setCalculatedProperties();
-            }
-        });
+    public void updateCalculatedAttributes() {
+        this.tourDetailsViewModel.setCalculatedProperties();
     }
 
     public void setAlertInfoMessageString(Consumer<String> alertInfoMessageString) {

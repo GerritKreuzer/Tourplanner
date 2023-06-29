@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -36,6 +37,8 @@ public class MainWindowController {
     private MenuItem exportTourData;
     @FXML
     private MenuItem importTourData;
+    @FXML
+    private Tab tourDetailTab;
     private ObjectProperty<File> file = new SimpleObjectProperty<>();
 
     private ObjectProperty<File> directoryFile = new SimpleObjectProperty<>();
@@ -60,6 +63,11 @@ public class MainWindowController {
         mainViewModel.setDirectoryChooser(this::showDirectoryChooser);
         file.bindBidirectional(mainViewModel.fileProperty());
         directoryFile.bindBidirectional(mainViewModel.directoryFileProperty());
+        tourDetailTab.setOnSelectionChanged(event -> {
+            if(tourDetailTab.isSelected()) {
+                mainViewModel.updateCalculatedAttributes();
+            }
+        });
     }
 
     private void showInformationAlert(String message) {
