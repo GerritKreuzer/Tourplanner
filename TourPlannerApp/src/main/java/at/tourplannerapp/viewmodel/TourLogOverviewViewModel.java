@@ -66,6 +66,9 @@ public class TourLogOverviewViewModel {
             return;
         }
         var tourLog = tourLogService.create(tourItem);
+        tourLog.setDifficulty(1);
+        tourLog.setRating(1);
+        tourLogService.update(tourLog);
         observableTourLogItems.add(tourLog);
         tourLogToSelect.accept(tourLog);
     }
