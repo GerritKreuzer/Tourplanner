@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {

@@ -13,7 +13,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.function.Consumer;
 
 public class MainWindowController {
 

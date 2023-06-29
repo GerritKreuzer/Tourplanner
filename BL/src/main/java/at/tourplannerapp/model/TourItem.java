@@ -52,9 +52,10 @@ public class TourItem {
         if (day != 0) {
             if (day == 1) {
                 str.append("1 Day ");
+            } else {
+                str.append(day);
+                str.append(" Days ");
             }
-            str.append(day);
-            str.append(" Days ");
         }
         str.append(String.format("%02d", hours));
         str.append(":");
