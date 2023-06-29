@@ -9,17 +9,12 @@ import at.tourplannerapp.service.TourItemService;
 import at.tourplannerapp.service.TourLogService;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainWindowViewModel {
     private SearchBarViewModel searchBarViewModel;
@@ -29,6 +24,7 @@ public class MainWindowViewModel {
     private TourLogDetailsViewModel tourLogDetailsViewModel;
 
     public final ObjectProperty<File> file = new SimpleObjectProperty<>();
+    public final ObjectProperty<File> directoryFile = new SimpleObjectProperty<>();
     private final PdfService pdfService;
     private final IOManagerService ioManagerService;
     private final TourItemService tourItemService;
@@ -37,9 +33,12 @@ public class MainWindowViewModel {
     private Consumer<String> alertInfoMessageString;
     private Consumer<String> alertErrorMessageString;
     private Consumer<Boolean> showFileChooser;
-
+    private Consumer<Boolean> showDirectoryChooser;
     public ObjectProperty<File> fileProperty() {
         return file;
+    }
+    public ObjectProperty<File> directoryFileProperty() {
+        return directoryFile;
     }
 
     public MainWindowViewModel(SearchBarViewModel searchBarViewModel, TourOverviewViewModel tourOverviewViewModel, TourDetailsViewModel tourDetailsViewModel,
@@ -57,6 +56,7 @@ public class MainWindowViewModel {
 
         this.tourOverviewViewModel.addSelectionChangedListener(this::selectTour);
         this.tourLogOverviewViewModel.addSelectionChangedListener(this::selectTourLog);
+        this.searchBarViewModel.addSearchListener(this::searchTours);
 
         this.tourDetailsViewModel.setRequestRefreshTourItemList(shouldRefresh -> {
             if (shouldRefresh) {
@@ -89,6 +89,10 @@ public class MainWindowViewModel {
         this.showFileChooser = showFileChooser;
     }
 
+    public void setDirectoryChooser(Consumer<Boolean> showDirectoryChooser) {
+        this.showDirectoryChooser = showDirectoryChooser;
+    }
+
     private void selectTour(TourItem selectedTourItem) {
         tourDetailsViewModel.setTourItem(selectedTourItem);
         tourLogOverviewViewModel.setTourItem(selectedTourItem);
@@ -99,14 +103,22 @@ public class MainWindowViewModel {
         tourLogDetailsViewModel.setTourLog(selectTourLog);
     }
 
+    private void searchTours(String searchString) {
+        // do - to
+    }
 
     public void exportPdfTour() {
         if(tourItem == null) {
             alertErrorMessageString.accept("Please select a tour!");
             return;
         }
-        pdfService.createReport(tourItem, tourLogService.getAll(tourItem));
-        alertInfoMessageString.accept("Pdf was generated successfully");
+        showDirectoryChooser.accept(true);
+        if(directoryFile.get() == null) {
+            alertErrorMessageString.accept("Please select a directory!");
+        } else {
+            pdfService.createReport(directoryFile.get(), tourItem, tourLogService.getAll(tourItem));
+            alertInfoMessageString.accept("Pdf was generated successfully");
+        }
     }
 
     public void exportPdfSummary() {
@@ -115,11 +127,16 @@ public class MainWindowViewModel {
             alertErrorMessageString.accept("Please add a tour before generating a pdf summary!");
             return;
         }
-        tourItemService.getAll().forEach(tourItem -> {
-            tourMap.put(tourItem, tourLogService.getAll(tourItem));
-        });
-        pdfService.createSummary(tourMap);
-        alertInfoMessageString.accept("Pdf summary was generated successfully");
+        showDirectoryChooser.accept(true);
+        if(directoryFile.get() == null) {
+            alertErrorMessageString.accept("Please select a directory!");
+        } else {
+            tourItemService.getAll().forEach(tourItem -> {
+                tourMap.put(tourItem, tourLogService.getAll(tourItem));
+            });
+            pdfService.createSummary(directoryFile.get(), tourMap);
+            alertInfoMessageString.accept("Pdf summary was generated successfully");
+        }
     }
 
     public void exportTourData() {
@@ -127,9 +144,14 @@ public class MainWindowViewModel {
             alertErrorMessageString.accept("Please select a tour!");
             return;
         }
-        TourItemSerializable tourItemSerializable = new TourItemSerializable(tourItem, tourLogService.getAll(tourItem));
-        ioManagerService.export(tourItemSerializable);
-        alertInfoMessageString.accept("Tour data was successfully exported");
+        showDirectoryChooser.accept(true);
+        if(directoryFile.get() == null) {
+            alertErrorMessageString.accept("Please select a directory!");
+        } else {
+            TourItemSerializable tourItemSerializable = new TourItemSerializable(tourItem, tourLogService.getAll(tourItem));
+            ioManagerService.export(directoryFile.get(), tourItemSerializable);
+            alertInfoMessageString.accept("Tour data was successfully exported");
+        }
     }
 
     public void importTourData() {

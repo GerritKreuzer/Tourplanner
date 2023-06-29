@@ -6,7 +6,7 @@ import java.io.File;
 
 public interface IOManagerService {
 
-    void export(TourItemSerializable item);
+    void export(File file, TourItemSerializable item);
 
     TourItemSerializable importTour(File file);
 }

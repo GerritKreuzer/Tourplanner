@@ -11,7 +11,10 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,10 +26,14 @@ public class PdfServiceImpl implements PdfService {
     public PdfServiceImpl() {
     }
 
-    public void createReport(TourItem tourItem, List<TourLog> tourLogs) {
+    public void createReport(File file, TourItem tourItem, List<TourLog> tourLogs) {
 
         try {
-            PdfDocument pdf = new PdfDocument(new PdfWriter(tourItem.getName() + ".pdf"));
+            String filePath = file.getAbsolutePath() + "\\" + tourItem.getName() + ".pdf";
+            File pdfFile = new File(filePath);
+            System.out.println("Save file path: " + filePath);
+            FileOutputStream outputStream = new FileOutputStream(pdfFile, false);
+            PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
             Document document = new Document(pdf, PageSize.A4);
 
             // Create a title paragraph for the TourItem
@@ -92,10 +99,14 @@ public class PdfServiceImpl implements PdfService {
         }
     }
 
-    public void createSummary(Map<TourItem, List<TourLog>> tourMap) {
+    public void createSummary(File file, Map<TourItem, List<TourLog>> tourMap) {
 
         try {
-            PdfDocument pdf = new PdfDocument(new PdfWriter("Summary.pdf"));
+            String filePath = file.getAbsolutePath() + "\\" + "summary.pdf";
+            File pdfFile = new File(filePath);
+            System.out.println(filePath);
+            FileOutputStream outputStream = new FileOutputStream(pdfFile, false);
+            PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
             Document document = new Document(pdf, PageSize.A4);
 
             tourMap.forEach((tourItem, tourLogs) -> {

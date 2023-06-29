@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -37,6 +38,8 @@ public class MainWindowController {
     private MenuItem importTourData;
     private ObjectProperty<File> file = new SimpleObjectProperty<>();
 
+    private ObjectProperty<File> directoryFile = new SimpleObjectProperty<>();
+
     public MainWindowController(MainWindowViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
     }
@@ -54,7 +57,9 @@ public class MainWindowController {
         mainViewModel.setAlertInfoMessageString(this::showInformationAlert);
         mainViewModel.setAlertErrorMessageStringInfoMessageString(this::showErrorAlert);
         mainViewModel.setFileChooser(this::showFileChooser);
+        mainViewModel.setDirectoryChooser(this::showDirectoryChooser);
         file.bindBidirectional(mainViewModel.fileProperty());
+        directoryFile.bindBidirectional(mainViewModel.directoryFileProperty());
     }
 
     private void showInformationAlert(String message) {
@@ -73,6 +78,14 @@ public class MainWindowController {
             fileChooser.setTitle("Open tour data json");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
             file.setValue(fileChooser.showOpenDialog(Main.getMainStage()));
+        }
+    }
+
+    private void showDirectoryChooser(Boolean showDirectoryChooser) {
+        if(showDirectoryChooser) {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Save to");
+            directoryFile.setValue(directoryChooser.showDialog(Main.getMainStage()));
         }
     }
 }

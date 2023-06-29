@@ -58,9 +58,11 @@ public class IOManagerServiceImpl implements IOManagerService {
          */
     }
 
-    public void export(TourItemSerializable item) {
+    public void export(File file, TourItemSerializable item) {
         try {
-            objectMapper.writeValue(new File(item.getTourItem().getName() + ".json"), item);
+            String filePath = file.getAbsolutePath() + "\\" + item.getTourItem().getName() + ".json";
+            File jsonFile = new File(filePath);
+            objectMapper.writeValue(jsonFile, item);
             System.out.println("TourItem exported successfully.");
 
         } catch (IOException e) {
