@@ -84,13 +84,17 @@ public class PdfServiceImpl implements PdfService {
             document.add(tourLogTable);
 
             // Add the image
-            document.add(new Paragraph("Map Image").setFontSize(14).setBold());
-            Image mapImage = new Image(ImageDataFactory.create(tourItem.getMap()));
-            float imageWidth = 400;
-            float imageHeight = 400;
-            mapImage.setWidth(imageWidth);
-            mapImage.setHeight(imageHeight);
-            document.add(mapImage);
+            try{
+                document.add(new Paragraph("Map Image").setFontSize(14).setBold());
+                Image mapImage = new Image(ImageDataFactory.create(tourItem.getMap()));
+                float imageWidth = 400;
+                float imageHeight = 400;
+                mapImage.setWidth(imageWidth);
+                mapImage.setHeight(imageHeight);
+                document.add(mapImage);
+            }catch (Exception e){
+
+            }
 
             document.close();
 

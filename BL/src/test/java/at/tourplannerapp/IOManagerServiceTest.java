@@ -22,7 +22,7 @@ public class IOManagerServiceTest {
     void exportTest(){
         //arrange
         String name = "name1";
-        TourItemSerializable item = createTourItemSerializable(name);
+        TourItemSerializable item = GenericTourItemSerializable.get(name);
 
         //act
         IOManagerService ioManagerService = new IOManagerServiceImpl();
@@ -46,16 +46,5 @@ public class IOManagerServiceTest {
         //assert
         assert item.getTourItem().getName().equals("name1");
         assert item.getTourLogs().size() == 8;
-    }
-
-    public TourItemSerializable createTourItemSerializable(String name){
-        byte[] byteArr = new byte[0];
-        TourItem tourItem = new TourItem(1, name, "beschreibung", "bike", 5.5, 7L, byteArr, "wien", "linz");
-        List<TourLog> logs = new ArrayList<>();
-        logs.add(new TourLog(3, "Tour 1",  LocalDate.of(2020, 1, 8), LocalTime.now(), "comment1", 45, LocalTime.now(), 17));
-        for (int i = 0; i < 7; i++) {
-            logs.add(new TourLog(i, "Tour 2",LocalDate.of(2020, 1, 8), LocalTime.now(), "comment2", 76, LocalTime.now(), 2));
-        }
-        return new TourItemSerializable(tourItem, logs);
     }
 }
