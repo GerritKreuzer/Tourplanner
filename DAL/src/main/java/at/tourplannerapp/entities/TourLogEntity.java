@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.search.annotations.Field;
+import org.springframework.stereotype.Indexed;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,6 +14,7 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor // mandatory for every hibernate entity
 @Entity
+@Indexed
 public class TourLogEntity {
 
     @Id
@@ -20,6 +23,7 @@ public class TourLogEntity {
     private Integer tourLogId;
 
     @Column(name = "name")
+    @Field
     private String name;
 
     @Column(name = "date")

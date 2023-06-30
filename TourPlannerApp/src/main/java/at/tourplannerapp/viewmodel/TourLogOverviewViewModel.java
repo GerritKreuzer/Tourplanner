@@ -2,7 +2,7 @@ package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
-import at.tourplannerapp.service.TourLogService;
+import at.tourplannerapp.service.tour.TourLogService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;

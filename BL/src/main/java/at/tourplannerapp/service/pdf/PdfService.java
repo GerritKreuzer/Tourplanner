@@ -1,4 +1,4 @@
-package at.tourplannerapp.service.PDF;
+package at.tourplannerapp.service.pdf;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;

@@ -1,4 +1,4 @@
-package at.tourplannerapp.service.PDF;
+package at.tourplannerapp.service.pdf;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
@@ -14,7 +14,6 @@ import com.itextpdf.layout.element.Table;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +51,7 @@ public class PdfServiceImpl implements PdfService {
             tourItemTable.addCell("Distance");
             tourItemTable.addCell(tourItem.getDistance().toString());
             tourItemTable.addCell("Estimated Time");
-            tourItemTable.addCell(tourItem.getFormattedStringForEstimatedTime());
+            tourItemTable.addCell(tourItem.getEstimatedTimeString());
             tourItemTable.addCell("Start");
             tourItemTable.addCell(tourItem.getFromLocation());
             tourItemTable.addCell("End");

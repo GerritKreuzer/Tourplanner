@@ -1,4 +1,4 @@
-package at.tourplannerapp.service;
+package at.tourplannerapp.service.tour;
 
 import at.tourplannerapp.entities.TourItemEntity;
 import at.tourplannerapp.model.TourItem;

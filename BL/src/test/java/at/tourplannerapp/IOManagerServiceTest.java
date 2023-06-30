@@ -1,20 +1,11 @@
 package at.tourplannerapp;
 
-import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourItemSerializable;
-import at.tourplannerapp.model.TourLog;
-import at.tourplannerapp.service.IOManager.IOManagerService;
-import at.tourplannerapp.service.IOManager.IOManagerServiceImpl;
+import at.tourplannerapp.service.iomanager.IOManagerService;
+import at.tourplannerapp.service.iomanager.IOManagerServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class IOManagerServiceTest {
 

@@ -3,10 +3,8 @@ package at.tourplannerapp;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourItemSerializable;
 import at.tourplannerapp.model.TourLog;
-import at.tourplannerapp.service.IOManager.IOManagerService;
-import at.tourplannerapp.service.IOManager.IOManagerServiceImpl;
-import at.tourplannerapp.service.PDF.PdfService;
-import at.tourplannerapp.service.PDF.PdfServiceImpl;
+import at.tourplannerapp.service.pdf.PdfService;
+import at.tourplannerapp.service.pdf.PdfServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

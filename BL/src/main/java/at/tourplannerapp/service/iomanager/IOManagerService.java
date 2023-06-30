@@ -1,4 +1,4 @@
-package at.tourplannerapp.service.IOManager;
+package at.tourplannerapp.service.iomanager;
 
 import at.tourplannerapp.model.TourItemSerializable;
 

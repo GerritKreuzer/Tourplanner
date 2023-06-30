@@ -1,4 +1,4 @@
-package at.tourplannerapp.service.IOManager;
+package at.tourplannerapp.service.iomanager;
 
 import at.tourplannerapp.model.TourItemSerializable;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -29,33 +29,6 @@ public class IOManagerServiceImpl implements IOManagerService {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(javaTimeModule);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
-
-    public static void main(String[] args) throws IOException {
-        /*
-        BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\Gerrit\\Pictures\\polybird.png"));
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", baos);
-        byte[] byteArr = baos.toByteArray();
-
-        String d = "beschreibung";
-
-        TourItem tourItem = new TourItem(1, "mytourname", d, "bike", 5.5, 7L, byteArr, "wien", "linz");
-
-        List<TourLog> logs = new ArrayList<>();
-        logs.add(new TourLog(3, "Tour 1",  LocalDate.of(2020, 1, 8), LocalTime.now(), "comment1", 45, LocalTime.now(), 17));
-        for (int i = 0; i < 7; i++) {
-            logs.add(new TourLog(i, "Tour 2",LocalDate.of(2020, 1, 8), LocalTime.now(), "comment2", 76, LocalTime.now(), 2));
-        }
-
-        TourItemSerializable item = new TourItemSerializable(tourItem, logs);
-        IOManagerServiceImpl ioManager = new IOManagerServiceImpl();
-        ioManager.export(item);
-
-        TourItemSerializable item2 = ioManager.importTour(tourItem.getName() + ".json");
-        System.out.println(item2.getTourItem().getName());
-
-         */
     }
 
     public void export(File file, TourItemSerializable item) {

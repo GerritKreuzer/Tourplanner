@@ -2,11 +2,12 @@ package at.tourplannerapp.view;
 
 import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.repositories.TourLogRepository;
-import at.tourplannerapp.service.*;
-import at.tourplannerapp.service.IOManager.IOManagerService;
-import at.tourplannerapp.service.IOManager.IOManagerServiceImpl;
-import at.tourplannerapp.service.PDF.PdfService;
-import at.tourplannerapp.service.PDF.PdfServiceImpl;
+import at.tourplannerapp.service.iomanager.IOManagerService;
+import at.tourplannerapp.service.iomanager.IOManagerServiceImpl;
+import at.tourplannerapp.service.map.MapServiceImpl;
+import at.tourplannerapp.service.pdf.PdfService;
+import at.tourplannerapp.service.pdf.PdfServiceImpl;
+import at.tourplannerapp.service.tour.*;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -26,13 +27,14 @@ public class ControllerFactory {
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
         PdfService pdfService = new PdfServiceImpl();
         IOManagerService ioManagerService = new IOManagerServiceImpl();
+        TourSearchService tourSearchService = new TourSearchServiceImpl(tourItemService, tourLogService);
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
         tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService);
         tourLogDetailsViewModel = new TourLogDetailsViewModel(tourLogService);
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel,
-                tourLogOverviewViewModel, tourLogDetailsViewModel, pdfService, ioManagerService, tourItemService, tourLogService);
+                tourLogOverviewViewModel, tourLogDetailsViewModel, pdfService, ioManagerService, tourItemService, tourLogService, tourSearchService);
     }
 
     public static ControllerFactory getInstance(ConfigurableApplicationContext applicationContext) {

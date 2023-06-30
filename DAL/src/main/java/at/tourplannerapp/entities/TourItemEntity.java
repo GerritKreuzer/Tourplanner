@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor // mandatory for every hibernate entity
 @Entity
+@Indexed
 public class TourItemEntity {
 
     @OneToMany(mappedBy = "tourItemEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -27,6 +30,7 @@ public class TourItemEntity {
     @Column(name = "id", nullable = false)
     private Integer tourId;
     @Column(name = "name", length = 64)
+    @Field
     private String name;
     @Column(name = "description")
     private String description;

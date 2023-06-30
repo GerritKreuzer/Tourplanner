@@ -1,9 +1,8 @@
 package at.tourplannerapp;
 
 import at.tourplannerapp.model.RouteResponseModel;
-import at.tourplannerapp.model.TourItem;
-import at.tourplannerapp.service.MapService;
-import at.tourplannerapp.service.MapServiceImpl;
+import at.tourplannerapp.service.map.MapService;
+import at.tourplannerapp.service.map.MapServiceImpl;
 import org.junit.jupiter.api.Test;
 
 public class MapServiceTest {

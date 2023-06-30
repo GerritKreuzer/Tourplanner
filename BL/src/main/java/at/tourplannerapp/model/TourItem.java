@@ -1,6 +1,7 @@
 package at.tourplannerapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +16,20 @@ public class TourItem {
     private String description;
     private String transportationType;
     private Double distance;
+    private String estimatedTimeString;
+    @Setter(AccessLevel.NONE)
     private Long estimatedTime;
     private byte[] map;
     private String fromLocation;
     private String toLocation;
 
+    public void setEstimatedTime(Long estimatedTime) {
+        this.estimatedTime = estimatedTime;
+        this.estimatedTimeString = getFormattedStringForEstimatedTime(estimatedTime);
+    }
+
     public TourItem() {
+
     }
 
     public TourItem(Integer tourId, String name, String description, String transportationType, Double distance, Long estimatedTime, byte[] map, String fromLocation, String toLocation) {
@@ -30,6 +39,7 @@ public class TourItem {
         this.transportationType = transportationType;
         this.distance = distance;
         this.estimatedTime = estimatedTime;
+        this.estimatedTimeString = getFormattedStringForEstimatedTime(estimatedTime);
         this.map = map;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
@@ -41,11 +51,14 @@ public class TourItem {
     }
 
     @JsonIgnore
-    public String getFormattedStringForEstimatedTime() {
-        int day = (int) TimeUnit.SECONDS.toDays(estimatedTime);
-        long hours = TimeUnit.SECONDS.toHours(estimatedTime) - (day * 24);
-        long minute = TimeUnit.SECONDS.toMinutes(estimatedTime) - (TimeUnit.SECONDS.toHours(estimatedTime) * 60);
-        long second = TimeUnit.SECONDS.toSeconds(estimatedTime) - (TimeUnit.SECONDS.toMinutes(estimatedTime) * 60);
+    public String getFormattedStringForEstimatedTime(Long estimatedTimeLong) {
+        if(estimatedTimeLong == null) {
+            return null;
+        }
+        int day = (int) TimeUnit.SECONDS.toDays(estimatedTimeLong);
+        long hours = TimeUnit.SECONDS.toHours(estimatedTimeLong) - (day * 24);
+        long minute = TimeUnit.SECONDS.toMinutes(estimatedTimeLong) - (TimeUnit.SECONDS.toHours(estimatedTimeLong) * 60);
+        long second = TimeUnit.SECONDS.toSeconds(estimatedTimeLong) - (TimeUnit.SECONDS.toMinutes(estimatedTimeLong) * 60);
 
         StringBuilder str = new StringBuilder();
 

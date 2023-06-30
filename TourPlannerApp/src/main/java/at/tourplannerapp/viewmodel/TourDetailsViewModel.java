@@ -3,9 +3,9 @@ package at.tourplannerapp.viewmodel;
 import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
-import at.tourplannerapp.service.MapService;
-import at.tourplannerapp.service.TourItemService;
-import at.tourplannerapp.service.TourLogService;
+import at.tourplannerapp.service.map.MapService;
+import at.tourplannerapp.service.tour.TourItemService;
+import at.tourplannerapp.service.tour.TourLogService;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
@@ -114,7 +114,7 @@ public class TourDetailsViewModel {
             setCalculatedProperties();
             distance.setValue(tourItem.getDistance().toString());
             distanceUnit.setValue("km");
-            time.setValue(tourItem.getFormattedStringForEstimatedTime());
+            time.setValue(tourItem.getEstimatedTimeString());
 
             tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
@@ -183,7 +183,7 @@ public class TourDetailsViewModel {
         transportationType.setValue(tourItem.getTransportationType());
         distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
         distanceUnit.setValue(tourItem.getDistance() == null ? "" : "km");
-        time.setValue(tourItem.getEstimatedTime() == null ? "" : tourItem.getFormattedStringForEstimatedTime());
+        time.setValue(tourItem.getEstimatedTimeString());
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
         setCalculatedProperties();
     }

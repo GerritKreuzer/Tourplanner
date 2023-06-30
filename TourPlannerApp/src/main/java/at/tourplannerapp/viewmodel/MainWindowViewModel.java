@@ -3,10 +3,11 @@ package at.tourplannerapp.viewmodel;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourItemSerializable;
 import at.tourplannerapp.model.TourLog;
-import at.tourplannerapp.service.IOManager.IOManagerService;
-import at.tourplannerapp.service.PDF.PdfService;
-import at.tourplannerapp.service.TourItemService;
-import at.tourplannerapp.service.TourLogService;
+import at.tourplannerapp.service.iomanager.IOManagerService;
+import at.tourplannerapp.service.pdf.PdfService;
+import at.tourplannerapp.service.tour.TourItemService;
+import at.tourplannerapp.service.tour.TourLogService;
+import at.tourplannerapp.service.tour.TourSearchService;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -29,6 +30,7 @@ public class MainWindowViewModel {
     private final IOManagerService ioManagerService;
     private final TourItemService tourItemService;
     private final TourLogService tourLogService;
+    private final TourSearchService tourSearchService;
     private TourItem tourItem;
     private Consumer<String> alertInfoMessageString;
     private Consumer<String> alertErrorMessageString;
@@ -43,7 +45,7 @@ public class MainWindowViewModel {
 
     public MainWindowViewModel(SearchBarViewModel searchBarViewModel, TourOverviewViewModel tourOverviewViewModel, TourDetailsViewModel tourDetailsViewModel,
                                TourLogOverviewViewModel tourLogOverviewViewModel, TourLogDetailsViewModel tourLogDetailsViewModel, PdfService pdfService,
-                               IOManagerService ioManagerService, TourItemService tourItemService, TourLogService tourLogService) {
+                               IOManagerService ioManagerService, TourItemService tourItemService, TourLogService tourLogService, TourSearchService tourSearchService) {
         this.searchBarViewModel = searchBarViewModel;
         this.tourOverviewViewModel = tourOverviewViewModel;
         this.tourDetailsViewModel = tourDetailsViewModel;
@@ -53,6 +55,7 @@ public class MainWindowViewModel {
         this.ioManagerService = ioManagerService;
         this.tourItemService = tourItemService;
         this.tourLogService = tourLogService;
+        this.tourSearchService = tourSearchService;
 
         this.tourOverviewViewModel.addSelectionChangedListener(this::selectTour);
         this.tourLogOverviewViewModel.addSelectionChangedListener(this::selectTourLog);
@@ -96,7 +99,8 @@ public class MainWindowViewModel {
     }
 
     private void searchTours(String searchString) {
-        // do - to
+        var tours = tourSearchService.findMatchingTours(searchString);
+        tourOverviewViewModel.setTours(tours);
     }
 
     public void exportPdfTour() {

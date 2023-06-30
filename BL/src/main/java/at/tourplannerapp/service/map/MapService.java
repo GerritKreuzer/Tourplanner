@@ -1,4 +1,4 @@
-package at.tourplannerapp.service;
+package at.tourplannerapp.service.map;
 
 import at.tourplannerapp.model.RouteResponseModel;
 

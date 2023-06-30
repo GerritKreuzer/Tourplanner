@@ -1,7 +1,7 @@
 package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.TourItem;
-import at.tourplannerapp.service.TourItemService;
+import at.tourplannerapp.service.tour.TourItemService;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

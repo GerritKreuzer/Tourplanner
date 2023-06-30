@@ -1,12 +1,7 @@
 package at.tourplannerapp;
 
 import at.tourplannerapp.model.TourItem;
-import at.tourplannerapp.model.TourItemSerializable;
-import at.tourplannerapp.service.PDF.PdfService;
-import at.tourplannerapp.service.PDF.PdfServiceImpl;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +14,7 @@ public class TourItemTest {
         TourItem item = GenericTourItemSerializable.get("testname").getTourItem();
 
         //act
-        String result = item.getFormattedStringForEstimatedTime();
+        String result = item.getEstimatedTimeString();
 
         //assert
         assertEquals("02:18:00", result);
@@ -32,7 +27,7 @@ public class TourItemTest {
         TourItem item = new TourItem();
         item.setEstimatedTime(87000L);
         //act
-        String result = item.getFormattedStringForEstimatedTime();
+        String result = item.getEstimatedTimeString();
 
         //assert
         assertEquals("1 Day 00:10:00", result);
@@ -45,7 +40,7 @@ public class TourItemTest {
         TourItem item = new TourItem();
         item.setEstimatedTime(173100L);
         //act
-        String result = item.getFormattedStringForEstimatedTime();
+        String result = item.getEstimatedTimeString();
 
         //assert
         assertEquals("2 Days 00:05:00", result);
