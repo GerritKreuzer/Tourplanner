@@ -2,15 +2,15 @@ package at.tourplannerapp.service.tour;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
-import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
-import org.springframework.util.ReflectionUtils;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TourSearchServiceImpl implements TourSearchService{
 

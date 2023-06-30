@@ -45,17 +45,17 @@ public class PdfServiceImpl implements PdfService {
             Table tourItemTable = new Table(2);
 
             tourItemTable.addCell("Description");
-            tourItemTable.addCell(tourItem.getDescription());
+            tourItemTable.addCell(tourItem.getDescription() == null ? "" : tourItem.getDescription());
             tourItemTable.addCell("Transportation Type");
-            tourItemTable.addCell(tourItem.getTransportationType());
+            tourItemTable.addCell(tourItem.getTransportationType() == null ? "" : tourItem.getTransportationType());
             tourItemTable.addCell("Distance");
-            tourItemTable.addCell(tourItem.getDistance().toString());
+            tourItemTable.addCell(tourItem.getDistance().toString() == null ? "" : tourItem.getDistance().toString());
             tourItemTable.addCell("Estimated Time");
-            tourItemTable.addCell(tourItem.getEstimatedTimeString());
+            tourItemTable.addCell(tourItem.getEstimatedTimeString() == null ? "" : tourItem.getEstimatedTimeString());
             tourItemTable.addCell("Start");
-            tourItemTable.addCell(tourItem.getFromLocation());
+            tourItemTable.addCell(tourItem.getFromLocation() == null ? "" : tourItem.getFromLocation());
             tourItemTable.addCell("End");
-            tourItemTable.addCell(tourItem.getToLocation());
+            tourItemTable.addCell(tourItem.getToLocation() == null ? "" : tourItem.getToLocation());
             // Add more rows as needed for other TourItem attributes
 
             // Create a table for the TourLogs
@@ -69,11 +69,12 @@ public class PdfServiceImpl implements PdfService {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             for (TourLog tourLog : tourLogs) {
-                tourLogTable.addCell((tourLog.getDate().toString()))
-                        .addCell(tourLog.getComment())
-                        .addCell(tourLog.getDifficulty().toString())
-                        .addCell(tourLog.getTotalTime().format(DateTimeFormatter.ofPattern("HH:mm")))
-                        .addCell(tourLog.getRating().toString());
+                tourLogTable
+                        .addCell((tourLog.getDate() == null ? "" : tourLog.getDate().toString()))
+                        .addCell(tourLog.getComment() == null ? "" : tourLog.getComment())
+                        .addCell(tourLog.getDifficulty() == null ? "" : tourLog.getDifficulty().toString())
+                        .addCell(tourLog.getTotalTime() == null ? "" : tourLog.getTotalTime().format(DateTimeFormatter.ofPattern("HH:mm")))
+                        .addCell(tourLog.getRating() == null ? "" : tourLog.getRating().toString());
             }
 
             // Add the title, TourItem table, and TourLog table to the document
@@ -123,19 +124,27 @@ public class PdfServiceImpl implements PdfService {
                         .setFontSize(14)
                         .setBold();
 
-                // Create a table for the TourItem information
-                Table tourItemTable = new Table(2);
-
-                tourItemTable.addCell("Time");
-                tourItemTable.addCell(getAverageTime(tourLogs));
-                tourItemTable.addCell("Difficulty");
-                tourItemTable.addCell(getAverageDifficulty(tourLogs));
-                tourItemTable.addCell("Rating");
-                tourItemTable.addCell(getAverageRating(tourLogs));
-
                 document.add(titleParagraph);
                 document.add(subParagraph);
-                document.add(tourItemTable);
+
+                if(tourLogs.isEmpty()) {
+                    Paragraph tourLogsEmpty = new Paragraph("The Tourlogs are empty!")
+                            .setFontSize(14);
+                    document.add(tourLogsEmpty);
+                } else {
+                    // Create a table for the TourItem information
+                    Table tourItemTable = new Table(2);
+
+                    tourItemTable.addCell("Time");
+                    tourItemTable.addCell(getAverageTime(tourLogs));
+                    tourItemTable.addCell("Difficulty");
+                    tourItemTable.addCell(getAverageDifficulty(tourLogs));
+                    tourItemTable.addCell("Rating");
+                    tourItemTable.addCell(getAverageRating(tourLogs));
+
+
+                    document.add(tourItemTable);
+                }
             });
 
             document.close();
@@ -148,6 +157,7 @@ public class PdfServiceImpl implements PdfService {
     private String getAverageRating(List<TourLog> tourLogs) {
         float sum = 0;
         for (TourLog log : tourLogs) {
+            if(log.getRating() == null) continue;
             sum += log.getRating();
         }
         return String.format("%.2f", sum / tourLogs.size());
@@ -156,6 +166,7 @@ public class PdfServiceImpl implements PdfService {
     private String getAverageDifficulty(List<TourLog> tourLogs) {
         float sum = 0;
         for (TourLog log : tourLogs) {
+            if(log.getDifficulty() == null) continue;
             sum += log.getDifficulty();
         }
         return String.format("%.2f", sum / tourLogs.size());
@@ -164,6 +175,7 @@ public class PdfServiceImpl implements PdfService {
     private String getAverageTime(List<TourLog> tourLogs) {
         long nanoSum = 0;
         for (TourLog log : tourLogs) {
+            if(log.getTotalTime() == null) continue;
             nanoSum += log.getTotalTime().toNanoOfDay();
         }
         return LocalTime.ofNanoOfDay(nanoSum / (tourLogs.size())).format(DateTimeFormatter.ofPattern("HH:mm"));
