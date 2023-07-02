@@ -191,62 +191,10 @@ public class TourDetailsViewModel {
     public void setCalculatedProperties() {
         if(tourItem != null) {
             List<TourLog> tourLogs = tourLogService.getAll(tourItem);
-            popularity.setValue(String.valueOf(tourLogs.size()));
-            childFriendliness.setValue(calculateChildFriendliness(tourItem, tourLogs));
+            tourItem.setCalculatedProperties(tourLogs);
+            popularity.setValue(tourItem.getPopularity().toString());
+            childFriendliness.setValue(tourItem.getChildFriendliness());
         }
-    }
-
-    private Integer calculateChildFriendliness(TourItem tourItem, List<TourLog> tourLogs) {
-        double childFriendliness = 0.0;
-        childFriendliness += getDistanceFriendliness(tourItem.getDistance());
-        childFriendliness += getTotalTimesFriendliness(tourLogs);
-        childFriendliness += getDifficultyFriendliness(tourLogs);
-        return (int) Math.round(childFriendliness / 3.0);
-    }
-
-    private Integer getDistanceFriendliness(Double distance) {
-        if (distance == null || distance == 0) {
-            return 0;
-        }
-
-        int intDistance = (int) Math.round(distance);
-        if (intDistance > 100) {
-            return 0;
-        } else {
-            return (10 - (int) Math.round(intDistance / 10.0));
-        }
-    }
-
-    private Integer getTotalTimesFriendliness(List<TourLog> tourLogs) {
-        long secSum = 0;
-        if (tourLogs.isEmpty()) {
-            return 0;
-        }
-
-        for (TourLog log : tourLogs) {
-            if (log.getTotalTime() == null) {
-                continue;
-            }
-            secSum += log.getTotalTime().toSecondOfDay();
-        }
-        if (secSum == 0) return 0;
-        return (10 - (int) Math.round(secSum / (3600 * 2.4)));
-    }
-
-    private Integer getDifficultyFriendliness(List<TourLog> tourLogs) {
-        long difficulty = 0;
-        if (tourLogs.isEmpty()) {
-            return 0;
-        }
-
-        for (TourLog log : tourLogs) {
-            if (log.getDifficulty() == null) {
-                continue;
-            }
-            difficulty += log.getDifficulty();
-        }
-        if (difficulty == 0) return 0;
-        return (10 - Math.toIntExact(difficulty / tourLogs.size()));
     }
 
     private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {

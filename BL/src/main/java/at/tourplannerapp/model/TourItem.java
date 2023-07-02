@@ -1,10 +1,10 @@
 package at.tourplannerapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -17,11 +17,12 @@ public class TourItem {
     private String transportationType;
     private Double distance;
     private String estimatedTimeString;
-    @Setter(AccessLevel.NONE)
     private Long estimatedTime;
     private byte[] map;
     private String fromLocation;
     private String toLocation;
+    private Integer popularity;
+    private Integer childFriendliness;
 
     public void setEstimatedTime(Long estimatedTime) {
         this.estimatedTime = estimatedTime;
@@ -76,5 +77,64 @@ public class TourItem {
         str.append(":");
         str.append(String.format("%02d", second));
         return str.toString();
+    }
+
+    @JsonIgnore
+    public void setCalculatedProperties(List<TourLog> tourLogList) {
+        this.setPopularity(tourLogList.size());
+        this.setChildFriendliness(calculateChildFriendliness(tourLogList));
+    }
+    @JsonIgnore
+    private Integer calculateChildFriendliness(List<TourLog> tourLogs) {
+        double childFriendliness = 0.0;
+        childFriendliness += getDistanceFriendliness(distance);
+        childFriendliness += getTotalTimesFriendliness(tourLogs);
+        childFriendliness += getDifficultyFriendliness(tourLogs);
+        return (int) Math.round(childFriendliness / 3.0);
+    }
+    @JsonIgnore
+    private Integer getDistanceFriendliness(Double distance) {
+        if (distance == null || distance == 0) {
+            return 0;
+        }
+
+        int intDistance = (int) Math.round(distance);
+        if (intDistance > 100) {
+            return 0;
+        } else {
+            return (10 - (int) Math.round(intDistance / 10.0));
+        }
+    }
+    @JsonIgnore
+    private Integer getTotalTimesFriendliness(List<TourLog> tourLogs) {
+        long secSum = 0;
+        if (tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        for (TourLog log : tourLogs) {
+            if (log.getTotalTime() == null) {
+                continue;
+            }
+            secSum += log.getTotalTime().toSecondOfDay();
+        }
+        if (secSum == 0) return 0;
+        return (10 - (int) Math.round(secSum / (3600 * 2.4)));
+    }
+    @JsonIgnore
+    private Integer getDifficultyFriendliness(List<TourLog> tourLogs) {
+        long difficulty = 0;
+        if (tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        for (TourLog log : tourLogs) {
+            if (log.getDifficulty() == null) {
+                continue;
+            }
+            difficulty += log.getDifficulty();
+        }
+        if (difficulty == 0) return 0;
+        return (10 - Math.toIntExact(difficulty / tourLogs.size()));
     }
 }

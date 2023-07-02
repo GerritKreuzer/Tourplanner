@@ -54,9 +54,10 @@ public class TourSearchServiceImpl implements TourSearchService{
     private Map<TourItem, List<String>> getSearchData(List<TourItem> tours) {
         Map<TourItem, List<String>> searchDataMap = new HashMap<>();
         tours.forEach(tourItem -> {
+            List<TourLog> tourLogs = tourLogService.getAll(tourItem);
+            tourItem.setCalculatedProperties(tourLogs);
             List<String> searchDataList = getSearchDataForTourItem(tourItem);
 
-            List<TourLog> tourLogs = tourLogService.getAll(tourItem);
             tourLogs.forEach(tourLog -> {
                 searchDataList.addAll(getSearchDataForTourLogs(tourLog));
             });

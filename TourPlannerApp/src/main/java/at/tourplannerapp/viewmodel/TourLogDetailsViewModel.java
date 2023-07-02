@@ -17,7 +17,7 @@ public class TourLogDetailsViewModel {
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty comment = new SimpleStringProperty();
     private final IntegerProperty difficulty = new SimpleIntegerProperty();
-    private final ObjectProperty<LocalTime> totalTime = new SimpleObjectProperty();
+    private final ObjectProperty<LocalTime> totalTime = new SimpleObjectProperty<>();
     private final IntegerProperty rating = new SimpleIntegerProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
