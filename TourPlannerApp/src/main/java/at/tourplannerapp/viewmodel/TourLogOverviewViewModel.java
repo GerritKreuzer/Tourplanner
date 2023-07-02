@@ -24,6 +24,7 @@ public class TourLogOverviewViewModel {
     private Consumer<TourLog> tourLogToSelect;
     private Consumer<Double> errorDetailsHeight;
     private Consumer<String> addButtonStyleString;
+    private Consumer<Boolean> requestRefreshTourLogList;
     private TourItem tourItem;
 
     public TourLogOverviewViewModel(TourLogService tourLogService) {
@@ -99,6 +100,14 @@ public class TourLogOverviewViewModel {
 
     public void setAddButtonStyle(Consumer<String> addButtonStyleString) {
         this.addButtonStyleString = addButtonStyleString;
+    }
+
+    public void setRequestRefreshTourLogList(Consumer<Boolean> requestRefreshTourLogList) {
+        this.requestRefreshTourLogList = requestRefreshTourLogList;
+    }
+
+    public void updateTourLogList() {
+        requestRefreshTourLogList.accept(true);
     }
 
     private void removeError() {

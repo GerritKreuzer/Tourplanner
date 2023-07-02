@@ -26,6 +26,7 @@ public class TourLogDetailsViewModel {
     private TourLog tourLog;
     private Consumer<String> validationDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
+    private Consumer<Boolean> requestRefreshTourLogList;
 
     public TourLogDetailsViewModel(TourLogService tourLogService) {
         this.tourLogService = tourLogService;
@@ -76,6 +77,7 @@ public class TourLogDetailsViewModel {
         if (validInputs()) {
             updateTourLog();
             tourLogService.update(tourLog);
+            requestRefreshTourLogList.accept(true);
         }
     }
 
@@ -85,6 +87,10 @@ public class TourLogDetailsViewModel {
 
     public void setNameTextFieldStyle(Consumer<String> nameTextFieldStyleString) {
         this.nameTextFieldStyleString = nameTextFieldStyleString;
+    }
+
+    public void setRequestRefreshTourLogList(Consumer<Boolean> requestRefreshTourLogList) {
+        this.requestRefreshTourLogList = requestRefreshTourLogList;
     }
 
     private boolean validInputs() {

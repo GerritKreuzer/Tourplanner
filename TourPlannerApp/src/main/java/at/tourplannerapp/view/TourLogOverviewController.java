@@ -47,5 +47,10 @@ public class TourLogOverviewController {
             addButton.setStyle(addButtonStyleString);
         });
 
+        tourLogOverviewViewModel.setRequestRefreshTourLogList(shouldRefresh -> {
+            if (shouldRefresh) {
+                tourLogList.refresh();
+            }
+        });
     }
 }

@@ -66,6 +66,12 @@ public class MainWindowViewModel {
                 this.tourOverviewViewModel.updateTourItemList();
             }
         });
+
+        this.tourLogDetailsViewModel.setRequestRefreshTourLogList(shouldRefresh -> {
+            if (shouldRefresh) {
+                this.tourLogOverviewViewModel.updateTourLogList();
+            }
+        });
     }
 
     public void updateCalculatedAttributes() {
