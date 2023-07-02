@@ -41,7 +41,7 @@ class TourLogRepositoryTest {
     }
 
     @Test
-    void testAllByTourItemEntity() {
+    void testGetAlltourLogsByTourItemEntity() {
         // given
         TourLogEntity tourLogEntity1 = new TourLogEntity(tour);
         TourLogEntity tourLogEntity2 = new TourLogEntity(tour);
