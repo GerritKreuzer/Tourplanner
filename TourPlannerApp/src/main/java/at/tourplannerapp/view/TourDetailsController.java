@@ -17,7 +17,7 @@ public class TourDetailsController {
     @FXML
     private TextField toLocationTextField;
     @FXML
-    private TextField transportTypeTextField;
+    private ComboBox<String> transportTypeComboBox;
     @FXML
     private Label distanceLabel;
     @FXML
@@ -45,11 +45,12 @@ public class TourDetailsController {
 
     @FXML
     void initialize() {
+        transportTypeComboBox.setItems(tourDetailsViewModel.getObservableTransportType());
         nameTextField.textProperty().bindBidirectional(tourDetailsViewModel.nameProperty());
         descriptionTextArea.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
         toLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.toLocationProperty());
         fromLocationTextField.textProperty().bindBidirectional(tourDetailsViewModel.fromLocationProperty());
-        transportTypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transportationTypeProperty());
+        transportTypeComboBox.valueProperty().bindBidirectional(tourDetailsViewModel.transportationTypeProperty());
         distanceLabel.textProperty().bindBidirectional(tourDetailsViewModel.distanceProperty());
         timeLabel.textProperty().bindBidirectional(tourDetailsViewModel.timeProperty());
         saveTourButton.setOnAction(event -> tourDetailsViewModel.onSaveTourButtonClicked());
@@ -64,6 +65,12 @@ public class TourDetailsController {
         });
         tourDetailsViewModel.setNameTextFieldStyle(nameTextFieldStyleString -> {
             nameTextField.setStyle(nameTextFieldStyleString);
+        });
+        tourDetailsViewModel.setFromTextFieldStyle(fromLocationTextFieldStyleString -> {
+            fromLocationTextField.setStyle(fromLocationTextFieldStyleString);
+        });
+        tourDetailsViewModel.setToTextFieldStyle(toLocationTextFieldStyleString -> {
+            toLocationTextField.setStyle(toLocationTextFieldStyleString);
         });
         saveTourButton.toFront();
         validationDetails.toFront();

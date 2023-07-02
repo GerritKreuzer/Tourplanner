@@ -2,7 +2,10 @@ package at.tourplannerapp.viewmodel;
 
 import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.service.tour.TourLogService;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.*;
+import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -95,14 +98,17 @@ public class TourLogDetailsViewModel {
 
     private boolean validInputs() {
         if (tourLog == null) {
-            setValidationTextAndStyles("Please select a tour log!", ERROR_MESSAGE_STYLE, EMPTY_STRING);
+            setValidationTextAndStyles("Please select a tour log!", ERROR_MESSAGE_STYLE);
+            nameTextFieldStyleString.accept(EMPTY_STRING);
             return false;
         }
         if (name.get() == null || name.get().isEmpty()) {
-            setValidationTextAndStyles("The name field is required!", ERROR_MESSAGE_STYLE, ERROR_STYLE);
+            setValidationTextAndStyles("The name field is required!", ERROR_MESSAGE_STYLE);
+            nameTextFieldStyleString.accept(ERROR_STYLE);
             return false;
         }
-        setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE, EMPTY_STRING);
+        setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE);
+        nameTextFieldStyleString.accept(EMPTY_STRING);
         return true;
     }
 
@@ -136,10 +142,14 @@ public class TourLogDetailsViewModel {
         tourLog.setTime(time.getValue());
     }
 
-    private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {
+    private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText) {
         validationDetails.set(invalidDetailsText);
         validationDetailsStyleString.accept(validationDetailsStyleText);
-        nameTextFieldStyleString.accept(nameTextFieldStyleText);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+            validationDetails.set(EMPTY_STRING);
+            validationDetailsStyleString.accept(EMPTY_STRING);
+        }));
+        timeline.play();
     }
 
 }

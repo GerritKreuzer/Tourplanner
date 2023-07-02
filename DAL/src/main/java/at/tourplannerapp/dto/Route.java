@@ -8,4 +8,5 @@ import lombok.Getter;
 public class Route {
     private double distance;
     private long time;
+    private String sessionId;
 }

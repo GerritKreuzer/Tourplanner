@@ -6,11 +6,18 @@ import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.service.map.MapService;
 import at.tourplannerapp.service.tour.TourItemService;
 import at.tourplannerapp.service.tour.TourLogService;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
@@ -24,13 +31,14 @@ public class TourDetailsViewModel {
     private final StringProperty description = new SimpleStringProperty();
     private final StringProperty fromLocation = new SimpleStringProperty();
     private final StringProperty toLocation = new SimpleStringProperty();
-    private final StringProperty transportationType = new SimpleStringProperty();
+    private final ObjectProperty<String> transportationType = new SimpleObjectProperty<>();
     private final StringProperty distance = new SimpleStringProperty();
     private final StringProperty time = new SimpleStringProperty();
     private final StringProperty popularity = new SimpleStringProperty();
     private final IntegerProperty childFriendliness = new SimpleIntegerProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final StringProperty distanceUnit = new SimpleStringProperty();
+    private final ObservableList<String> observableTransportType = FXCollections.observableArrayList();
     private final TourItemService tourItemService;
     private final TourLogService tourLogService;
     private final MapService mapService;
@@ -38,11 +46,18 @@ public class TourDetailsViewModel {
     private Consumer<Boolean> requestRefreshTourItemList;
     private Consumer<String> validationDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
+    private Consumer<String> fromLocationTextFieldStyleString;
+    private Consumer<String> toLocationTextFieldStyleString;
+
 
     public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService) {
         this.tourItemService = tourItemService;
         this.tourLogService = tourLogService;
         this.mapService = mapService;
+        observableTransportType.add("fastest");
+        observableTransportType.add("shortest");
+        observableTransportType.add("pedestrian");
+        observableTransportType.add("bicycle");
     }
 
     public StringProperty nameProperty() {
@@ -61,7 +76,7 @@ public class TourDetailsViewModel {
         return toLocation;
     }
 
-    public StringProperty transportationTypeProperty() {
+    public ObjectProperty<String> transportationTypeProperty() {
         return transportationType;
     }
 
@@ -92,6 +107,9 @@ public class TourDetailsViewModel {
     public ObjectProperty<Image> tourImageProperty() {
         return tourImage;
     }
+    public ObservableList<String> getObservableTransportType() {
+        return observableTransportType;
+    }
 
     public void setTourItem(TourItem tourItem) {
         this.tourItem = tourItem;
@@ -101,14 +119,18 @@ public class TourDetailsViewModel {
         }
         setPropertiesToTourItemValues();
         validationDetails.set(EMPTY_STRING);
-        nameTextFieldStyleString.accept(EMPTY_STRING);
+        setTextFieldStyles(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING);
     }
 
     public void onSaveTourButtonClicked() {
         if (validInputs()) {
             RouteResponseModel route = mapService.getRoute(transportationType.get(), fromLocation.get(), toLocation.get());
-
-            byte[] imageByteArray = mapService.fetchImageAsByteArray(fromLocation.get(), toLocation.get());
+            if(route.getStatusCode() != 0) {
+                setValidationTextAndStyles("The location is invalid!", ERROR_MESSAGE_STYLE);
+                setTextFieldStyles(EMPTY_STRING, ERROR_STYLE, ERROR_STYLE);
+                return;
+            }
+            byte[] imageByteArray = mapService.fetchImageAsByteArray(route.getSession());
             tourImage.set(getImageFromByteArray(imageByteArray));
             updateTour(route);
             setCalculatedProperties();
@@ -119,6 +141,8 @@ public class TourDetailsViewModel {
             tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
             requestRefreshTourItemList.accept(true);
+            setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE);
+            setTextFieldStyles(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING);
         }
     }
 
@@ -128,18 +152,19 @@ public class TourDetailsViewModel {
 
     public boolean validInputs() {
         if (tourItem == null) {
-            setValidationTextAndStyles("Please select a tour!", ERROR_MESSAGE_STYLE, EMPTY_STRING);
+            setValidationTextAndStyles("Please select a tour!", ERROR_MESSAGE_STYLE);
             return false;
         }
         if (name.get() == null || name.get().isEmpty()) {
-            setValidationTextAndStyles("The name field is required!", ERROR_MESSAGE_STYLE, ERROR_STYLE);
+            setValidationTextAndStyles("The name field is required!", ERROR_MESSAGE_STYLE);
+            nameTextFieldStyleString.accept(ERROR_STYLE);
             return false;
         }
         if (name.get().length() > 64) {
-            setValidationTextAndStyles("The name field can only be 64 characters long!", ERROR_MESSAGE_STYLE, ERROR_STYLE);
+            setValidationTextAndStyles("The name field can only be 64 characters long!", ERROR_MESSAGE_STYLE);
+            nameTextFieldStyleString.accept(ERROR_STYLE);
             return false;
         }
-        setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE, EMPTY_STRING);
         return true;
     }
 
@@ -149,6 +174,12 @@ public class TourDetailsViewModel {
 
     public void setNameTextFieldStyle(Consumer<String> nameTextFieldStyleString) {
         this.nameTextFieldStyleString = nameTextFieldStyleString;
+    }
+    public void setFromTextFieldStyle(Consumer<String> fromLocationTextFieldStyleString) {
+        this.fromLocationTextFieldStyleString = fromLocationTextFieldStyleString;
+    }
+    public void setToTextFieldStyle(Consumer<String> toLocationTextFieldStyleString) {
+        this.toLocationTextFieldStyleString = toLocationTextFieldStyleString;
     }
 
     private void emptyTourProperties() {
@@ -197,10 +228,21 @@ public class TourDetailsViewModel {
         }
     }
 
-    private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText, String nameTextFieldStyleText) {
+    private void setValidationTextAndStyles(String invalidDetailsText, String validationDetailsStyleText) {
         validationDetails.set(invalidDetailsText);
         validationDetailsStyleString.accept(validationDetailsStyleText);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+            validationDetails.set(EMPTY_STRING);
+            validationDetailsStyleString.accept(EMPTY_STRING);
+        }));
+        timeline.play();
+    }
+
+    private void setTextFieldStyles(String nameTextFieldStyleText, String fromTextFieldStyleText, String toTextFieldStyleText) {
         nameTextFieldStyleString.accept(nameTextFieldStyleText);
+        fromLocationTextFieldStyleString.accept(fromTextFieldStyleText);
+        toLocationTextFieldStyleString.accept(toTextFieldStyleText);
     }
 
     private Image getImageFromByteArray(byte[] imageByteArray) {

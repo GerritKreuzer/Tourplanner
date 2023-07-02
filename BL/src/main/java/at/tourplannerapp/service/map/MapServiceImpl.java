@@ -1,5 +1,6 @@
 package at.tourplannerapp.service.map;
 
+import at.tourplannerapp.dto.Info;
 import at.tourplannerapp.dto.Route;
 import at.tourplannerapp.dto.RouteResponse;
 import at.tourplannerapp.model.RouteResponseModel;
@@ -29,17 +30,18 @@ public class MapServiceImpl implements MapService {
     public RouteResponseModel getRoute(String transportType, String fromLocation, String toLocation) {
         try {
             Response<RouteResponse> response = api.getRoute(apiKey, distanceUnit, transportType, fromLocation, toLocation).execute();
+            System.out.println(response);
             Route route = response.body().getRoute();
-            return new RouteResponseModel(route.getDistance(), route.getTime());
+            Info info = response.body().getInfo();
+            return new RouteResponseModel(route.getDistance(), route.getTime(), route.getSessionId(), info.getStatuscode());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public byte[] fetchImageAsByteArray(String fromLocation, String toLocation) {
-        Call<ResponseBody> responseBodyCall = api.fetchImage(apiKey, fromLocation, toLocation);
-
+    public byte[] fetchImageAsByteArray(String session) {
+        Call<ResponseBody> responseBodyCall = api.fetchImage(apiKey, session);
         try {
             Response<ResponseBody> response = responseBodyCall.execute();
             if (response.body() != null) {

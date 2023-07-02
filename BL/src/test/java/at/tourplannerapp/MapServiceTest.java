@@ -11,12 +11,12 @@ public class MapServiceTest {
 
     private static final String from = "Vienna";
     private static final String to = "Linz";
+    private static final String transportationType = "fastest";
 
     @Test
     void getRouteTest(){
 
         //arrange
-        String transportationType = "car";
 
         //act
         MapService mapService = new MapServiceImpl();
@@ -31,10 +31,11 @@ public class MapServiceTest {
     void getImageTest(){
 
         //arrange
+        MapService mapService = new MapServiceImpl();
+        RouteResponseModel response = mapService.getRoute(transportationType, from, to);
 
         //act
-        MapService mapService = new MapServiceImpl();
-        byte[] array = mapService.fetchImageAsByteArray(from, to);
+        byte[] array = mapService.fetchImageAsByteArray(response.getSession());
 
         //assert
         assertTrue(array.length != 0);
