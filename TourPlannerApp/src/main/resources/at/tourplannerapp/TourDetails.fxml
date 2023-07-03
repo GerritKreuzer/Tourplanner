@@ -12,7 +12,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <GridPane layoutX="1.0" layoutY="1.0" prefHeight="729.0" prefWidth="1085.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.tourplannerapp.view.TourDetailsController">
     <columnConstraints>
@@ -81,13 +83,26 @@
          <GridPane.margin>
             <Insets left="5.0" />
          </GridPane.margin></Label>
-        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
-            <children>
-                <ImageView fx:id="tourImageView" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="weatherImageView" fitHeight="53.0" fitWidth="70.0" layoutX="478.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="weatherDescription" layoutX="478.0" layoutY="26.0" text="Weather Description" />
-            </children>
-        </Pane>
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                      <ImageView fx:id="tourImageView" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label text="Weather" />
+                      <Label fx:id="weatherDescription" />
+                      <ImageView fx:id="weatherImageView" fitHeight="53.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </VBox>
+         </children>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </HBox>
       <Label text="Popularity" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Label fx:id="popularityLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <Label text="Child-friendliness" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
