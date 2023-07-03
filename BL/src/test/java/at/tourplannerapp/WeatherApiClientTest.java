@@ -10,6 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WeatherApiClientTest {
 
     @Test
+    void makeApiCallTest() {
+        // Arrange
+        WeatherApiClient client = new WeatherApiClient();
+
+        // Act
+        client.makeApiCall("Vienna");
+
+        // Assert
+        assertNotNull(client.getResponse());
+    }
+
+    @Test
     void getConditionOfDayTest() {
         // Arrange
         WeatherApiClient client = new WeatherApiClient();
