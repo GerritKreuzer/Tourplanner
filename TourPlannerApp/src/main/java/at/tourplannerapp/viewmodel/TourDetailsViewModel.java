@@ -4,17 +4,17 @@ import at.tourplannerapp.config.ApplicationConfigProperties;
 import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
+import at.tourplannerapp.model.WeatherResponseModel;
 import at.tourplannerapp.service.map.MapService;
 import at.tourplannerapp.service.tour.TourItemService;
 import at.tourplannerapp.service.tour.TourLogService;
-import at.tourplannerapp.service.weather.WeatherApiClient;
+import at.tourplannerapp.service.weather.WeatherService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +33,6 @@ public class TourDetailsViewModel {
     private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     private final String distanceUnitText;
     public final ObjectProperty<Image> tourImage = new SimpleObjectProperty<>();
-    private final ObjectProperty<Image> weatherImage = new SimpleObjectProperty<>();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final StringProperty fromLocation = new SimpleStringProperty();
@@ -50,18 +49,19 @@ public class TourDetailsViewModel {
     private final TourItemService tourItemService;
     private final TourLogService tourLogService;
     private final MapService mapService;
+    private final WeatherService weatherService;
     private TourItem tourItem;
     private Consumer<Boolean> requestRefreshTourItemList;
     private Consumer<String> validationDetailsStyleString;
     private Consumer<String> nameTextFieldStyleString;
     private Consumer<String> fromLocationTextFieldStyleString;
     private Consumer<String> toLocationTextFieldStyleString;
-    WeatherApiClient weatherApiClient = new WeatherApiClient();
 
-    public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService, ApplicationConfigProperties applicationConfigProperties) {
+    public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService, ApplicationConfigProperties applicationConfigProperties, WeatherService weatherService) {
         this.tourItemService = tourItemService;
         this.tourLogService = tourLogService;
         this.mapService = mapService;
+        this.weatherService = weatherService;
         observableTransportType.add("fastest");
         observableTransportType.add("shortest");
         observableTransportType.add("pedestrian");
@@ -119,11 +119,8 @@ public class TourDetailsViewModel {
     public ObservableList<String> getObservableTransportType() {
         return observableTransportType;
     }
-    public Property<String> weatherDescriptionPropterty() {
+    public Property<String> weatherDescriptionProperty() {
         return weatherDescription;
-    }
-    public ObjectProperty<Image> getWeatherImageProperty() {
-        return weatherImage;
     }
 
     public void setTourItem(TourItem tourItem) {
@@ -224,7 +221,6 @@ public class TourDetailsViewModel {
         popularity.set(EMPTY_STRING);
         childFriendliness.set(1);
         weatherDescription.set(EMPTY_STRING);
-        weatherImage.set(null);
         tourImage.set(null);
     }
 
@@ -256,9 +252,9 @@ public class TourDetailsViewModel {
 
     private void setWeatherData(){
         LOGGER.debug("setting weather data for "+tourItem.getFromLocation());
-        weatherApiClient.makeApiCall(tourItem.getFromLocation());
-        weatherDescription.setValue(weatherApiClient.getConditionOfDay());
-        weatherImage.setValue(SwingFXUtils.toFXImage(weatherApiClient.downloadImage(), null));
+        WeatherResponseModel weatherResponseModel = weatherService.getCurrentWeatherForecast(tourItem.getFromLocation());
+        weatherDescription.setValue(weatherResponseModel.getCurrentWeatherText());
+
     }
 
     public void setCalculatedProperties() {

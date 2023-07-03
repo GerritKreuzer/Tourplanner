@@ -5,10 +5,13 @@ import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.repositories.TourLogRepository;
 import at.tourplannerapp.service.iomanager.IOManagerService;
 import at.tourplannerapp.service.iomanager.IOManagerServiceImpl;
+import at.tourplannerapp.service.map.MapService;
 import at.tourplannerapp.service.map.MapServiceImpl;
 import at.tourplannerapp.service.pdf.PdfService;
 import at.tourplannerapp.service.pdf.PdfServiceImpl;
 import at.tourplannerapp.service.tour.*;
+import at.tourplannerapp.service.weather.WeatherService;
+import at.tourplannerapp.service.weather.WeatherServiceImpl;
 import at.tourplannerapp.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -23,7 +26,8 @@ public class ControllerFactory {
     private final TourLogOverviewViewModel tourLogOverviewViewModel;
 
     private ControllerFactory(ConfigurableApplicationContext applicationContext) {
-        MapServiceImpl mapService = new MapServiceImpl(applicationContext.getBean(ApplicationConfigProperties.class));
+        MapService mapService = new MapServiceImpl(applicationContext.getBean(ApplicationConfigProperties.class));
+        WeatherService weatherService = new WeatherServiceImpl(applicationContext.getBean(ApplicationConfigProperties.class));
         TourItemService tourItemService = new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class));
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
         PdfService pdfService = new PdfServiceImpl(applicationContext.getBean(ApplicationConfigProperties.class));
@@ -31,7 +35,7 @@ public class ControllerFactory {
         TourSearchService tourSearchService = new TourSearchServiceImpl();
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
-        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService, applicationContext.getBean(ApplicationConfigProperties.class));
+        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService, applicationContext.getBean(ApplicationConfigProperties.class), weatherService);
         tourLogDetailsViewModel = new TourLogDetailsViewModel(tourLogService);
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel,

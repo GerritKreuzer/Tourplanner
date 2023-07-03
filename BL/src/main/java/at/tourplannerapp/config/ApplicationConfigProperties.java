@@ -8,6 +8,8 @@ public class ApplicationConfigProperties {
     private String mapquestUnit;
     private String mapquestKey;
 
+    private String weatherKey;
+
     public String getMapquestUnit() {
         return mapquestUnit;
     }
@@ -22,5 +24,13 @@ public class ApplicationConfigProperties {
 
     public void setMapquestKey(String mapquestKey) {
         this.mapquestKey = mapquestKey;
+    }
+
+    public String getWeatherKey() {
+        return weatherKey;
+    }
+
+    public void setWeatherKey(String weatherKey) {
+        this.weatherKey = weatherKey;
     }
 }

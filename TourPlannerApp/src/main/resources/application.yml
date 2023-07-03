@@ -1,6 +1,7 @@
 app:
   mapquest-unit: m
   mapquest-key: L79tHIt13lDFgMikqzc1o3aEuMh5DxmP
+  weather-key: 0bfbc2887fdb4488a7d143321230307
 
 spring:
   datasource:

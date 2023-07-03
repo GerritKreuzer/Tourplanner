@@ -95,7 +95,6 @@
                <children>
                   <Label text="Weather" />
                       <Label fx:id="weatherDescription" />
-                      <ImageView fx:id="weatherImageView" fitHeight="53.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
          </children>
