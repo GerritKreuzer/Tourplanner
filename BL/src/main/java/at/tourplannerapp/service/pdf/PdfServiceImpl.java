@@ -51,19 +51,27 @@ public class PdfServiceImpl implements PdfService {
             // Create a table for the TourItem information
             Table tourItemTable = new Table(2);
 
+            // decide units for distance
+            String distance = tourItem.getDistance().toString() == null ? "" : tourItem.getDistance().toString() + (true/*insert condition*/ ? " km" : " m");
+
             tourItemTable.addCell("Description");
             tourItemTable.addCell(tourItem.getDescription() == null ? "" : tourItem.getDescription());
             tourItemTable.addCell("Transportation Type");
             tourItemTable.addCell(tourItem.getTransportationType() == null ? "" : tourItem.getTransportationType());
             tourItemTable.addCell("Distance");
-            tourItemTable.addCell(tourItem.getDistance().toString() == null ? "" : tourItem.getDistance().toString());
+            tourItemTable.addCell(distance);
             tourItemTable.addCell("Estimated Time");
             tourItemTable.addCell(tourItem.getEstimatedTimeString() == null ? "" : tourItem.getEstimatedTimeString());
             tourItemTable.addCell("Start");
             tourItemTable.addCell(tourItem.getFromLocation() == null ? "" : tourItem.getFromLocation());
             tourItemTable.addCell("End");
             tourItemTable.addCell(tourItem.getToLocation() == null ? "" : tourItem.getToLocation());
-            // Add more rows as needed for other TourItem attributes
+
+            // computed values
+            tourItemTable.addCell("Child-Friendlessness");
+            tourItemTable.addCell(tourItem.getChildFriendliness() == null ? "" : tourItem.getChildFriendliness().toString());
+            tourItemTable.addCell("Popularity");
+            tourItemTable.addCell(tourItem.getPopularity() == null ? "" : tourItem.getPopularity().toString());
 
             // Create a table for the TourLogs
             Table tourLogTable = new Table(5);
@@ -72,6 +80,8 @@ public class PdfServiceImpl implements PdfService {
             tourLogTable.addHeaderCell("Difficulty");
             tourLogTable.addHeaderCell("Total Time");
             tourLogTable.addHeaderCell("Rating");
+
+            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             for (TourLog tourLog : tourLogs) {
                 tourLogTable
@@ -98,10 +108,7 @@ public class PdfServiceImpl implements PdfService {
                 mapImage.setHeight(imageHeight);
                 document.add(mapImage);
             }catch (Exception e){
-                LOGGER.error("Export pdf for tour id=[{}], name=[{}] image exception=[{}]",
-                        tourItem.getTourId(),
-                        tourItem.getName(),
-                        e.toString());
+
             }
 
             document.close();
