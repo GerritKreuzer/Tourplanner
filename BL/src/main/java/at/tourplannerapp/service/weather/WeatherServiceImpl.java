@@ -31,12 +31,12 @@ public class WeatherServiceImpl implements WeatherService{
     public WeatherResponseModel getCurrentWeatherForecast(String fromLocation) {
         try {
             Response<WeatherResponse> response = api.getWeather(apiKey, fromLocation).execute();
-            LOGGER.info("Weather Api getRoute call response[{}]",
+            LOGGER.info("Weather Api getCurrentWeatherForecast call response[{}]",
                     response);
             CurrentWeather currentWeather = response.body().getCurrent();
             return new WeatherResponseModel(currentWeather.getCondition().getText(), currentWeather.getCondition().getIcon());
         } catch (IOException e) {
-            LOGGER.error("MapQuest Api getRoute exception=[{}]",
+            LOGGER.error("Weather Api getCurrentWeatherForecast exception=[{}]",
                     e.toString());
             throw new RuntimeException(e);
         }
