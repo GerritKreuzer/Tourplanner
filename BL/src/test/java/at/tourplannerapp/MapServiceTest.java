@@ -1,9 +1,11 @@
 package at.tourplannerapp;
 
+import at.tourplannerapp.config.ApplicationConfigProperties;
 import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.service.map.MapService;
 import at.tourplannerapp.service.map.MapServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,13 +15,16 @@ public class MapServiceTest {
     private static final String to = "Linz";
     private static final String transportationType = "fastest";
 
+    @Autowired
+    ApplicationConfigProperties applicationConfigProperties;
+
     @Test
     void getRouteTest(){
 
         //arrange
 
         //act
-        MapService mapService = new MapServiceImpl();
+        MapService mapService = new MapServiceImpl(applicationConfigProperties);
         RouteResponseModel response = mapService.getRoute(transportationType, from, to);
 
         //assert
@@ -31,7 +36,7 @@ public class MapServiceTest {
     void getImageTest(){
 
         //arrange
-        MapService mapService = new MapServiceImpl();
+        MapService mapService = new MapServiceImpl(applicationConfigProperties);
         RouteResponseModel response = mapService.getRoute(transportationType, from, to);
 
         //act

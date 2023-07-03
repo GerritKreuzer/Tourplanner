@@ -21,7 +21,9 @@ public class TourItem {
     private byte[] map;
     private String fromLocation;
     private String toLocation;
+
     private Integer popularity;
+
     private Integer childFriendliness;
 
     public void setEstimatedTime(Long estimatedTime) {

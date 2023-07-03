@@ -1,5 +1,6 @@
 package at.tourplannerapp.viewmodel;
 
+import at.tourplannerapp.config.ApplicationConfigProperties;
 import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
@@ -27,6 +28,7 @@ public class TourDetailsViewModel {
     private static final String SUCCESS_MESSAGE_STYLE = "-fx-text-fill: GREEN;";
     private static final String ERROR_MESSAGE_STYLE = "-fx-text-fill: RED;";
     private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    private final String distanceUnitText;
     public final ObjectProperty<Image> tourImage = new SimpleObjectProperty<>();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
@@ -50,7 +52,7 @@ public class TourDetailsViewModel {
     private Consumer<String> fromLocationTextFieldStyleString;
     private Consumer<String> toLocationTextFieldStyleString;
 
-    public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService) {
+    public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService, ApplicationConfigProperties applicationConfigProperties) {
         this.tourItemService = tourItemService;
         this.tourLogService = tourLogService;
         this.mapService = mapService;
@@ -58,6 +60,7 @@ public class TourDetailsViewModel {
         observableTransportType.add("shortest");
         observableTransportType.add("pedestrian");
         observableTransportType.add("bicycle");
+        distanceUnitText = "m".equals(applicationConfigProperties.getMapquestUnit()) ? "Meilen" : "Kilometer";
     }
 
     public StringProperty nameProperty() {
@@ -135,7 +138,7 @@ public class TourDetailsViewModel {
             updateTour(route);
             setCalculatedProperties();
             distance.setValue(tourItem.getDistance().toString());
-            distanceUnit.setValue("km");
+            distanceUnit.setValue(distanceUnitText);
             time.setValue(tourItem.getEstimatedTimeString());
 
             tourItem.setMap(imageByteArray);
@@ -225,7 +228,7 @@ public class TourDetailsViewModel {
         toLocation.setValue(tourItem.getToLocation());
         transportationType.setValue(tourItem.getTransportationType());
         distance.setValue(tourItem.getDistance() == null ? "" : tourItem.getDistance().toString());
-        distanceUnit.setValue(tourItem.getDistance() == null ? "" : "km");
+        distanceUnit.setValue(tourItem.getDistance() == null ? "" : distanceUnitText);
         time.setValue(tourItem.getEstimatedTimeString());
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
         setCalculatedProperties();

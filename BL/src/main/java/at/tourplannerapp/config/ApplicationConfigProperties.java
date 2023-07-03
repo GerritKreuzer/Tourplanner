@@ -1,19 +1,17 @@
 package at.tourplannerapp.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
 @ConfigurationProperties(prefix = "app")
 public class ApplicationConfigProperties {
-    private int timeoutMs;
+    private String mapquestUnit;
     private String mapquestKey;
 
-
-    public int getTimeoutMs() {
-        return timeoutMs;
+    public String getMapquestUnit() {
+        return mapquestUnit;
     }
 
-    public void setTimeoutMs(int timeoutMs) {
-        this.timeoutMs = timeoutMs;
+    public void setMapquestUnit(String mapquestUnit) {
+        this.mapquestUnit = mapquestUnit;
     }
 
     public String getMapquestKey() {

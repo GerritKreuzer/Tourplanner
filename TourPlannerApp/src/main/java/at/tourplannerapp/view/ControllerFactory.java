@@ -1,5 +1,6 @@
 package at.tourplannerapp.view;
 
+import at.tourplannerapp.config.ApplicationConfigProperties;
 import at.tourplannerapp.repositories.TourItemRepository;
 import at.tourplannerapp.repositories.TourLogRepository;
 import at.tourplannerapp.service.iomanager.IOManagerService;
@@ -22,7 +23,7 @@ public class ControllerFactory {
     private final TourLogOverviewViewModel tourLogOverviewViewModel;
 
     private ControllerFactory(ConfigurableApplicationContext applicationContext) {
-        MapServiceImpl mapService = new MapServiceImpl();
+        MapServiceImpl mapService = new MapServiceImpl(applicationContext.getBean(ApplicationConfigProperties.class));
         TourItemService tourItemService = new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class));
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
         PdfService pdfService = new PdfServiceImpl();
@@ -30,7 +31,7 @@ public class ControllerFactory {
         TourSearchService tourSearchService = new TourSearchServiceImpl(tourItemService, tourLogService);
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
-        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService);
+        tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService, applicationContext.getBean(ApplicationConfigProperties.class));
         tourLogDetailsViewModel = new TourLogDetailsViewModel(tourLogService);
         tourLogOverviewViewModel = new TourLogOverviewViewModel(tourLogService);
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, tourOverviewViewModel, tourDetailsViewModel,

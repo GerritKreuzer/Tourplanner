@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.log4j.BasicConfigurator;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -47,13 +46,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        BasicConfigurator.configure();
-        ApplicationConfigProperties configProperties
-                = applicationContext.getBean(ApplicationConfigProperties.class);
-        System.out.println("TIMEOUT IS: "+ configProperties.getTimeoutMs());
-        System.out.println("MAPQUESTKEY IS: "+ configProperties.getMapquestKey());
-
-
         Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.ENGLISH, applicationContext);  // Locale.GERMAN, Locale.ENGLISH
         Scene scene = new Scene(root);
         stage.setTitle("Tour Planner!");

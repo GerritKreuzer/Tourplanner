@@ -1,11 +1,11 @@
 package at.tourplannerapp.service.map;
 
+import at.tourplannerapp.config.ApplicationConfigProperties;
 import at.tourplannerapp.dto.Info;
 import at.tourplannerapp.dto.Route;
 import at.tourplannerapp.dto.RouteResponse;
 import at.tourplannerapp.model.RouteResponseModel;
 import at.tourplannerapp.repositories.MapQuestApi;
-import at.tourplannerapp.service.iomanager.IOManagerServiceImpl;
 import okhttp3.ResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,24 +14,24 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Properties;
 
 public class MapServiceImpl implements MapService {
 
     private static final Logger LOGGER = LogManager.getLogger(MapServiceImpl.class);
-    private static final String apiKey = "L79tHIt13lDFgMikqzc1o3aEuMh5DxmP";
-    private static final String distanceUnit = "k";
-    private final MapQuestApi api;
+    private final String apiKey;
+    private final String distanceUnit;
+    private MapQuestApi api;
 
-    public MapServiceImpl() {
+    public MapServiceImpl(ApplicationConfigProperties applicationConfigProperties) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.mapquestapi.com/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
         api = retrofit.create(MapQuestApi.class);
+        apiKey = applicationConfigProperties.getMapquestKey();
+        distanceUnit = applicationConfigProperties.getMapquestUnit();
     }
 
     public RouteResponseModel getRoute(String transportType, String fromLocation, String toLocation) {
