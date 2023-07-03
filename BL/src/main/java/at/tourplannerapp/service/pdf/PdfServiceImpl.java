@@ -1,8 +1,8 @@
 package at.tourplannerapp.service.pdf;
 
+import at.tourplannerapp.config.ApplicationConfigProperties;
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
-import at.tourplannerapp.service.map.MapServiceImpl;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -27,7 +26,10 @@ public class PdfServiceImpl implements PdfService {
 
     private static final Logger LOGGER = LogManager.getLogger(PdfServiceImpl.class);
 
-    public PdfServiceImpl() {
+    private final String distanceUnit;
+
+    public PdfServiceImpl(ApplicationConfigProperties applicationConfigProperties) {
+        distanceUnit = applicationConfigProperties.getMapquestUnit();
     }
 
     public void createReport(File file, TourItem tourItem, List<TourLog> tourLogs) {
@@ -52,7 +54,7 @@ public class PdfServiceImpl implements PdfService {
             Table tourItemTable = new Table(2);
 
             // decide units for distance
-            String distance = tourItem.getDistance().toString() == null ? "" : tourItem.getDistance().toString() + (true/*insert condition*/ ? " km" : " m");
+            String distance = tourItem.getDistance().toString() == null ? "" : tourItem.getDistance().toString() + " " + ("m".equals(distanceUnit) ? "Meilen" : "Kilometer");
 
             tourItemTable.addCell("Description");
             tourItemTable.addCell(tourItem.getDescription() == null ? "" : tourItem.getDescription());
@@ -81,8 +83,6 @@ public class PdfServiceImpl implements PdfService {
             tourLogTable.addHeaderCell("Total Time");
             tourLogTable.addHeaderCell("Rating");
 
-            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
             for (TourLog tourLog : tourLogs) {
                 tourLogTable
                         .addCell((tourLog.getDate() == null ? "" : tourLog.getDate().toString()))
@@ -108,7 +108,10 @@ public class PdfServiceImpl implements PdfService {
                 mapImage.setHeight(imageHeight);
                 document.add(mapImage);
             }catch (Exception e){
-
+                LOGGER.error("Export pdf for tour id=[{}], name=[{}] add image to pdf exception=[{}]",
+                        tourItem.getTourId(),
+                        tourItem.getName(),
+                        e.toString());
             }
 
             document.close();
@@ -165,6 +168,7 @@ public class PdfServiceImpl implements PdfService {
 
                     document.add(tourItemTable);
                 }
+                document.add(new Paragraph("\n\n"));
             });
 
             document.close();

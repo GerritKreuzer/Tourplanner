@@ -1,6 +1,8 @@
 package at.tourplannerapp.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
 @ConfigurationProperties(prefix = "app")
 public class ApplicationConfigProperties {
     private String mapquestUnit;

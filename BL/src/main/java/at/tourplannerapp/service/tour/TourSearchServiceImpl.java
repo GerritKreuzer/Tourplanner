@@ -2,6 +2,7 @@ package at.tourplannerapp.service.tour;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
+import org.springframework.stereotype.Service;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

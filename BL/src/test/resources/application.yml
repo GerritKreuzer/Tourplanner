@@ -1,0 +1,16 @@
+app:
+  mapquest-unit: m
+  mapquest-key: L79tHIt13lDFgMikqzc1o3aEuMh5DxmP
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/swen2db
+    username: swen1user
+    password: swen1password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
