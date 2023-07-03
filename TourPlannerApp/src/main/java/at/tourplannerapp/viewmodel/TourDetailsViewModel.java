@@ -10,6 +10,7 @@ import at.tourplannerapp.service.tour.TourLogService;
 import at.tourplannerapp.service.weather.WeatherApiClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,7 +56,6 @@ public class TourDetailsViewModel {
     private Consumer<String> nameTextFieldStyleString;
     private Consumer<String> fromLocationTextFieldStyleString;
     private Consumer<String> toLocationTextFieldStyleString;
-    Thread getWeatherThread;
     WeatherApiClient weatherApiClient = new WeatherApiClient();
 
     public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService, ApplicationConfigProperties applicationConfigProperties) {
@@ -156,8 +156,7 @@ public class TourDetailsViewModel {
             tourItem.setMap(imageByteArray);
             tourItemService.update(tourItem);
 
-            Thread thread = new Thread(this::setWeatherData);
-            thread.start();
+            Platform.runLater(this::setWeatherData);
 
             requestRefreshTourItemList.accept(true);
             setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE);
@@ -252,8 +251,7 @@ public class TourDetailsViewModel {
         tourImage.setValue(getImageFromByteArray(tourItem.getMap()));
         setCalculatedProperties();
 
-        Thread thread = new Thread(this::setWeatherData);
-        thread.start();
+        Platform.runLater(this::setWeatherData);
     }
 
     private void setWeatherData(){
