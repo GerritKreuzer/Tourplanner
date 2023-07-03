@@ -87,7 +87,7 @@ public class WeatherApiClient {
 
     public BufferedImage downloadImage() {
         try {
-            URL url = new URL(getIconUrl());
+            URL url = new URL("http:"+getIconUrl());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             InputStream inputStream = connection.getInputStream();
