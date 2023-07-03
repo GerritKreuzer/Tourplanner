@@ -73,8 +73,6 @@ public class PdfServiceImpl implements PdfService {
             tourLogTable.addHeaderCell("Total Time");
             tourLogTable.addHeaderCell("Rating");
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
             for (TourLog tourLog : tourLogs) {
                 tourLogTable
                         .addCell((tourLog.getDate() == null ? "" : tourLog.getDate().toString()))
@@ -100,7 +98,10 @@ public class PdfServiceImpl implements PdfService {
                 mapImage.setHeight(imageHeight);
                 document.add(mapImage);
             }catch (Exception e){
-
+                LOGGER.error("Export pdf for tour id=[{}], name=[{}] image exception=[{}]",
+                        tourItem.getTourId(),
+                        tourItem.getName(),
+                        e.toString());
             }
 
             document.close();
