@@ -28,7 +28,7 @@ public class ControllerFactory {
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));
         PdfService pdfService = new PdfServiceImpl(applicationContext.getBean(ApplicationConfigProperties.class));
         IOManagerService ioManagerService = new IOManagerServiceImpl();
-        TourSearchService tourSearchService = new TourSearchServiceImpl(tourItemService, tourLogService);
+        TourSearchService tourSearchService = new TourSearchServiceImpl();
         searchBarViewModel = new SearchBarViewModel();
         tourOverviewViewModel = new TourOverviewViewModel(tourItemService);
         tourDetailsViewModel = new TourDetailsViewModel(tourItemService, tourLogService, mapService, applicationContext.getBean(ApplicationConfigProperties.class));

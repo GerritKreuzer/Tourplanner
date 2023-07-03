@@ -1,41 +1,39 @@
 package at.tourplannerapp.service.tour;
 
+import at.tourplannerapp.GenericTourItemSerializable;
 import at.tourplannerapp.entities.TourItemEntity;
 import at.tourplannerapp.entities.TourLogEntity;
 import at.tourplannerapp.model.TourItem;
-import at.tourplannerapp.repositories.TourItemRepository;
-import at.tourplannerapp.repositories.TourLogRepository;
+import at.tourplannerapp.model.TourItemSerializable;
+import at.tourplannerapp.model.TourLog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
 class TourSearchServiceImplTest {
 
+    private TourSearchService tourSearchService = new TourSearchServiceImpl();
 
-    // Autowired doesnt work
-    @Autowired
-    private TourItemRepository tourItemRepository;
-    @Autowired
-    private TourLogRepository tourLogRepository;
-    @Autowired
-    private TourSearchService tourSearchService;
+    private Map<TourItem, List<TourLog>> searchMap;
 
     @BeforeEach
     void InsertionTourItem() {
-        TourItemEntity tour = new TourItemEntity("Test", "This is a description", "car", 10.0, 40L, "test".getBytes(), "Wien", "Graz");
-        tourItemRepository.saveAndFlush(tour);
-        TourItemEntity tour1 = new TourItemEntity("Test2", "This is a description", "car", 10.0, 40L, "test".getBytes(), "Linz", "Graz");
-        tourItemRepository.saveAndFlush(tour1);
-        TourLogEntity tourLog = new TourLogEntity(tour1);
-        tourLog.setName("Test Tourlog");
-        tour.setDescription("Find me");
-        tourLogRepository.saveAndFlush(tourLog);
+        TourItem tourItem1 = new TourItem(1, "Test1", "beschreibung", "bike", 5.5, 8280L, "test".getBytes(), "Wien", "Linz");
+        TourItem tourItem2 = new TourItem(2, "Test2", "beschreibung", "bike", 5.5, 8280L, "test".getBytes(), "Graz", "linz");
+
+
+        List<TourLog> logs = new ArrayList<>();
+        logs.add(new TourLog(3, "Test Tourlog",  LocalDate.of(2020, 1, 8), LocalTime.now(), "Find me", 45, LocalTime.now(), 17));
+
+        searchMap = new HashMap<>();
+        searchMap.put(tourItem1, Collections.emptyList());
+        searchMap.put(tourItem2, logs);
     }
 
     @Test
@@ -45,11 +43,11 @@ class TourSearchServiceImplTest {
         String searchString = "Wien";
 
         //act
-        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString);
+        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString, searchMap);
 
         //assert
         assertEquals(1, tourItemList.size());
-        assertEquals("Test", tourItemList.get(0).getName());
+        assertEquals("Test1", tourItemList.get(0).getName());
     }
 
     @Test
@@ -59,7 +57,7 @@ class TourSearchServiceImplTest {
         String searchString = "Test Tourlog";
 
         //act
-        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString);
+        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString, searchMap);
 
         //assert
         assertEquals(1, tourItemList.size());
@@ -73,7 +71,7 @@ class TourSearchServiceImplTest {
         String searchString = "me";
 
         //act
-        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString);
+        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString, searchMap);
 
         //assert
         assertEquals(1, tourItemList.size());
@@ -87,7 +85,7 @@ class TourSearchServiceImplTest {
         String searchString = "New York";
 
         //act
-        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString);
+        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString, searchMap);
 
         //assert
         assertEquals(0, tourItemList.size());
@@ -101,9 +99,9 @@ class TourSearchServiceImplTest {
 
 
         //act
-        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString);
+        List<TourItem> tourItemList = tourSearchService.findMatchingTours(searchString, searchMap);
 
         //assert
-        assertEquals(tourItemRepository.findAll().size(), tourItemList.size());
+        assertEquals(searchMap.keySet().size(), tourItemList.size());
     }
 }

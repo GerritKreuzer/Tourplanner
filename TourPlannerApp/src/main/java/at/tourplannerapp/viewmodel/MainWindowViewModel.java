@@ -108,7 +108,11 @@ public class MainWindowViewModel {
     }
 
     private void searchTours(String searchString) {
-        var tours = tourSearchService.findMatchingTours(searchString);
+        Map<TourItem, List<TourLog>> searchMap = new HashMap<>();
+        tourItemService.getAll().forEach(tourItem1 -> {
+            searchMap.put(tourItem1, tourLogService.getAll(tourItem1));
+        });
+        var tours = tourSearchService.findMatchingTours(searchString, searchMap);
         tourOverviewViewModel.setTours(tours);
     }
 

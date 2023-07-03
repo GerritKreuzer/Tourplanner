@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-@SpringBootApplication(scanBasePackages={"at.*"})
+@SpringBootApplication
 @EnableConfigurationProperties({ApplicationConfigProperties.class})
 public class Main extends Application {
 
