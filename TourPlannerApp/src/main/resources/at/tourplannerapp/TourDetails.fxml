@@ -107,5 +107,11 @@
             </Label>
          </children>
       </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <children>
+                <Label fx:id="weatherDescription" text="Weather Description" />
+                <ImageView fx:id="weatherImageView" pickOnBounds="true" preserveRatio="true" />
+            </children>
+        </HBox>
     </children>
 </GridPane>

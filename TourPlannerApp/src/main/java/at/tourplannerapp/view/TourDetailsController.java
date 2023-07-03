@@ -33,6 +33,10 @@ public class TourDetailsController {
     @FXML
     private ImageView tourImageView;
     @FXML
+    private Label weatherDescription;
+    @FXML
+    private ImageView weatherImageView;
+    @FXML
     private Label distanceUnitLabel;
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
@@ -59,6 +63,8 @@ public class TourDetailsController {
         popularityLabel.textProperty().bindBidirectional(tourDetailsViewModel.popularityProperty());
         childFriendlinessSlider.valueProperty().bindBidirectional(tourDetailsViewModel.childFriendlinessProperty());
         distanceUnitLabel.textProperty().bindBidirectional(tourDetailsViewModel.distanceUnitProperty());
+        weatherDescription.textProperty().bindBidirectional(tourDetailsViewModel.weatherDescriptionPropterty());
+        weatherImageView.imageProperty().bindBidirectional(tourDetailsViewModel.getWeatherImageProperty());
 
         tourDetailsViewModel.setInvalidDetailsStyle(validationDetailsStyleString -> {
             validationDetails.setStyle(validationDetailsStyleString);

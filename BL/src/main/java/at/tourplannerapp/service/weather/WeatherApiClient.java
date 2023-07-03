@@ -1,7 +1,10 @@
 package at.tourplannerapp.service.weather;
 
+import at.tourplannerapp.service.iomanager.IOManagerServiceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,12 +21,16 @@ public class WeatherApiClient {
 
     private String response;
 
+    private static final Logger LOGGER = LogManager.getLogger(WeatherApiClient.class);
+
     public static void main(String[] args) {
         String location = "Wiener Neustadt".replace(" ", "%20");
         WeatherApiClient client = new WeatherApiClient();
         client.makeApiCall(location);
         System.out.println(client.getConditionOfDay());
     }
+
+    public String getResponse(){return response;}
 
     public void makeApiCall(String location) {
 
@@ -45,8 +52,10 @@ public class WeatherApiClient {
             reader.close();
 
             response = builder.toString();
+            LOGGER.debug(response);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error making weather api call=[{}]",
+                    e.toString());
         }
     }
 
@@ -61,12 +70,14 @@ public class WeatherApiClient {
                 if (dayNode.isObject()) {
                     JsonNode conditionNode = dayNode.path("condition");
                     if (conditionNode.isObject()) {
+                        LOGGER.debug(conditionNode.path("text").asText());
                         return conditionNode.path("text").asText();
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error getting weather conditions=[{}]",
+                    e.toString());
         }
         return null;
     }
@@ -78,10 +89,12 @@ public class WeatherApiClient {
 
             JsonNode conditionNode = rootNode.path("current").path("condition");
             if (conditionNode.isObject()) {
+                LOGGER.debug(conditionNode.path("icon").asText());
                 return conditionNode.path("icon").asText();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error getting icon url=[{}]",
+                    e.toString());
         }
         return null;
     }
@@ -94,7 +107,8 @@ public class WeatherApiClient {
             InputStream inputStream = connection.getInputStream();
             return ImageIO.read(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error downloading weather icon=[{}]",
+                    e.toString());
         }
         return null;
     }
