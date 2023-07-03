@@ -10,6 +10,8 @@ import at.tourplannerapp.service.tour.TourLogService;
 import at.tourplannerapp.service.tour.TourSearchService;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class MainWindowViewModel {
+    private static final Logger LOGGER = LogManager.getLogger(MainWindowViewModel.class);
     private SearchBarViewModel searchBarViewModel;
     private TourOverviewViewModel tourOverviewViewModel;
     private TourDetailsViewModel tourDetailsViewModel;
@@ -120,6 +123,9 @@ public class MainWindowViewModel {
         } else {
             pdfService.createReport(directoryFile.get(), tourItem, tourLogService.getAll(tourItem));
             alertInfoMessageString.accept("Pdf was generated successfully");
+            LOGGER.info("Pdf was generated successfully for tourItem id=[{}], name=[{}]",
+                    tourItem.getTourId(),
+                    tourItem.getName());
         }
     }
 
@@ -138,6 +144,7 @@ public class MainWindowViewModel {
             });
             pdfService.createSummary(directoryFile.get(), tourMap);
             alertInfoMessageString.accept("Pdf summary was generated successfully");
+            LOGGER.info("Pdf summary was generated successfully");
         }
     }
 
@@ -153,6 +160,9 @@ public class MainWindowViewModel {
             TourItemSerializable tourItemSerializable = new TourItemSerializable(tourItem, tourLogService.getAll(tourItem));
             ioManagerService.export(directoryFile.get(), tourItemSerializable);
             alertInfoMessageString.accept("Tour data was successfully exported");
+            LOGGER.info("Tour data was successfully exported for tourItem id=[{}], name=[{}]",
+                    tourItem.getTourId(),
+                    tourItem.getName());
         }
     }
 
@@ -168,6 +178,9 @@ public class MainWindowViewModel {
             });
             tourOverviewViewModel.getObservableTours().add(importedTourItem);
             alertInfoMessageString.accept("Tour data was successfully imported");
+            LOGGER.info("Tour data was successfully imported for tourItem id=[{}], name=[{}]",
+                    importedTourItem.getTourId(),
+                    importedTourItem.getName());
         }
     }
 }

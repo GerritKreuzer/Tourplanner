@@ -1,11 +1,14 @@
 package at.tourplannerapp.viewmodel;
 
+import at.tourplannerapp.dto.Info;
 import at.tourplannerapp.model.TourLog;
 import at.tourplannerapp.service.tour.TourLogService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,6 +16,7 @@ import java.util.function.Consumer;
 
 public class TourLogDetailsViewModel {
 
+    private static final Logger LOGGER = LogManager.getLogger(TourLogDetailsViewModel.class);
     private static final String EMPTY_STRING = "";
     private static final String ERROR_MESSAGE_STYLE = "-fx-text-fill: RED;";
     private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
@@ -81,6 +85,15 @@ public class TourLogDetailsViewModel {
             updateTourLog();
             tourLogService.update(tourLog);
             requestRefreshTourLogList.accept(true);
+            LOGGER.info("update tour log id=[{}], name=[{}], comment=[{}], difficulty=[{}], totalTime=[{}], rating=[{}], date=[{}], time=[{}]",
+                    tourLog.getTourLogId(),
+                    tourLog.getName(),
+                    tourLog.getComment(),
+                    tourLog.getDifficulty(),
+                    tourLog.getTotalTime(),
+                    tourLog.getRating(),
+                    tourLog.getDate(),
+                    tourLog.getTime());
         }
     }
 

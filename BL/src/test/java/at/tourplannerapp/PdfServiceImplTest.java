@@ -12,6 +12,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class PdfServiceImplTest {
 
     private static final String fileName = "name2";
@@ -30,7 +32,7 @@ public class PdfServiceImplTest {
         File file = new File(fileNameWithExtension);
 
         //assert
-        assert(file.exists());
+        assertTrue(file.exists());
         file.delete();
     }
 
@@ -49,7 +51,7 @@ public class PdfServiceImplTest {
         File file = new File("summary.pdf");
 
         //assert
-        assert(file.exists());
+        assertTrue(file.exists());
         file.delete();
     }
 }

@@ -13,15 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.function.Consumer;
 
 public class TourDetailsViewModel {
 
+    private static final Logger LOGGER = LogManager.getLogger(TourDetailsViewModel.class);
     private static final String EMPTY_STRING = "";
     private static final String SUCCESS_MESSAGE_STYLE = "-fx-text-fill: GREEN;";
     private static final String ERROR_MESSAGE_STYLE = "-fx-text-fill: RED;";
@@ -48,7 +49,6 @@ public class TourDetailsViewModel {
     private Consumer<String> nameTextFieldStyleString;
     private Consumer<String> fromLocationTextFieldStyleString;
     private Consumer<String> toLocationTextFieldStyleString;
-
 
     public TourDetailsViewModel(TourItemService tourItemService, TourLogService tourLogService, MapService mapService) {
         this.tourItemService = tourItemService;
@@ -143,6 +143,18 @@ public class TourDetailsViewModel {
             requestRefreshTourItemList.accept(true);
             setValidationTextAndStyles("Save successful!", SUCCESS_MESSAGE_STYLE);
             setTextFieldStyles(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING);
+            LOGGER.info("update tour id=[{}], name=[{}], description=[{}], fromLocation=[{}], toLocation=[{}], " +
+                            "transportationType=[{}], distance=[{}], estimatedTime=[{}], popularity=[{}], childFriendliness=[{}]",
+                    tourItem.getTourId(),
+                    tourItem.getName(),
+                    tourItem.getDescription(),
+                    tourItem.getFromLocation(),
+                    tourItem.getToLocation(),
+                    tourItem.getTransportationType(),
+                    tourItem.getDistance(),
+                    tourItem.getEstimatedTimeString(),
+                    tourItem.getPopularity(),
+                    tourItem.getChildFriendliness());
         }
     }
 
@@ -251,5 +263,4 @@ public class TourDetailsViewModel {
         }
         return new Image(new ByteArrayInputStream(imageByteArray));
     }
-
 }

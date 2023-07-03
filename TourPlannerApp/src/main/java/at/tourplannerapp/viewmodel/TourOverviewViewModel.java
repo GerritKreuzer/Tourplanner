@@ -5,12 +5,16 @@ import at.tourplannerapp.service.tour.TourItemService;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class TourOverviewViewModel {
+
+    private static final Logger LOGGER = LogManager.getLogger(TourOverviewViewModel.class);
     private final ObservableList<TourItem> observableTourItems = FXCollections.observableArrayList();
     private final TourItemService tourItemService;
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
@@ -49,12 +53,18 @@ public class TourOverviewViewModel {
         var tour = tourItemService.create();
         observableTourItems.add(tour);
         tourItemToSelect.accept(tour);
+        LOGGER.info("add new tour id=[{}], name=[{}]",
+                tour.getTourId(),
+                tour.getName());
     }
 
     public void onRemoveButtonClicked(TourItem tourItem) {
         if (tourItem != null) {
             tourItemService.delete(tourItem);
             observableTourItems.remove(tourItem);
+            LOGGER.info("remove tour id=[{}], name=[{}]",
+                    tourItem.getTourId(),
+                    tourItem.getName());
         }
     }
 

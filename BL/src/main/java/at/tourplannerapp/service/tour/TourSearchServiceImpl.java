@@ -33,7 +33,6 @@ public class TourSearchServiceImpl implements TourSearchService{
         Map<TourItem, List<String>> searchDataMap = getSearchData(tours);
 
         for (Map.Entry<TourItem,List<String>> entry : searchDataMap.entrySet()) {
-            System.out.println(entry.getValue());
             if (hasMatchingSubstring(searchString.toLowerCase(), entry.getValue())) {
                 foundTours.add(entry.getKey());
             }
@@ -101,5 +100,4 @@ public class TourSearchServiceImpl implements TourSearchService{
         }
         return tourLogSearchData;
     }
-
 }

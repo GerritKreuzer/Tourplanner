@@ -8,6 +8,8 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.function.Consumer;
 
 public class TourLogOverviewViewModel {
 
+    private static final Logger LOGGER = LogManager.getLogger(TourLogOverviewViewModel.class);
     private static final String EMPTY_STRING = "";
     private static final String ERROR_STYLE = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     private final ObservableList<TourLog> observableTourLogItems = FXCollections.observableArrayList();
@@ -72,12 +75,22 @@ public class TourLogOverviewViewModel {
         tourLogService.update(tourLog);
         observableTourLogItems.add(tourLog);
         tourLogToSelect.accept(tourLog);
+        LOGGER.info("add new tour log id=[{}], name=[{}] to tour id=[{}], name[{}]",
+                tourLog.getTourLogId(),
+                tourLog.getName(),
+                tourItem.getTourId(),
+                tourItem.getName());
     }
 
     public void onRemoveButtonClicked(TourLog tourLog) {
         if (tourLog != null) {
             tourLogService.delete(tourLog);
             observableTourLogItems.remove(tourLog);
+            LOGGER.info("remove tour log id=[{}], name=[{}] from tour id=[{}], name[{}]",
+                    tourLog.getTourLogId(),
+                    tourLog.getName(),
+                    tourItem.getTourId(),
+                    tourItem.getName());
         }
     }
 

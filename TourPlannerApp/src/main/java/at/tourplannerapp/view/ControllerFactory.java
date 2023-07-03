@@ -21,7 +21,7 @@ public class ControllerFactory {
     private final TourLogDetailsViewModel tourLogDetailsViewModel;
     private final TourLogOverviewViewModel tourLogOverviewViewModel;
 
-    public ControllerFactory(ConfigurableApplicationContext applicationContext) {
+    private ControllerFactory(ConfigurableApplicationContext applicationContext) {
         MapServiceImpl mapService = new MapServiceImpl();
         TourItemService tourItemService = new TourItemServiceImpl(applicationContext.getBean(TourItemRepository.class));
         TourLogService tourLogService = new TourLogServiceImpl(applicationContext.getBean(TourLogRepository.class));

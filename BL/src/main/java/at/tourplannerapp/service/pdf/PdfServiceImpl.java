@@ -2,6 +2,7 @@ package at.tourplannerapp.service.pdf;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
+import at.tourplannerapp.service.map.MapServiceImpl;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -10,6 +11,8 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,6 +25,8 @@ import java.util.Map;
 
 public class PdfServiceImpl implements PdfService {
 
+    private static final Logger LOGGER = LogManager.getLogger(PdfServiceImpl.class);
+
     public PdfServiceImpl() {
     }
 
@@ -30,7 +35,9 @@ public class PdfServiceImpl implements PdfService {
         try {
             String filePath = file.getAbsolutePath() + "\\" + tourItem.getName() + ".pdf";
             File pdfFile = new File(filePath);
-            System.out.println("Save file path: " + filePath);
+            LOGGER.info("Save [{}] to save path=[{}]",
+                    tourItem.getName() + ".pdf",
+                    file.getAbsolutePath());
             FileOutputStream outputStream = new FileOutputStream(pdfFile, false);
             PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
             Document document = new Document(pdf, PageSize.A4);
@@ -99,6 +106,10 @@ public class PdfServiceImpl implements PdfService {
             document.close();
 
         } catch (IOException e) {
+            LOGGER.error("Export pdf for tour id=[{}], name=[{}] exception=[{}]",
+                    tourItem.getTourId(),
+                    tourItem.getName(),
+                    e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -108,7 +119,8 @@ public class PdfServiceImpl implements PdfService {
         try {
             String filePath = file.getAbsolutePath() + "\\" + "summary.pdf";
             File pdfFile = new File(filePath);
-            System.out.println(filePath);
+            LOGGER.info("Save summary.pdf to save path=[{}]",
+                    file.getAbsolutePath());
             FileOutputStream outputStream = new FileOutputStream(pdfFile, false);
             PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
             Document document = new Document(pdf, PageSize.A4);
@@ -150,6 +162,8 @@ public class PdfServiceImpl implements PdfService {
             document.close();
 
         } catch (IOException e) {
+            LOGGER.error("Export pdf summary exception=[{}]",
+                    e.toString());
             throw new RuntimeException(e);
         }
     }

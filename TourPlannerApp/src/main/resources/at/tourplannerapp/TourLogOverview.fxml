@@ -11,7 +11,7 @@
 <VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.tourplannerapp.view.TourLogOverviewController">
     <Label fx:id="errorDetails" prefHeight="-NaN" minHeight="-NaN" style="-fx-text-fill: RED;"/>
     <ToolBar prefWidth="248.0">
-        <Label text="%TourLogOverview_TourLogs" />
+        <Label text="%TourLogOverview_TourLogs"/>
         <Pane HBox.hgrow="ALWAYS" />
         <Button fx:id="addButton" text="+" />
         <Button fx:id="removeButton" text="-" />

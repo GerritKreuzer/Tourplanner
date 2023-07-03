@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +16,9 @@ import java.time.format.DateTimeFormatter;
 
 public class IOManagerServiceImpl implements IOManagerService {
 
-    ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+
+    private static final Logger LOGGER = LogManager.getLogger(IOManagerServiceImpl.class);
 
     public IOManagerServiceImpl() {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -36,20 +40,30 @@ public class IOManagerServiceImpl implements IOManagerService {
             String filePath = file.getAbsolutePath() + "\\" + item.getTourItem().getName() + ".json";
             File jsonFile = new File(filePath);
             objectMapper.writeValue(jsonFile, item);
-            System.out.println("TourItem exported successfully.");
+            LOGGER.info("TourItem id=[{}], name=[{}] export to save path=[{}]",
+                    item.getTourItem().getTourId(),
+                    item.getTourItem().getName(),
+                    filePath);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Export tourItem id=[{}], name=[{}] exception=[{}]",
+                    item.getTourItem().getTourId(),
+                    item.getTourItem().getName(),
+                    e.toString());
         }
     }
 
     public TourItemSerializable importTour(File file) {
         try {
             TourItemSerializable item = objectMapper.readValue(file, TourItemSerializable.class);
-            System.out.println("TourItem imported successfully.");
+            LOGGER.info("TourItem id=[{}], name=[{}] import from save path=[{}]",
+                    item.getTourItem().getTourId(),
+                    item.getTourItem().getName(),
+                    file.getAbsolutePath());
             return item;
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Import tourItem exception=[{}]",
+                    e.toString());
         }
         return null;
     }
