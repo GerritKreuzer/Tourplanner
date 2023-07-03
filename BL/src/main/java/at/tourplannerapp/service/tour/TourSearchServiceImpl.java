@@ -2,6 +2,7 @@ package at.tourplannerapp.service.tour;
 
 import at.tourplannerapp.model.TourItem;
 import at.tourplannerapp.model.TourLog;
+import org.springframework.stereotype.Service;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -14,23 +15,14 @@ import java.util.Map;
 
 public class TourSearchServiceImpl implements TourSearchService{
 
-    private final TourItemService tourItemService;
-
-    private final TourLogService tourLogService;
-
-    public TourSearchServiceImpl(TourItemService tourItemService, TourLogService tourLogService) {
-        this.tourItemService = tourItemService;
-        this.tourLogService = tourLogService;
-    }
-
     @Override
-    public List<TourItem> findMatchingTours(String searchString) {
-        List<TourItem> tours = tourItemService.getAll();
+    public List<TourItem> findMatchingTours(String searchString, Map<TourItem, List<TourLog>> searchMap) {
+        List<TourItem> tours = new ArrayList<>(searchMap.keySet());
         List<TourItem> foundTours = new ArrayList<>();
         if (searchString==null || searchString.isEmpty()) {
             return tours;
         }
-        Map<TourItem, List<String>> searchDataMap = getSearchData(tours);
+        Map<TourItem, List<String>> searchDataMap = getSearchData(searchMap);
 
         for (Map.Entry<TourItem,List<String>> entry : searchDataMap.entrySet()) {
             if (hasMatchingSubstring(searchString.toLowerCase(), entry.getValue())) {
@@ -50,10 +42,11 @@ public class TourSearchServiceImpl implements TourSearchService{
         return false;
     }
 
-    private Map<TourItem, List<String>> getSearchData(List<TourItem> tours) {
+    private Map<TourItem, List<String>> getSearchData(Map<TourItem, List<TourLog>> searchMap) {
         Map<TourItem, List<String>> searchDataMap = new HashMap<>();
+        List<TourItem> tours = new ArrayList<>(searchMap.keySet());
         tours.forEach(tourItem -> {
-            List<TourLog> tourLogs = tourLogService.getAll(tourItem);
+            List<TourLog> tourLogs =  searchMap.get(tourItem);
             tourItem.setCalculatedProperties(tourLogs);
             List<String> searchDataList = getSearchDataForTourItem(tourItem);
 
