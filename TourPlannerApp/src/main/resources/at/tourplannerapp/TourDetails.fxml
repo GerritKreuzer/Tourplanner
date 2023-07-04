@@ -91,10 +91,17 @@
                </children>
             </Pane>
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="200.0">
+            <VBox alignment="TOP_RIGHT" prefHeight="300.0" prefWidth="300.0">
                <children>
                   <Label text="Weather" />
-                      <Label fx:id="weatherDescription" />
+                  <Label fx:id="fromLocationWeather" />
+                      <Label fx:id="weatherDescriptionFromLocation" />
+                  <Label fx:id="toLocationWeather">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="weatherDescriptionToLocation" />
                </children>
             </VBox>
          </children>
@@ -115,8 +122,8 @@
       </Slider>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <children>
-              <Label fx:id="distanceLabel" text="354343" />
-              <Label fx:id="distanceUnitLabel" text="km">
+              <Label fx:id="distanceLabel"/>
+              <Label fx:id="distanceUnitLabel">
                <padding>
                   <Insets left="5.0" />
                </padding>

@@ -7,5 +7,4 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherCondition {
     private String text;
-    private String icon;
 }

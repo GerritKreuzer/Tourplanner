@@ -7,10 +7,10 @@ import lombok.Setter;
 @Setter
 public class WeatherResponseModel {
     private String currentWeatherText;
-    private String icon;
+    private String currentTemp;
 
-    public WeatherResponseModel(String currentWeatherText, String icon) {
+    public WeatherResponseModel(String currentWeatherText, String currentTemp) {
         this.currentWeatherText = currentWeatherText;
-        this.icon = icon;
+        this.currentTemp = currentTemp;
     }
 }

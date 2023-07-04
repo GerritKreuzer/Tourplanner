@@ -44,7 +44,11 @@ public class TourDetailsViewModel {
     private final IntegerProperty childFriendliness = new SimpleIntegerProperty();
     private final StringProperty validationDetails = new SimpleStringProperty();
     private final StringProperty distanceUnit = new SimpleStringProperty();
-    private final StringProperty weatherDescription = new SimpleStringProperty();
+    private final StringProperty weatherDescriptionFromLocation = new SimpleStringProperty();
+    private final StringProperty weatherDescriptionToLocation = new SimpleStringProperty();
+    private final StringProperty weatherToLocation = new SimpleStringProperty();
+    private final StringProperty weatherFromLocation = new SimpleStringProperty();
+
     private final ObservableList<String> observableTransportType = FXCollections.observableArrayList();
     private final TourItemService tourItemService;
     private final TourLogService tourLogService;
@@ -119,8 +123,17 @@ public class TourDetailsViewModel {
     public ObservableList<String> getObservableTransportType() {
         return observableTransportType;
     }
-    public Property<String> weatherDescriptionProperty() {
-        return weatherDescription;
+    public Property<String> weatherDescriptionToLocationProperty() {
+        return weatherDescriptionToLocation;
+    }
+    public Property<String> weatherDescriptionFromLocationProperty() {
+        return weatherDescriptionFromLocation;
+    }
+    public Property<String> weatherToLocationProperty() {
+        return weatherToLocation;
+    }
+    public Property<String> weatherFromLocationProperty() {
+        return weatherFromLocation;
     }
 
     public void setTourItem(TourItem tourItem) {
@@ -220,7 +233,10 @@ public class TourDetailsViewModel {
         time.set(EMPTY_STRING);
         popularity.set(EMPTY_STRING);
         childFriendliness.set(1);
-        weatherDescription.set(EMPTY_STRING);
+        weatherFromLocation.set(EMPTY_STRING);
+        weatherToLocation.set(EMPTY_STRING);
+        weatherDescriptionToLocation.set(EMPTY_STRING);
+        weatherDescriptionFromLocation.set(EMPTY_STRING);
         tourImage.set(null);
     }
 
@@ -250,11 +266,33 @@ public class TourDetailsViewModel {
         Platform.runLater(this::setWeatherData);
     }
 
-    private void setWeatherData(){
-        LOGGER.debug("setting weather data for "+tourItem.getFromLocation());
-        WeatherResponseModel weatherResponseModel = weatherService.getCurrentWeatherForecast(tourItem.getFromLocation());
-        weatherDescription.setValue(weatherResponseModel.getCurrentWeatherText());
-
+    private void setWeatherData() {
+        if(tourItem.getFromLocation() != null) {
+            LOGGER.debug("setting weather data for "+ tourItem.getFromLocation());
+            WeatherResponseModel weatherResponseModel = weatherService.getCurrentWeatherForecast(tourItem.getFromLocation());
+            weatherFromLocation.setValue(tourItem.getFromLocation());
+            if(weatherResponseModel.getCurrentWeatherText().isEmpty()) {
+                weatherDescriptionFromLocation.setValue(EMPTY_STRING);
+                return;
+            }
+            weatherDescriptionFromLocation.setValue(weatherResponseModel.getCurrentWeatherText() + " " + weatherResponseModel.getCurrentTemp() + " °C");
+        } else {
+            weatherFromLocation.setValue(EMPTY_STRING);
+            weatherDescriptionFromLocation.setValue(EMPTY_STRING);
+        }
+        if(tourItem.getToLocation() != null) {
+            LOGGER.debug("setting weather data for "+ tourItem.getToLocation());
+            WeatherResponseModel weatherResponseModel = weatherService.getCurrentWeatherForecast(tourItem.getToLocation());
+            weatherToLocation.setValue(tourItem.getToLocation());
+            if(weatherResponseModel.getCurrentWeatherText().isEmpty()) {
+                weatherDescriptionFromLocation.setValue(EMPTY_STRING);
+                return;
+            }
+            weatherDescriptionToLocation.setValue(weatherResponseModel.getCurrentWeatherText() + " " + weatherResponseModel.getCurrentTemp() + " °C");
+        }else {
+            weatherToLocation.setValue(EMPTY_STRING);
+            weatherDescriptionToLocation.setValue(EMPTY_STRING);
+        }
     }
 
     public void setCalculatedProperties() {

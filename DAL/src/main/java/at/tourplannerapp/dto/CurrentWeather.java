@@ -7,4 +7,5 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrentWeather {
     private WeatherCondition condition;
+    private Double temp_c;
 }

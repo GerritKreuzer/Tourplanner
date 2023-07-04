@@ -28,6 +28,6 @@ public class WeatherServiceImplTest {
 
         // Assert
         assertNotNull(weatherResponseModel.getCurrentWeatherText());
-        assertNotNull(weatherResponseModel.getIcon());
+        assertNotNull(weatherResponseModel.getCurrentTemp());
     }
 }

@@ -33,8 +33,11 @@ public class WeatherServiceImpl implements WeatherService{
             Response<WeatherResponse> response = api.getWeather(apiKey, fromLocation).execute();
             LOGGER.info("Weather Api getCurrentWeatherForecast call response[{}]",
                     response);
+            if(response.body() == null) {
+                return new WeatherResponseModel("", "");
+            }
             CurrentWeather currentWeather = response.body().getCurrent();
-            return new WeatherResponseModel(currentWeather.getCondition().getText(), currentWeather.getCondition().getIcon());
+            return new WeatherResponseModel(currentWeather.getCondition().getText(), currentWeather.getTemp_c().toString());
         } catch (IOException e) {
             LOGGER.error("Weather Api getCurrentWeatherForecast exception=[{}]",
                     e.toString());
